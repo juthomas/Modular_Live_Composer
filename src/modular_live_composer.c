@@ -38,6 +38,24 @@ int32_t map_number(int32_t x, int32_t in_min, int32_t in_max, int32_t out_min, i
 }
 
 /**
+ * @brief Write a note state into "midi_write_measure" function
+ * @param [state] Logic state of note (ON/OFF)
+ * @param [channel] Selection of midi channel (0-16)
+ * @param [note] Selection of midi note (1-127)
+ * @param [velocity] Selection of velocity (power) (1-127)
+ */
+void midi_write_measure_note(t_music_data *music_data, unsigned char state,
+							 unsigned char channel, unsigned char note, unsigned char velocity)
+{
+	printf("\033[1;35mwrite measure note : state=%s channel=%d note=%d velocity=%d\033[1;37m\n\n",
+		   (state == ON ? "ON" : "OFF"), channel, note, velocity);
+	MIDI_delta_time(music_data->midi_file, 0);
+	MIDI_delta_time(music_data->midi_file_redundancy, 0);
+	MIDI_Note(music_data->midi_file, state, channel, note, velocity);
+	MIDI_Note(music_data->midi_file_redundancy, state, channel, note, velocity);
+}
+
+/**
  * @brief Initializing euclidean struct
  * @param [euclidean] Euclidean Circle struct
  * @param [steps_length] Number of steps in euclidean circle
@@ -177,6 +195,88 @@ void remove_chord(t_music_data *music_data, uint8_t *playing_notes_duration,
 			playing_notes_duration[playing_notes_i]--;
 		}
 	}
+}
+
+/**
+ * @brief Function to get a chords list indexes
+ * @param [chords_list] chords list returned
+ * @param [chords_size] Number of chords desired
+ */
+void get_chords_list(uint8_t *chords_list, uint8_t chords_size)
+{
+	// uint8_t chords_list[chords_size];
+
+	for (uint8_t i = 0; i < chords_size; i++)
+	{ // i * 2
+		// chords_list[i] = /* starting_note + */ g_midi_mode[mode].mode_sequence[(i * 2) % 7];
+		chords_list[i] = /* starting_note + */ (i * 2) % 7;
+	}
+	// return (chords_list);
+}
+
+/**
+ * @brief Function to get a new note in allowed ones
+ * @param [chords_list] List of allowed chords
+ * @param [chord_list_length] Size of allowed chords list
+ * @param [current_step] Current step in euclidean circle
+ * @param [euclidean_steps] Euclidean steps (contain notes)
+ * @return New Chord
+ */
+int16_t get_new_chord_from_list(uint8_t *chords_list, uint8_t chord_list_length, uint8_t current_step, int16_t *euclidean_steps)
+{
+	int16_t chord_to_test = 0;
+	uint8_t steps = 0;
+
+	int16_t available_chords_list[chord_list_length];
+	uint8_t available_chords_list_len = 0;
+
+	// Check for each chords indexes in mode
+	for (uint8_t i = 0; i < chord_list_length; i++)
+	{
+		chord_to_test = chords_list[i];
+		steps = 0;
+		// While chords indexes doesnt exist in euclidean steps and dont check for steps not yet attributed
+		while (euclidean_steps[steps] != chord_to_test && steps < current_step)
+		{
+			steps++;
+		}
+		// If chords indexes doesnt exist in euclidean steps, feed in a chord list
+		if (euclidean_steps[steps] != chord_to_test)
+		{
+			available_chords_list[available_chords_list_len] = chord_to_test;
+			available_chords_list_len++;
+		}
+	}
+	// If all possible chords arent taken, take a random chord from the available chord list
+	if (available_chords_list_len)
+	{
+		return (available_chords_list[rand() % available_chords_list_len]);
+	}
+	// If all chords allready exist in the euclidean cirle, simply get a random chord in basic chord list
+	else
+	{
+		return (chords_list[rand() % chord_list_length]);
+	}
+}
+
+/**
+ * @brief Function to write an multiple Euclidean midi step
+ * @param [music_data] Midi struct
+ * @param [euclidean] Struct that contain current euclidean values
+ */
+void write_euclidean_step(t_music_data *music_data, t_euclidean *euclidean)
+{
+	// Create chord if the current euclidean step contain note and the mess chance dont mess
+	if (euclidean->euclidean_steps[euclidean->current_step] != -1 && rand() % 100 >= euclidean->mess_chance)
+	{
+		create_chord(music_data, playing_notes_duration, playing_notes, playing_notes_length,
+					 euclidean->mode, euclidean->euclidean_steps[euclidean->current_step], euclidean->mode_beg_note,
+					 map_number(rand() % 100, 0, 100, euclidean->min_chord_size, euclidean->max_chord_size),		  /*chord size*/
+					 map_number(rand() % 100, 0, 100, euclidean->min_velocity, euclidean->max_velocity),			  /*velocity*/
+					 map_number(rand() % 100, 0, 100, euclidean->min_steps_duration, euclidean->max_steps_duration)); /*note duration in steps*/
+	}
+	// Update the current euclidean step
+	euclidean->current_step = (euclidean->current_step + 1) % euclidean->euclidean_steps_length;
 }
 
 void midi_delay_divs(t_music_data *music_data, uint16_t divs)
