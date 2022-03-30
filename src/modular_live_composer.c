@@ -56,6 +56,23 @@ void midi_write_measure_note(t_music_data *music_data, unsigned char state,
 }
 
 /**
+ * @brief Function to get a chords list indexes
+ * @param [chords_list] chords list returned
+ * @param [chords_size] Number of chords desired
+ */
+void get_chords_list(uint8_t *chords_list, uint8_t chords_size)
+{
+	// uint8_t chords_list[chords_size];
+
+	for (uint8_t i = 0; i < chords_size; i++)
+	{ // i * 2
+		// chords_list[i] = /* starting_note + */ g_midi_mode[mode].mode_sequence[(i * 2) % 7];
+		chords_list[i] = /* starting_note + */ (i * 2) % 7;
+	}
+	// return (chords_list);
+}
+
+/**
  * @brief Initializing euclidean struct
  * @param [euclidean] Euclidean Circle struct
  * @param [steps_length] Number of steps in euclidean circle
@@ -240,23 +257,6 @@ void remove_chord(t_music_data *music_data, uint8_t *playing_notes_duration,
 			playing_notes_duration[playing_notes_i]--;
 		}
 	}
-}
-
-/**
- * @brief Function to get a chords list indexes
- * @param [chords_list] chords list returned
- * @param [chords_size] Number of chords desired
- */
-void get_chords_list(uint8_t *chords_list, uint8_t chords_size)
-{
-	// uint8_t chords_list[chords_size];
-
-	for (uint8_t i = 0; i < chords_size; i++)
-	{ // i * 2
-		// chords_list[i] = /* starting_note + */ g_midi_mode[mode].mode_sequence[(i * 2) % 7];
-		chords_list[i] = /* starting_note + */ (i * 2) % 7;
-	}
-	// return (chords_list);
 }
 
 void midi_delay_divs(t_music_data *music_data, uint16_t divs)
