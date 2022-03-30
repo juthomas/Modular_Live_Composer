@@ -22,6 +22,162 @@ static uint8_t playing_notes_length = 24;
 static uint8_t playing_notes[24];
 static uint8_t playing_notes_duration[24];
 
+/**
+ * @brief Map number from [in_min]-[in_max] to [out_min]-[out_max]
+ * @param [x] Number to map
+ * @param [in_min] Minimum of input number
+ * @param [in_max] Maximum of input number
+ * @param [out_min] Minimum of output number
+ * @param [out_max] Maximum of ouput number
+ * @return New number well mapped
+ */
+int32_t map_number(int32_t x, int32_t in_min, int32_t in_max, int32_t out_min, int32_t out_max)
+{
+	return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+}
+
+/**
+ * @brief Initializing euclidean struct
+ * @param [euclidean] Euclidean Circle struct
+ * @param [steps_length] Number of steps in euclidean circle
+ * @param [octave_size] Range of playable notes
+ * @param [chord_list_length] Number of different possible chords in mode
+ * @param [mode] Music mode (e_midi_modes)
+ * @param [mode_beg_note] Reference note for the mode (e_notes)
+ * @param [notes_per_cycle] Number of notes playables in euclidean circle
+ * @param [mess_chance] Chance to skip a note/chord in euclidean circle (0-100)%
+ * @param [min_chord_size] Minimum length of chord/note played in euclidean step
+ * @param [max_chord_size] Maximum length of chord/note played in euclidean step
+ * @param [min_velocity] Minimum velocity for chord/note played
+ * @param [max_velocity] Maximum velocity for chord/note played
+ * @param [min_steps_duration] Minimum duration for chord/note played in euclidean step
+ * @param [max_steps_duration] Maximum duration for chord/note played in euclidean step
+ */
+void init_euclidean_struct(t_euclidean *euclidean, uint8_t steps_length,
+						   uint8_t octave_size, uint8_t chord_list_length,
+						   uint8_t mode, uint8_t mode_beg_note,
+						   uint8_t notes_per_cycle, uint8_t mess_chance,
+						   uint8_t min_chord_size, uint8_t max_chord_size,
+						   uint8_t min_velocity, uint8_t max_velocity,
+						   uint8_t min_steps_duration, uint8_t max_steps_duration)
+{
+	euclidean->euclidean_steps_length = steps_length;
+	euclidean->euclidean_steps = (int16_t *)malloc(sizeof(int16_t) * steps_length);
+	euclidean->octaves_size = octave_size;
+	euclidean->chords_list_length = chord_list_length;
+	euclidean->chords_list = (uint8_t *)malloc(sizeof(uint8_t) * chord_list_length);
+	euclidean->mode = mode;
+	euclidean->mode_beg_note = mode_beg_note;
+	euclidean->notes_per_cycle = notes_per_cycle;
+	euclidean->step_gap = steps_length / notes_per_cycle;
+	euclidean->mess_chance = mess_chance;
+	euclidean->min_chord_size = min_chord_size;
+	euclidean->max_chord_size = max_chord_size;
+	get_chords_list(euclidean->chords_list, chord_list_length);
+	euclidean->min_velocity = min_velocity;
+	euclidean->max_velocity = max_velocity;
+	euclidean->min_steps_duration = min_steps_duration;
+	euclidean->max_steps_duration = max_steps_duration;
+	euclidean->current_step = 0;
+	euclidean->initialized = 1;
+}
+
+/**
+ * @brief Getting a new chord from chord list (Randomly)
+ *        and ajusting his pitch (Randomly)
+ *        this new chords are passing to the "euclidean_steps[]" variable
+ * @param [euclidean] Euclidean Circle struct
+ */
+void get_new_euclidean_chords(t_euclidean *euclidean)
+{
+	for (uint8_t steps = 0; steps < euclidean->euclidean_steps_length; steps++)
+	{
+		if (steps % euclidean->step_gap == 0)
+		{
+			euclidean->euclidean_steps[steps] = get_new_chord_from_list(euclidean->chords_list,
+																		euclidean->chords_list_length, steps, euclidean->euclidean_steps);
+			euclidean->euclidean_steps[steps] |= (rand() % euclidean->octaves_size) << 8; // add octave property
+			printf("New step : %d\n", euclidean->euclidean_steps[steps]);
+		}
+		else
+		{
+			euclidean->euclidean_steps[steps] = -1;
+		}
+	}
+}
+
+/**
+ * @brief Print the content of euclidean Steps (Variable euclidean_steps[])
+ * @param [euclidean] Euclidean Circle struct
+ */
+void print_euclidean_steps(t_euclidean *euclidean)
+{
+	for (uint8_t steps = 0; steps < euclidean->euclidean_steps_length; steps++)
+	{
+		printf("Step value : %d, octave : %d\n", euclidean->euclidean_steps[steps] & 0xFF,
+			   (euclidean->euclidean_steps[steps] & 0xFF00) >> 8);
+	}
+	printf("Chord list : ");
+	for (uint8_t chord_list_i = 0; chord_list_i < euclidean->chords_list_length; chord_list_i++)
+	{
+		printf("%d,", euclidean->chords_list[chord_list_i]);
+	}
+	printf("\n");
+}
+
+/**
+ * @brief Function to write an multiple Euclidean midi step
+ * @param [music_data] Midi struct
+ * @param [euclidean] Struct that contain current euclidean values
+ */
+void write_euclidean_step(t_music_data *music_data, t_euclidean *euclidean)
+{
+	// Create chord if the current euclidean step contain note and the mess chance dont mess
+	if (euclidean->euclidean_steps[euclidean->current_step] != -1 && rand() % 100 >= euclidean->mess_chance)
+	{
+		create_chord(music_data, playing_notes_duration, playing_notes, playing_notes_length,
+					 euclidean->mode, euclidean->euclidean_steps[euclidean->current_step], euclidean->mode_beg_note,
+					 map_number(rand() % 100, 0, 100, euclidean->min_chord_size, euclidean->max_chord_size),		  /*chord size*/
+					 map_number(rand() % 100, 0, 100, euclidean->min_velocity, euclidean->max_velocity),			  /*velocity*/
+					 map_number(rand() % 100, 0, 100, euclidean->min_steps_duration, euclidean->max_steps_duration)); /*note duration in steps*/
+	}
+	// Update the current euclidean step
+	euclidean->current_step = (euclidean->current_step + 1) % euclidean->euclidean_steps_length;
+}
+
+/**
+ * @brief Function to remove chord for euclidean composing
+ * @param [music_data] Midi struct
+ * @param [playing_notes_duration] Tab of current playing notes durations
+ * @param [playing_notes] Tab of current playing notes
+ * @param [playing_notes_length] Size of 'playing_note_duration' & 'playing_notes'
+ */
+void remove_chord(t_music_data *music_data, uint8_t *playing_notes_duration,
+				  uint8_t *playing_notes, uint8_t playing_notes_length)
+{
+
+	printf("\033[1;96mRM func\n");
+	for (uint8_t i = 0; i < playing_notes_length; i++)
+	{
+		printf("Playing notes[%d] : N = %d, D = %d\n", i, playing_notes[i], playing_notes_duration[i]);
+	}
+	printf("\033[1;37m\n");
+
+	for (uint8_t playing_notes_i = 0; playing_notes_i < playing_notes_length; playing_notes_i++)
+	{
+		if (playing_notes_duration[playing_notes_i])
+		{
+			if (playing_notes_duration[playing_notes_i] == 1)
+			{
+				// end note
+				midi_write_measure_note(music_data, OFF, 1, playing_notes[playing_notes_i], 0);
+				playing_notes[playing_notes_i] = 0;
+			}
+			playing_notes_duration[playing_notes_i]--;
+		}
+	}
+}
+
 void midi_delay_divs(t_music_data *music_data, uint16_t divs)
 {
 	usleep(music_data->current_quarter_value / (music_data->quarter_value / divs));
