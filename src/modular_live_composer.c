@@ -9,6 +9,7 @@
 #include "../inc/midi_modes.h"
 #include "../inc/midi_structs.h"
 #include "../inc/midi_euclidean.h"
+#include "../inc/midi.h"
 
 // 							//durée d'une partition 40 000 000us
 // static t_music_data music_data = {.partition_duration = 40000000,
