@@ -73,12 +73,14 @@ void update_quarter_value(t_music_data *music_data)
 	}
 }
 
+#define EUCLIDEAN_DATAS_LENGTH 3
+
 void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_data)
 {
 	// Number of euclidean "Circles"
-	const uint8_t euclidean_datas_length = 3;
+	const uint8_t EUCLIDEAN_DATAS_LENGTH = 3;
 	// Initializing euclidean "Circles" datas with NULL
-	static t_euclidean euclidean_datas[euclidean_datas_length] = {0};
+	static t_euclidean euclidean_datas[EUCLIDEAN_DATAS_LENGTH];
 	// Start with an reatribution of midi notes in euclidean Circle
 	static uint8_t reset_needed = 1;
 	// Variable to check last reset time (to reset notes in euclidan circle)
@@ -92,7 +94,7 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 	// Update Midi quarter value to move towards the quarter goal value
 	update_quarter_value(music_data);
 	// Iterate for each euclidean circle
-	for (uint8_t current_euclidean_data = 0; current_euclidean_data < euclidean_datas_length; current_euclidean_data++)
+	for (uint8_t current_euclidean_data = 0; current_euclidean_data < EUCLIDEAN_DATAS_LENGTH; current_euclidean_data++)
 	{
 		// Initialize euclidean datas with sensors current values
 		if (!euclidean_datas[current_euclidean_data].initialized)
@@ -191,7 +193,7 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 	// If request to get new note, pick new random notes from allowed ones
 	if (reset_needed)
 	{
-		for (uint8_t current_euclidean_data = 0; current_euclidean_data < euclidean_datas_length; current_euclidean_data++)
+		for (uint8_t current_euclidean_data = 0; current_euclidean_data < EUCLIDEAN_DATAS_LENGTH; current_euclidean_data++)
 		{
 			get_new_euclidean_chords(&euclidean_datas[current_euclidean_data]);
 		}
@@ -199,7 +201,7 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 	}
 
 	// Print the current euclidean circle values (Step value = index of note in chord list, octave = offset of note)
-	for (uint8_t current_euclidean_data = 0; current_euclidean_data < euclidean_datas_length; current_euclidean_data++)
+	for (uint8_t current_euclidean_data = 0; current_euclidean_data < EUCLIDEAN_DATAS_LENGTH; current_euclidean_data++)
 	{
 		printf("\nEuclidean Cirle %d :\n", current_euclidean_data);
 		print_euclidean_steps(&euclidean_datas[current_euclidean_data]);
@@ -214,7 +216,7 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 	{
 		uint16_t current_div_duration;
 		// For each euclidean circle, create corresponding chord
-		for (uint8_t current_euclidean_data = 0; current_euclidean_data < euclidean_datas_length; current_euclidean_data++)
+		for (uint8_t current_euclidean_data = 0; current_euclidean_data < EUCLIDEAN_DATAS_LENGTH; current_euclidean_data++)
 		{
 			write_euclidean_step(music_data, &euclidean_datas[current_euclidean_data]);
 		}
