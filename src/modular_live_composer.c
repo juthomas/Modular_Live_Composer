@@ -78,7 +78,7 @@ void update_quarter_value(t_music_data *music_data)
 void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_data)
 {
 	// Number of euclidean "Circles"
-	const uint8_t EUCLIDEAN_DATAS_LENGTH = 3;
+	// const uint8_t EUCLIDEAN_DATAS_LENGTH = 3;
 	// Initializing euclidean "Circles" datas with NULL
 	static t_euclidean euclidean_datas[EUCLIDEAN_DATAS_LENGTH];
 	// Start with an reatribution of midi notes in euclidean Circle
