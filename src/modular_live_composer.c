@@ -7,7 +7,7 @@
 #include <porttime.h>
 #include "../inc/midi_notes.h"
 #include "../inc/midi_modes.h"
-#include "../inc/midi_structs.h"
+// #include "../inc/midi_structs.h"
 #include "../inc/midi_euclidean.h"
 #include "../inc/midi.h"
 
