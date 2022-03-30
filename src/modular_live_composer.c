@@ -1,10 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-// #include <spidev_lib.h>
+#include <spidev_lib.h>
 #include <unistd.h>
-// #include <portmidi.h>
-// #include <porttime.h>
+#include <portmidi.h>
+#include <porttime.h>
 #include "../inc/midi_notes.h"
 #include "../inc/midi_modes.h"
 #include "../inc/midi_structs.h"
