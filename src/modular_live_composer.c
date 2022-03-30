@@ -102,6 +102,51 @@ void init_euclidean_struct(t_euclidean *euclidean, uint8_t steps_length,
 }
 
 /**
+ * @brief Function to get a new note in allowed ones
+ * @param [chords_list] List of allowed chords
+ * @param [chord_list_length] Size of allowed chords list
+ * @param [current_step] Current step in euclidean circle
+ * @param [euclidean_steps] Euclidean steps (contain notes)
+ * @return New Chord
+ */
+int16_t get_new_chord_from_list(uint8_t *chords_list, uint8_t chord_list_length, uint8_t current_step, int16_t *euclidean_steps)
+{
+	int16_t chord_to_test = 0;
+	uint8_t steps = 0;
+
+	int16_t available_chords_list[chord_list_length];
+	uint8_t available_chords_list_len = 0;
+
+	// Check for each chords indexes in mode
+	for (uint8_t i = 0; i < chord_list_length; i++)
+	{
+		chord_to_test = chords_list[i];
+		steps = 0;
+		// While chords indexes doesnt exist in euclidean steps and dont check for steps not yet attributed
+		while (euclidean_steps[steps] != chord_to_test && steps < current_step)
+		{
+			steps++;
+		}
+		// If chords indexes doesnt exist in euclidean steps, feed in a chord list
+		if (euclidean_steps[steps] != chord_to_test)
+		{
+			available_chords_list[available_chords_list_len] = chord_to_test;
+			available_chords_list_len++;
+		}
+	}
+	// If all possible chords arent taken, take a random chord from the available chord list
+	if (available_chords_list_len)
+	{
+		return (available_chords_list[rand() % available_chords_list_len]);
+	}
+	// If all chords allready exist in the euclidean cirle, simply get a random chord in basic chord list
+	else
+	{
+		return (chords_list[rand() % chord_list_length]);
+	}
+}
+
+/**
  * @brief Getting a new chord from chord list (Randomly)
  *        and ajusting his pitch (Randomly)
  *        this new chords are passing to the "euclidean_steps[]" variable
@@ -212,71 +257,6 @@ void get_chords_list(uint8_t *chords_list, uint8_t chords_size)
 		chords_list[i] = /* starting_note + */ (i * 2) % 7;
 	}
 	// return (chords_list);
-}
-
-/**
- * @brief Function to get a new note in allowed ones
- * @param [chords_list] List of allowed chords
- * @param [chord_list_length] Size of allowed chords list
- * @param [current_step] Current step in euclidean circle
- * @param [euclidean_steps] Euclidean steps (contain notes)
- * @return New Chord
- */
-int16_t get_new_chord_from_list(uint8_t *chords_list, uint8_t chord_list_length, uint8_t current_step, int16_t *euclidean_steps)
-{
-	int16_t chord_to_test = 0;
-	uint8_t steps = 0;
-
-	int16_t available_chords_list[chord_list_length];
-	uint8_t available_chords_list_len = 0;
-
-	// Check for each chords indexes in mode
-	for (uint8_t i = 0; i < chord_list_length; i++)
-	{
-		chord_to_test = chords_list[i];
-		steps = 0;
-		// While chords indexes doesnt exist in euclidean steps and dont check for steps not yet attributed
-		while (euclidean_steps[steps] != chord_to_test && steps < current_step)
-		{
-			steps++;
-		}
-		// If chords indexes doesnt exist in euclidean steps, feed in a chord list
-		if (euclidean_steps[steps] != chord_to_test)
-		{
-			available_chords_list[available_chords_list_len] = chord_to_test;
-			available_chords_list_len++;
-		}
-	}
-	// If all possible chords arent taken, take a random chord from the available chord list
-	if (available_chords_list_len)
-	{
-		return (available_chords_list[rand() % available_chords_list_len]);
-	}
-	// If all chords allready exist in the euclidean cirle, simply get a random chord in basic chord list
-	else
-	{
-		return (chords_list[rand() % chord_list_length]);
-	}
-}
-
-/**
- * @brief Function to write an multiple Euclidean midi step
- * @param [music_data] Midi struct
- * @param [euclidean] Struct that contain current euclidean values
- */
-void write_euclidean_step(t_music_data *music_data, t_euclidean *euclidean)
-{
-	// Create chord if the current euclidean step contain note and the mess chance dont mess
-	if (euclidean->euclidean_steps[euclidean->current_step] != -1 && rand() % 100 >= euclidean->mess_chance)
-	{
-		create_chord(music_data, playing_notes_duration, playing_notes, playing_notes_length,
-					 euclidean->mode, euclidean->euclidean_steps[euclidean->current_step], euclidean->mode_beg_note,
-					 map_number(rand() % 100, 0, 100, euclidean->min_chord_size, euclidean->max_chord_size),		  /*chord size*/
-					 map_number(rand() % 100, 0, 100, euclidean->min_velocity, euclidean->max_velocity),			  /*velocity*/
-					 map_number(rand() % 100, 0, 100, euclidean->min_steps_duration, euclidean->max_steps_duration)); /*note duration in steps*/
-	}
-	// Update the current euclidean step
-	euclidean->current_step = (euclidean->current_step + 1) % euclidean->euclidean_steps_length;
 }
 
 void midi_delay_divs(t_music_data *music_data, uint16_t divs)
