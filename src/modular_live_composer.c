@@ -38,6 +38,67 @@ int32_t map_number(int32_t x, int32_t in_min, int32_t in_max, int32_t out_min, i
 }
 
 /**
+ * @brief Function to create chord for euclidean composing
+ * @param [music_data] Midi struct
+ * @param [playing_notes_duration] Tab of current playing notes durations
+ * @param [playing_notes] Tab of current playing notes
+ * @param [playing_notes_length] Size of 'playing_note_duration' & 'playing_notes'
+ * @param [chords_list] Tab of selected mode notes
+ * @param [note_i] Index of note in selected mode notes
+ * @param [note_offset] Offset of note (starting note of mode)
+ * @param [chord_size] Size of chord (simultaneous played notes)
+ * @param [velocity] Velocity of chord/note
+ * @param [steps_duration] Duration of note converted in euclidean steps
+ */
+void create_chord(t_music_data *music_data, uint8_t *playing_notes_duration, uint8_t *playing_notes,
+				  uint8_t playing_notes_length, uint8_t mode, int16_t note_i,
+				  uint8_t note_offset, uint8_t chord_size, uint8_t velocity, uint8_t steps_duration)
+{
+	bool current_note_done = false;
+
+	printf("\033[1;32mChord to play\n");
+	for (int i = 0; i < chord_size; i++)
+	{
+		printf("Note Chord[%d] : %d\n", i, note_offset + ((note_i & 0xFF00) >> 8) * 12 + g_midi_mode[mode].mode_sequence[((note_i & 0xFF) + 2 * i) % 7] + 12 * (((note_i & 0xFF) + 2 * i) / 7));
+	}
+	printf("\033[1;37m\n");
+
+	for (uint8_t current_note = 0; current_note < chord_size; current_note++)
+	{
+		current_note_done = false;
+		// If the note is currently played
+		// Just add time to that note
+		for (uint8_t playing_notes_i = 0; playing_notes_i < playing_notes_length; playing_notes_i++)
+		{
+			if (playing_notes[playing_notes_i] == note_offset + ((note_i & 0xFF00) >> 8) * 12 + g_midi_mode[mode].mode_sequence[((note_i & 0xFF) + 2 * current_note) % 7] + 12 * (((note_i & 0xFF) + 2 * current_note) / 7))
+			{
+				// printf("Note_i P1: %d, current_note : %d, calcul : %d, calcul_tab : %d\n", (note_i & 0b1111), current_note,((note_i & 0b1111) + 2 * current_note)% 7,
+				// g_midi_mode[mode].mode_sequence[((note_i & 0b1111) + 2 * current_note)% 7] );
+
+				playing_notes_duration[playing_notes_i] = steps_duration;
+				current_note_done = true;
+			}
+		}
+		// If the note isnt played
+		// Create that note !
+		for (uint8_t playing_notes_i = 0; playing_notes_i < playing_notes_length && !current_note_done; playing_notes_i++)
+		{
+			if (!playing_notes_duration[playing_notes_i])
+			{
+				// printf("Note_i : %d, current_note : %d, calcul : %d, calcul_tab : %d\n", (note_i & 0b1111), current_note,((note_i & 0b1111) + 2 * current_note)% 7,
+				// g_midi_mode[mode].mode_sequence[((note_i & 0b1111) + 2 * current_note)% 7] );
+
+				playing_notes_duration[playing_notes_i] = steps_duration;
+				playing_notes[playing_notes_i] = note_offset + ((note_i & 0xFF00) >> 8) * 12 + g_midi_mode[mode].mode_sequence[((note_i & 0xFF) + 2 * current_note) % 7] + 12 * (((note_i & 0xFF) + 2 * current_note) / 7);
+				// beg note
+				midi_write_measure_note(music_data, ON, 1, playing_notes[playing_notes_i], velocity);
+				break;
+			}
+		}
+	}
+}
+
+/**
  * @brief Write a note state into "midi_write_measure" function
  * @param [state] Logic state of note (ON/OFF)
  * @param [channel] Selection of midi channel (0-16)
