@@ -42,6 +42,13 @@ typedef struct s_sensors
 	struct s_sensors *next;
 } t_sensors;
 
+enum e_data_type
+{
+	INTEGER = 0,
+	FLOATING,
+	BINARY
+};
+
 typedef struct s_map_input
 {
 	long offset;

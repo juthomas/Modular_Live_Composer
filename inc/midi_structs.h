@@ -42,13 +42,6 @@
 // 	struct s_sensors	*next;
 // }					t_sensors;
 
-enum e_data_type
-{
-	INTEGER = 0,
-	FLOATING,
-	BINARY
-};
-
 typedef struct s_music_data
 {
 	uint32_t quarter_value; // valeur d'une noire pour les metadatas
