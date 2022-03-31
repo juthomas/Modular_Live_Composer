@@ -623,9 +623,17 @@ float get_voltage_value(uint8_t channel)
 	return (voltage_value);
 }
 
-void get_music_data(t_music_data *s_music_data)
+void get_music_data(t_sensors *sensors)
 {
-	printf("t_music size %d\n", sizeof(g_map_input) / sizeof(t_map_input));
+	uint16_t sensor_number = sizeof(g_map_input) / sizeof(t_map_input);
+
+	printf("addr of 1: %p", sensors);
+	printf("addr of 2: %p", sensors->date);
+	printf("addr of 3: %p", sensors->time);
+
+	for (uint16_t i = 0; i < sensor_number; i++)
+	{
+	}
 }
 
 int main(void)
@@ -639,7 +647,7 @@ int main(void)
 	// durée d'une partition 40 000 000us
 	t_music_data music_data = {0};
 	init_music_data(&music_data, 10, 1000000, 250000, 0.03);
-	t_sensors *sensorsData;
+	t_sensors sensorsData = {0};
 
 	for (int i = 0; i < midi_count; i++)
 	{
@@ -655,7 +663,7 @@ int main(void)
 		for (int i = 0; i < 16; i++)
 		{
 			printf("%.2f ", get_voltage_value(i));
-			get_music_data(&music_data);
+			get_music_data(&sensorsData);
 		}
 		printf("\n");
 		// midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_data);
