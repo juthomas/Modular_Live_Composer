@@ -103,7 +103,7 @@ coffee: all clean
 	$(call print_aligned_coffee)
 
 pull:
-	@echo $(shell git pull & sleep 1)
+	@echo $(shell git pull; sleep 1)
 
 update: fclean pull all
 
