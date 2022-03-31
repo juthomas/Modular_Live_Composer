@@ -642,14 +642,24 @@ void print_sensors_data(t_sensors *sensors)
 	printf(" sensors %d \n", sensors->temperature_8);
 	printf(" sensors %d \n", sensors->temperature_9);
 	printf(" sensors %d \n", sensors->temperature_10);
-	printf(" senrors %d \n", sensors->first_sample);
-	printf(" senrors %f \n", sensors->spectro_current);
-	printf(" senrors %f \n", sensors->organ_current);
-	printf(" senrors %f \n", sensors->vin_current);
-	printf(" senrors %f \n", sensors->q7_current);
-	printf(" senrors %f \n", sensors->t5v_current);
-	printf(" senrors %f \n", sensors->t3_3v_current);
-	printf(" senrors %f \n", sensors->motor_current);
+	printf(" sensors %d \n", sensors->microphone);
+
+	printf(" sensors %d \n", sensors->spectro_current);
+	printf(" sensors %d \n", sensors->organ_current);
+	printf(" sensors %d \n", sensors->vin_current);
+	printf(" sensors %d \n", sensors->q7_current);
+	printf(" sensors %d \n", sensors->t5v_current);
+	printf(" sensors %d \n", sensors->t3_3v_current);
+	printf(" sensors %d \n", sensors->motor_current);
+	printf(" sensors %d \n", sensors->carousel_state);
+	printf(" sensors %d \n", sensors->lid_state);
+	printf(" sensors %d \n", sensors->organ_1);
+	printf(" sensors %d \n", sensors->organ_2);
+	printf(" sensors %d \n", sensors->organ_3);
+	printf(" sensors %d \n", sensors->organ_4);
+	printf(" sensors %d \n", sensors->organ_5);
+	printf(" sensors %d \n", sensors->organ_6);
+	printf(" sensors %d \n", sensors->timestamp);
 
 	int8_t first_sample;
 	float spectro_current;

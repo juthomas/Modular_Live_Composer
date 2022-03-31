@@ -46,8 +46,8 @@ enum e_data_type
 {
 	INTEGER = 0,
 	FLOATING,
-	BINARY
-		CHAR
+	BINARY,
+	CHAR
 };
 
 typedef struct s_map_input
