@@ -34,11 +34,11 @@ typedef struct s_sensors
 	int16_t lid_state; //
 	int32_t spectrum;  //
 	int16_t organ_1;
-	int16_t organ_2;
-	int16_t organ_3;
-	int16_t organ_4;
-	int16_t organ_5;
-	int16_t organ_6;
+	int16_t organ_2; //
+	int16_t organ_3; ///
+	int16_t organ_4; //
+	int16_t organ_5; ///
+	int16_t organ_6; //
 	struct s_sensors *next;
 } t_sensors;
 

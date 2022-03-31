@@ -623,7 +623,54 @@ float get_voltage_value(uint8_t channel)
 	return (voltage_value);
 }
 
-void get_music_data(t_sensors *sensors)
+void print_sensors_data(t_sensors *sensors)
+{
+	printf(" ----------------------------\n");
+	printf(" sensors %d \n", sensors.photodiode_1);
+	printf(" sensors %d \n", sensors.photodiode_2);
+	printf(" sensors %d \n", sensors.photodiode_3);
+	printf(" sensors %d \n", sensors.photodiode_4);
+	printf(" sensors %d \n", sensors.photodiode_5);
+	printf(" sensors %d \n", sensors.photodiode_6);
+	printf(" sensors %d \n", sensors.temperature_1);
+	printf(" sensors %d \n", sensors.temperature_2);
+	printf(" sensors %d \n", sensors.temperature_3);
+	printf(" sensors %d \n", sensors.temperature_4);
+	printf(" sensors %d \n", sensors.temperature_5);
+	printf(" sensors %d \n", sensors.temperature_6);
+	printf(" sensors %d \n", sensors.temperature_7);
+	printf(" sensors %d \n", sensors.temperature_8);
+	printf(" sensors %d \n", sensors.temperature_9);
+	printf(" sensors %d \n", sensors.temperature_10);
+	printf(" senrors %d \n", first_sample);
+	printf(" senrors %f \n", spectro_current);
+	printf(" senrors %f \n", organ_current);
+	printf(" senrors %f \n", vin_current);
+	printf(" senrors %f \n", q7_current);
+	printf(" senrors %f \n", t5v_current);
+	printf(" senrors %f \n", t3_3v_current);
+	printf(" senrors %f \n", motor_current);
+
+	int8_t first_sample;
+	float spectro_current;
+	float organ_current;
+	float vin_current;
+	float q7_current;
+	float t5v_current;
+	float t3_3v_current;
+	float motor_current;
+	int16_t carousel_state;
+	int16_t lid_state; //
+	int32_t spectrum;  //
+	int16_t organ_1;
+	int16_t organ_2; //
+	int16_t organ_3; ///
+	int16_t organ_4; //
+	int16_t organ_5; ///
+	int16_t organ_6; //
+}
+
+void get_sensors_data(t_sensors *sensors)
 {
 	uint16_t sensor_number = sizeof(g_map_input) / sizeof(t_map_input);
 
@@ -638,7 +685,25 @@ void get_music_data(t_sensors *sensors)
 	printf("Time : %d ||", sensors->time);
 	for (uint16_t i = 0; i < sensor_number; i++)
 	{
+		switch (g_map_input[i].data_type)
+		{
+		case INTEGER:
+			int16_t *tmp = (int16_t *)((uint32_t)sensors + g_map_input[i].offset);
+			*tmp = 42;
+			break;
+		case FLOATING:
+			float *tmp = (float *)((uint32_t)sensors + g_map_input[i].offset);
+			*tmp = 42.5;
+			break;
+		case BINARY:
+			int8_t *tmp = (int8_t *)((uint32_t)sensors + g_map_input[i].offset);
+			*tmp = 12;
+			break;
+		default:
+			break;
+		}
 	}
+	print_sensors_data(sensors);
 }
 
 int main(void)
@@ -668,7 +733,7 @@ int main(void)
 		for (int i = 0; i < 16; i++)
 		{
 			printf("%.2f ", get_voltage_value(i));
-			get_music_data(&sensorsData);
+			get_sensors_data(&sensorsData);
 		}
 		printf("\n");
 		// midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_data);
