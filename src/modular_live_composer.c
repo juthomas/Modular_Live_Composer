@@ -699,21 +699,20 @@ void get_sensors_data(t_sensors *sensors)
 		{
 		case INTEGER:
 		{
-
 			int16_t *tmp = (int16_t *)((uint32_t)sensors + g_map_input[i].offset);
-			*tmp = 42;
+			*tmp = map_number(((uint32_t)(float)get_voltage_value(g_map_input[i].input_nu) * 100), 0, 10000, 0, g_map_input[i].int_max);
 		}
 		break;
 		case CHAR:
 		{
 			int8_t *tmp = (int8_t *)((uint32_t)sensors + g_map_input[i].offset);
-			*tmp = 21;
+			*tmp = map_number(((uint32_t)(float)get_voltage_value(g_map_input[i].input_nu) * 100), 0, 10000, 0, g_map_input[i].char_max);
 		}
 		break;
 		case BINARY:
 		{
 			int8_t *tmp = (int8_t *)((uint32_t)sensors + g_map_input[i].offset);
-			*tmp = 12;
+			*tmp = get_voltage_value(g_map_input[i].input_nu) < 5 ? 0 : 1;
 		}
 		break;
 		default:
