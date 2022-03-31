@@ -22,6 +22,15 @@
 static uint8_t playing_notes_length = 24;
 static uint8_t playing_notes[24];
 static uint8_t playing_notes_duration[24];
+PmTimestamp current_timestamp = 0;
+PortMidiStream *stream;
+
+void wait_ms()
+{
+	PmTimestamp last_time = current_timestamp;
+	while (current_timestamp < last_time + 10)
+		;
+}
 
 /**
  * @brief Map number from [in_min]-[in_max] to [out_min]-[out_max]
@@ -110,10 +119,25 @@ void midi_write_measure_note(t_music_data *music_data, unsigned char state,
 {
 	printf("\033[1;35mwrite measure note : state=%s channel=%d note=%d velocity=%d\033[1;37m\n\n",
 		   (state == ON ? "ON" : "OFF"), channel, note, velocity);
-	MIDI_delta_time(music_data->midi_file, 0);
-	MIDI_delta_time(music_data->midi_file_redundancy, 0);
-	MIDI_Note(music_data->midi_file, state, channel, note, velocity);
-	MIDI_Note(music_data->midi_file_redundancy, state, channel, note, velocity);
+	// MIDI_delta_time(music_data->midi_file, 0);
+	// MIDI_delta_time(music_data->midi_file_redundancy, 0);
+	// MIDI_Note(music_data->midi_file, state, channel, note, velocity);
+	// MIDI_Note(music_data->midi_file_redundancy, state, channel, note, velocity);
+	// printf("current_note : 0x%02X (%03d)\n", current_note, current_note);
+	if (state == ON)
+	{
+		PmError pme = Pm_WriteShort(stream, current_timestamp,
+									// Pm_Message(type << 4 | chan, byte1, byte2)
+									Pm_Message(0x9 << 4, note, velocity)); // status | channel, note, velocity;
+	}
+	else if (state == OFF)
+	{
+		PmError pme = Pm_WriteShort(stream, current_timestamp,
+									// Pm_Message(type << 4 | chan, byte1, byte2)
+									Pm_Message(0x8 << 4, note - 1, 0));
+	}
+
+	wait_ms();
 }
 
 /**
