@@ -631,6 +631,7 @@ void get_music_data(t_sensors *sensors)
 	printf("addr of 2: %d|", &sensors->date);
 	printf("addr of 3: %d|", &sensors->time);
 
+	printf("Offsetof time : %d", offsetof(t_sensors, time));
 	printf("addr of 3: %d|", sensors + offsetof(t_sensors, time));
 
 	for (uint16_t i = 0; i < sensor_number; i++)
