@@ -102,6 +102,11 @@ coffee: all clean
 	@echo "\0033[1;32m\033[3C          Take Your Coffee"
 	$(call print_aligned_coffee)
 
+pull:
+	@echo $(shell git pull)
+
+update: fclean pull make
+
 help:
 	@echo "$(COLOR)Options :\0033[1;37m"
 	@echo "\033[100D\033[5C\0033[1;32mmake\033[100D\033[10C \033[100D\033[40C\0033[1;31mCreate executable program\0033[1;37m"
