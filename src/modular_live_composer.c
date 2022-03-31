@@ -627,13 +627,14 @@ void get_music_data(t_sensors *sensors)
 {
 	uint16_t sensor_number = sizeof(g_map_input) / sizeof(t_map_input);
 
-	printf("addr of 1: %d|", sensors);
-	printf("addr of 2: %d|", &sensors->date);
-	printf("addr of 3: %d|", &sensors->time);
+	// printf("addr of 1: %d|", sensors);
+	// printf("addr of 2: %d|", &sensors->date);
+	// printf("addr of 3: %d|", &sensors->time);
 
-	printf("Offsetof time : %d", offsetof(t_sensors, time));
-	printf("addr of 3: %d|", (uint32_t)sensors + offsetof(t_sensors, time));
-
+	// printf("Offsetof time : %d", offsetof(t_sensors, time));
+	// printf("addr of 3: %d|", (uint32_t)sensors + offsetof(t_sensors, time));
+	*((uint32_t)sensors + offsetof(t_sensors, time)) = 42;
+	printf("Time : %d ||", sensors->time);
 	for (uint16_t i = 0; i < sensor_number; i++)
 	{
 	}
