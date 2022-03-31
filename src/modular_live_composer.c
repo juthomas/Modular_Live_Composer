@@ -74,7 +74,7 @@ void midi_write_measure_note(t_music_data *music_data, unsigned char state,
 	{
 		PmError pme = Pm_WriteShort(stream, current_timestamp,
 									// Pm_Message(type << 4 | chan, byte1, byte2)
-									Pm_Message(0x8 << 4, note - 1, 0));
+									Pm_Message(0x8 << 4, note, 0));
 	}
 
 	wait_ms();
