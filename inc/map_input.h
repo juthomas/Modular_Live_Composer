@@ -103,7 +103,7 @@ static const t_map_input g_map_input[] = {
 	(t_map_input){.active = 1, .input_nu = 12, .offset = offsetof(t_sensors, organ_4), .data_type = INTEGER, .int_max = 1023},
 	(t_map_input){.active = 1, .input_nu = 12, .offset = offsetof(t_sensors, organ_5), .data_type = INTEGER, .int_max = 1023},
 	(t_map_input){.active = 1, .input_nu = 12, .offset = offsetof(t_sensors, organ_6), .data_type = INTEGER, .int_max = 1023},
-	(t_map_input){.active = 1, .input_nu = 12, .offset = offsetof(t_sensors, timestamp), .data_type = INTEGER, .int_max = 65535}
+	(t_map_input){.active = 1, .input_nu = 13, .offset = offsetof(t_sensors, timestamp), .data_type = INTEGER, .int_max = 65535}
 
 };
 
