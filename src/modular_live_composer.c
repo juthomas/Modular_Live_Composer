@@ -755,7 +755,7 @@ void test_all_notes(PortMidiStream *stream)
 int main(void)
 {
 	PmTimestamp last_time = 0;
-	PortMidiStream *stream;
+	// PortMidiStream *stream;
 	Pt_Start(1, &process_midi, 0);
 	int midi_count = Pm_CountDevices();
 	printf("Device number : %d\n", midi_count);
@@ -773,7 +773,7 @@ int main(void)
 	}
 
 	Pm_OpenOutput(&stream, 2, NULL, 128, portmidi_timeproc, NULL, 0);
-	test_all_notes(stream);
+	// test_all_notes(stream);
 	for (;;)
 	{
 		for (int i = 0; i < 16; i++)
