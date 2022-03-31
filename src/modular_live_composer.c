@@ -704,10 +704,10 @@ void get_sensors_data(t_sensors *sensors)
 			*tmp = 42;
 		}
 		break;
-		case FLOATING:
+		case CHAR:
 		{
-			float *tmp = (float *)((uint32_t)sensors + g_map_input[i].offset);
-			*tmp = 42.5;
+			int8_t *tmp = (int8_t *)((uint32_t)sensors + g_map_input[i].offset);
+			*tmp = 21;
 		}
 		break;
 		case BINARY:
