@@ -105,7 +105,7 @@ coffee: all clean
 pull:
 	@echo $(shell git pull)
 
-update: fclean pull make
+update: fclean pull all
 
 help:
 	@echo "$(COLOR)Options :\0033[1;37m"
