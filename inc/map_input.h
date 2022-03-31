@@ -58,6 +58,11 @@ typedef struct s_map_input
 static const t_map_input g_map_input[] = {
 	// 7 note scales
 	(t_map_input){.active = 1, .input_nu = 0, .offset = offsetof(t_sensors, photodiode_1), .data_type = FLOATING, .float_data = 2.5, .float_delta = 2.5},
+	(t_map_input){.active = 1, .input_nu = 1, .offset = offsetof(t_sensors, photodiode_2), .data_type = FLOATING, .float_data = 2.5, .float_delta = 2.5},
+	(t_map_input){.active = 1, .input_nu = 2, .offset = offsetof(t_sensors, photodiode_3), .data_type = FLOATING, .float_data = 2.5, .float_delta = 2.5},
+	(t_map_input){.active = 1, .input_nu = 3, .offset = offsetof(t_sensors, photodiode_4), .data_type = FLOATING, .float_data = 2.5, .float_delta = 2.5},
+	(t_map_input){.active = 1, .input_nu = 4, .offset = offsetof(t_sensors, photodiode_5), .data_type = FLOATING, .float_data = 2.5, .float_delta = 2.5},
+	(t_map_input){.active = 1, .input_nu = 5, .offset = offsetof(t_sensors, photodiode_6), .data_type = FLOATING, .float_data = 2.5, .float_delta = 2.5},
 	// (t_data){.name = "Photodiode_1", .data_type = FLOATING, .float_data = 2.5, .float_delta = 2.5},
 	// (t_data){.name = "Photodiode_2", .data_type = FLOATING, .float_data = 2.5, .float_delta = 2.5},
 	// (t_data){.name = "Photodiode_3", .data_type = FLOATING, .float_data = 2.5, .float_delta = 2.5},
