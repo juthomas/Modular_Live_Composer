@@ -688,17 +688,24 @@ void get_sensors_data(t_sensors *sensors)
 		switch (g_map_input[i].data_type)
 		{
 		case INTEGER:
+		{
+
 			int16_t *tmp = (int16_t *)((uint32_t)sensors + g_map_input[i].offset);
 			*tmp = 42;
-			break;
+		}
+		break;
 		case FLOATING:
+		{
 			float *tmp = (float *)((uint32_t)sensors + g_map_input[i].offset);
 			*tmp = 42.5;
-			break;
+		}
+		break;
 		case BINARY:
+		{
 			int8_t *tmp = (int8_t *)((uint32_t)sensors + g_map_input[i].offset);
 			*tmp = 12;
-			break;
+		}
+		break;
 		default:
 			break;
 		}
