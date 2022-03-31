@@ -627,9 +627,9 @@ void get_music_data(t_sensors *sensors)
 {
 	uint16_t sensor_number = sizeof(g_map_input) / sizeof(t_map_input);
 
-	printf("addr of 1: %p", sensors);
-	printf("addr of 2: %p", sensors->date);
-	printf("addr of 3: %p", sensors->time);
+	printf("addr of 1: %d", *sensors);
+	printf("addr of 2: %d", sensors->date);
+	printf("addr of 3: %d", sensors->time);
 
 	for (uint16_t i = 0; i < sensor_number; i++)
 	{
