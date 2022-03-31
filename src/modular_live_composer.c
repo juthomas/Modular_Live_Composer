@@ -78,31 +78,6 @@ void midi_write_measure_note(t_music_data *music_data, unsigned char state,
 	}
 
 	wait_ms();
-
-	PmTimestamp last_time = current_timestamp;
-	PmTimestamp last_timestamp = current_timestamp;
-	uint8_t current_note = 0;
-	while (current_timestamp < last_timestamp + 60000)
-	{
-		last_time = last_time + 300;
-		while (last_time > current_timestamp)
-			;
-		printf("current_note : 0x%02X (%03d)\n", current_note, current_note);
-		PmError pme = Pm_WriteShort(stream, current_timestamp,
-									// Pm_Message(type << 4 | chan, byte1, byte2)
-									Pm_Message(0x9 << 4, current_note, 100)); // status | channel, note, velocity;
-		(void)pme;
-		if (current_note > 0)
-		{
-			// Wait ms make sure that the last signal is correctly received by the Midi output device
-			wait_ms();
-			PmError pme = Pm_WriteShort(stream, current_timestamp,
-										// Pm_Message(type << 4 | chan, byte1, byte2)
-										Pm_Message(0x8 << 4, current_note - 1, 0));
-			(void)pme;
-		}
-		current_note = current_note < 0xFF ? current_note + 1 : 0;
-	}
 }
 
 /**
@@ -748,6 +723,35 @@ void get_sensors_data(t_sensors *sensors)
 	print_sensors_data(sensors);
 }
 
+void test_all_notes(PortMidiStream *stream)
+{
+	PmTimestamp last_time = current_timestamp;
+	PmTimestamp last_timestamp = current_timestamp;
+	uint8_t current_note = 0;
+
+	while (current_timestamp < last_timestamp + 60000)
+	{
+		last_time = last_time + 300;
+		while (last_time > current_timestamp)
+			;
+		printf("current_note : 0x%02X (%03d)\n", current_note, current_note);
+		PmError pme = Pm_WriteShort(stream, current_timestamp,
+									// Pm_Message(type << 4 | chan, byte1, byte2)
+									Pm_Message(0x9 << 4, current_note, 100)); // status | channel, note, velocity;
+		(void)pme;
+		if (current_note > 0)
+		{
+			// Wait ms make sure that the last signal is correctly received by the Midi output device
+			wait_ms();
+			PmError pme = Pm_WriteShort(stream, current_timestamp,
+										// Pm_Message(type << 4 | chan, byte1, byte2)
+										Pm_Message(0x8 << 4, current_note - 1, 0));
+			(void)pme;
+		}
+		current_note = current_note < 0xFF ? current_note + 1 : 0;
+	}
+}
+
 int main(void)
 {
 	PmTimestamp last_time = 0;
@@ -769,7 +773,7 @@ int main(void)
 	}
 
 	Pm_OpenOutput(&stream, 2, NULL, 128, portmidi_timeproc, NULL, 0);
-
+	test_all_notes(stream);
 	for (;;)
 	{
 		for (int i = 0; i < 16; i++)
