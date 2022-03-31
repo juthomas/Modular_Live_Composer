@@ -10,6 +10,7 @@
 // #include "../inc/midi_structs.h"
 #include "../inc/midi_euclidean.h"
 #include "../inc/midi.h"
+#include "../inc/map_input.h"
 
 // 							//durée d'une partition 40 000 000us
 // static t_music_data music_data = {.partition_duration = 40000000,
@@ -395,6 +396,31 @@ void update_quarter_value(t_music_data *music_data)
 	}
 }
 
+/**
+ * @brief Initialize music_data
+ * @param [music_data] Midi struct of midi file
+ * @param [partition_duration] Partition duration in minutes
+ * @param [quarter_value] Quarter value in micro-seconds
+ * @param [tempo_acceleration] Acceleration per measure in percentage (1.0=100%, 0.05=5%)
+ *
+ */
+void init_music_data(t_music_data *music_data, uint32_t partition_duration,
+					 uint32_t quarter_value, uint32_t quarter_value_goal,
+					 float tempo_acceleration)
+{
+	music_data->partition_duration = 60000000 * partition_duration; // 10 minutes
+	music_data->measure_value = 500000 * 4;							// useless
+	music_data->measures_writed = 0;
+	music_data->delta_time = 0;
+	music_data->quarter_value_step = 100000;
+	// music_data->quarter_value_goal = quarter_value;
+	music_data->quarter_value_goal = quarter_value_goal;
+	//                          100000
+	music_data->quarter_value = 500000; // define metadata 500000=120bpm
+	music_data->current_quarter_value = quarter_value;
+	music_data->quarter_value_step_updating = tempo_acceleration; // Acceleration per measure in percentage (1.0=100%, 0.05=5%)
+}
+
 #define EUCLIDEAN_DATAS_LENGTH 3
 
 void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_data)
@@ -604,6 +630,12 @@ int main(void)
 	Pt_Start(1, &process_midi, 0);
 	int midi_count = Pm_CountDevices();
 	printf("Device number : %d\n", midi_count);
+
+	// durée d'une partition 40 000 000us
+	t_music_data music_data = {0};
+	init_music_data(&music_data, 10, 1000000, 250000, 0.03);
+	t_sensors *sensorsData;
+
 	for (int i = 0; i < midi_count; i++)
 	{
 		PmDeviceInfo const *device_info = Pm_GetDeviceInfo(i);
@@ -620,6 +652,7 @@ int main(void)
 			printf("%.2f ", get_voltage_value(i));
 		}
 		printf("\n");
+		// midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_data);
 		sleep(1);
 	}
 	Pm_Close(&stream);
