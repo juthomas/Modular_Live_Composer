@@ -98,11 +98,11 @@ static const t_map_input g_map_input[] = {
 	(t_map_input){.active = 1, .input_nu = 6, .offset = offsetof(t_sensors, carousel_state), .data_type = CHAR, .char_max = 119},
 	(t_map_input){.active = 1, .input_nu = 6, .offset = offsetof(t_sensors, lid_state), .data_type = CHAR, .char_max = 53},
 	(t_map_input){.active = 1, .input_nu = 6, .offset = offsetof(t_sensors, organ_1), .data_type = INTEGER, .int_max = 1023},
-	(t_map_input){.active = 1, .input_nu = 6, .offset = offsetof(t_sensors, organ_1), .data_type = INTEGER, .int_max = 1023},
-	(t_map_input){.active = 1, .input_nu = 6, .offset = offsetof(t_sensors, organ_1), .data_type = INTEGER, .int_max = 1023},
-	(t_map_input){.active = 1, .input_nu = 6, .offset = offsetof(t_sensors, organ_1), .data_type = INTEGER, .int_max = 1023},
-	(t_map_input){.active = 1, .input_nu = 6, .offset = offsetof(t_sensors, organ_1), .data_type = INTEGER, .int_max = 1023},
-	(t_map_input){.active = 1, .input_nu = 6, .offset = offsetof(t_sensors, organ_1), .data_type = INTEGER, .int_max = 1023},
+	(t_map_input){.active = 1, .input_nu = 6, .offset = offsetof(t_sensors, organ_2), .data_type = INTEGER, .int_max = 1023},
+	(t_map_input){.active = 1, .input_nu = 6, .offset = offsetof(t_sensors, organ_3), .data_type = INTEGER, .int_max = 1023},
+	(t_map_input){.active = 1, .input_nu = 6, .offset = offsetof(t_sensors, organ_4), .data_type = INTEGER, .int_max = 1023},
+	(t_map_input){.active = 1, .input_nu = 6, .offset = offsetof(t_sensors, organ_5), .data_type = INTEGER, .int_max = 1023},
+	(t_map_input){.active = 1, .input_nu = 6, .offset = offsetof(t_sensors, organ_6), .data_type = INTEGER, .int_max = 1023},
 	(t_map_input){.active = 1, .input_nu = 6, .offset = offsetof(t_sensors, timestamp), .data_type = INTEGER, .int_max = 65535}
 
 };
