@@ -623,6 +623,11 @@ float get_voltage_value(uint8_t channel)
 	return (voltage_value);
 }
 
+void get_music_data(t_music_data *s_music_data)
+{
+	printf("t_music size %d\n", sizeof(g_map_input) / sizeof(t_map_input));
+}
+
 int main(void)
 {
 	PmTimestamp last_time = 0;
@@ -650,6 +655,7 @@ int main(void)
 		for (int i = 0; i < 16; i++)
 		{
 			printf("%.2f ", get_voltage_value(i));
+			get_music_data(&music_data);
 		}
 		printf("\n");
 		// midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_data);
