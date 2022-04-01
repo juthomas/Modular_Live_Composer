@@ -46,10 +46,10 @@ void wait_ms()
  */
 int32_t map_number(int32_t x, int32_t in_min, int32_t in_max, int32_t out_min, int32_t out_max)
 {
-	printf("\033[1;32m WTFFFF-%d-%d-%d-%d-%d- \033[1;37m\n", x, in_min, in_max, out_min, out_max);
-	printf("\033[1;32m OKKAAY-%d-%d-%d-%d-%d- \033[1;37m\n", (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min);
+	// printf("\033[1;32m WTFFFF-%d-%d-%d-%d-%d- \033[1;37m\n", x, in_min, in_max, out_min, out_max);
+	// printf("\033[1;32m OKKAAY-%d-%d-%d-%d-%d- \033[1;37m\n", (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min);
 
-	return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+	return ((int64_t)x - in_min) * ((int64_t)out_max - out_min) / ((int64_t)in_max - in_min) + (int64_t)out_min;
 }
 
 /**
