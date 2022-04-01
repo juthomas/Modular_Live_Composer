@@ -12,6 +12,8 @@
 #include "../inc/midi.h"
 #include "../inc/map_input.h"
 
+#define LOG_ALL 0
+
 // 							//durée d'une partition 40 000 000us
 // static t_music_data music_data = {.partition_duration = 40000000,
 // 								//Measure value = quarter value * 4 (4/4) (4 noires par mesure)
@@ -57,8 +59,9 @@ int32_t map_number(int32_t x, int32_t in_min, int32_t in_max, int32_t out_min, i
 void midi_write_measure_note(t_music_data *music_data, unsigned char state,
 							 unsigned char channel, unsigned char note, unsigned char velocity)
 {
-	printf("\033[1;35mwrite measure note : state=%s channel=%d note=%d velocity=%d\033[1;37m\n\n",
-		   (state == ON ? "ON" : "OFF"), channel, note, velocity);
+	if (LOG_ALL)
+		printf("\033[1;35mwrite measure note : state=%s channel=%d note=%d velocity=%d\033[1;37m\n\n",
+			   (state == ON ? "ON" : "OFF"), channel, note, velocity);
 	// MIDI_delta_time(music_data->midi_file, 0);
 	// MIDI_delta_time(music_data->midi_file_redundancy, 0);
 	// MIDI_Note(music_data->midi_file, state, channel, note, velocity);
@@ -99,12 +102,15 @@ void create_chord(t_music_data *music_data, uint8_t *playing_notes_duration, uin
 {
 	bool current_note_done = false;
 
-	printf("\033[1;32mChord to play\n");
-	for (int i = 0; i < chord_size; i++)
+	if (LOG_ALL)
 	{
-		printf("Note Chord[%d] : %d\n", i, note_offset + ((note_i & 0xFF00) >> 8) * 12 + g_midi_mode[mode].mode_sequence[((note_i & 0xFF) + 2 * i) % 7] + 12 * (((note_i & 0xFF) + 2 * i) / 7));
+		printf("\033[1;32mChord to play\n");
+		for (int i = 0; i < chord_size; i++)
+		{
+			printf("Note Chord[%d] : %d\n", i, note_offset + ((note_i & 0xFF00) >> 8) * 12 + g_midi_mode[mode].mode_sequence[((note_i & 0xFF) + 2 * i) % 7] + 12 * (((note_i & 0xFF) + 2 * i) / 7));
+		}
+		printf("\033[1;37m\n");
 	}
-	printf("\033[1;37m\n");
 
 	for (uint8_t current_note = 0; current_note < chord_size; current_note++)
 	{
@@ -264,7 +270,8 @@ void get_new_euclidean_chords(t_euclidean *euclidean)
 			euclidean->euclidean_steps[steps] = get_new_chord_from_list(euclidean->chords_list,
 																		euclidean->chords_list_length, steps, euclidean->euclidean_steps);
 			euclidean->euclidean_steps[steps] |= (rand() % euclidean->octaves_size) << 8; // add octave property
-			printf("New step : %d\n", euclidean->euclidean_steps[steps]);
+			if (LOG_ALL)
+				printf("New step : %d\n", euclidean->euclidean_steps[steps]);
 		}
 		else
 		{
@@ -348,6 +355,44 @@ void remove_chord(t_music_data *music_data, uint8_t *playing_notes_duration,
 void midi_delay_divs(t_music_data *music_data, uint16_t divs)
 {
 	usleep(music_data->current_quarter_value / (music_data->quarter_value / divs));
+}
+
+void print_sensors_data(t_sensors *sensors)
+{
+	printf(" ----------------------------\n");
+	printf(" photodiode_1 %d \n", sensors->photodiode_1);
+	printf(" photodiode_2 %d \n", sensors->photodiode_2);
+	printf(" photodiode_3 %d \n", sensors->photodiode_3);
+	printf(" photodiode_4 %d \n", sensors->photodiode_4);
+	printf(" photodiode_5 %d \n", sensors->photodiode_5);
+	printf(" photodiode_6 %d \n", sensors->photodiode_6);
+	printf(" temperature_1 %d \n", sensors->temperature_1);
+	printf(" temperature_2 %d \n", sensors->temperature_2);
+	printf(" temperature_3 %d \n", sensors->temperature_3);
+	printf(" temperature_4 %d \n", sensors->temperature_4);
+	printf(" temperature_5 %d \n", sensors->temperature_5);
+	printf(" temperature_6 %d \n", sensors->temperature_6);
+	printf(" temperature_7 %d \n", sensors->temperature_7);
+	printf(" temperature_8 %d \n", sensors->temperature_8);
+	printf(" temperature_9 %d \n", sensors->temperature_9);
+	printf(" temperature_10 %d \n", sensors->temperature_10);
+	printf(" microphone %d \n", sensors->microphone);
+	printf(" spectro_current %d \n", sensors->spectro_current);
+	printf(" organ_current %d \n", sensors->organ_current);
+	printf(" vin_current %d \n", sensors->vin_current);
+	printf(" q7_current %d \n", sensors->q7_current);
+	printf(" t5v_current %d \n", sensors->t5v_current);
+	printf(" t3_3v_current %d \n", sensors->t3_3v_current);
+	printf(" motor_current %d \n", sensors->motor_current);
+	printf(" carousel_state %d \n", sensors->carousel_state);
+	printf(" lid_state %d \n", sensors->lid_state);
+	printf(" organ_1 %d \n", sensors->organ_1);
+	printf(" organ_2 %d \n", sensors->organ_2);
+	printf(" organ_3 %d \n", sensors->organ_3);
+	printf(" organ_4 %d \n", sensors->organ_4);
+	printf(" organ_5 %d \n", sensors->organ_5);
+	printf(" organ_6 %d \n", sensors->organ_6);
+	printf(" timestamp %d \n", sensors->timestamp);
 }
 
 void update_quarter_value(t_music_data *music_data)
@@ -438,6 +483,8 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 	{
 		last_time = time(NULL);
 	}
+
+	print_sensors_data(sensors_data);
 
 	music_data->quarter_value_goal = (uint32_t)map_number((uint32_t)sensors_data->photodiode_1, 0, 4096, 1000000, 50000);
 	// Update Midi quarter value to move towards the quarter goal value
@@ -549,11 +596,14 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 		reset_needed = 0;
 	}
 
-	// Print the current euclidean circle values (Step value = index of note in chord list, octave = offset of note)
-	for (uint8_t current_euclidean_data = 0; current_euclidean_data < EUCLIDEAN_DATAS_LENGTH; current_euclidean_data++)
+	if (LOG_ALL)
 	{
-		printf("\nEuclidean Cirle %d :\n", current_euclidean_data);
-		print_euclidean_steps(&euclidean_datas[current_euclidean_data]);
+		// Print the current euclidean circle values (Step value = index of note in chord list, octave = offset of note)
+		for (uint8_t current_euclidean_data = 0; current_euclidean_data < EUCLIDEAN_DATAS_LENGTH; current_euclidean_data++)
+		{
+			printf("\nEuclidean Cirle %d :\n", current_euclidean_data);
+			print_euclidean_steps(&euclidean_datas[current_euclidean_data]);
+		}
 	}
 
 	uint16_t div_counter = 0;
@@ -624,63 +674,6 @@ float get_voltage_value(uint8_t channel)
 	return (voltage_value);
 }
 
-void print_sensors_data(t_sensors *sensors)
-{
-	printf(" ----------------------------\n");
-	printf(" sensors %d \n", sensors->photodiode_1);
-	printf(" sensors %d \n", sensors->photodiode_2);
-	printf(" sensors %d \n", sensors->photodiode_3);
-	printf(" sensors %d \n", sensors->photodiode_4);
-	printf(" sensors %d \n", sensors->photodiode_5);
-	printf(" sensors %d \n", sensors->photodiode_6);
-	printf(" sensors %d \n", sensors->temperature_1);
-	printf(" sensors %d \n", sensors->temperature_2);
-	printf(" sensors %d \n", sensors->temperature_3);
-	printf(" sensors %d \n", sensors->temperature_4);
-	printf(" sensors %d \n", sensors->temperature_5);
-	printf(" sensors %d \n", sensors->temperature_6);
-	printf(" sensors %d \n", sensors->temperature_7);
-	printf(" sensors %d \n", sensors->temperature_8);
-	printf(" sensors %d \n", sensors->temperature_9);
-	printf(" sensors %d \n", sensors->temperature_10);
-	printf(" sensors %d \n", sensors->microphone);
-
-	printf(" sensors %d \n", sensors->spectro_current);
-	printf(" sensors %d \n", sensors->organ_current);
-	printf(" sensors %d \n", sensors->vin_current);
-	printf(" sensors %d \n", sensors->q7_current);
-	printf(" sensors %d \n", sensors->t5v_current);
-	printf(" sensors %d \n", sensors->t3_3v_current);
-	printf(" sensors %d \n", sensors->motor_current);
-	printf(" sensors %d \n", sensors->carousel_state);
-	printf(" sensors %d \n", sensors->lid_state);
-	printf(" sensors %d \n", sensors->organ_1);
-	printf(" sensors %d \n", sensors->organ_2);
-	printf(" sensors %d \n", sensors->organ_3);
-	printf(" sensors %d \n", sensors->organ_4);
-	printf(" sensors %d \n", sensors->organ_5);
-	printf(" sensors %d \n", sensors->organ_6);
-	printf(" sensors %d \n", sensors->timestamp);
-
-	int8_t first_sample;
-	float spectro_current;
-	float organ_current;
-	float vin_current;
-	float q7_current;
-	float t5v_current;
-	float t3_3v_current;
-	float motor_current;
-	int16_t carousel_state;
-	int16_t lid_state; //
-	int32_t spectrum;  //
-	int16_t organ_1;
-	int16_t organ_2; //
-	int16_t organ_3; ///
-	int16_t organ_4; //
-	int16_t organ_5; ///
-	int16_t organ_6; //
-}
-
 void get_sensors_data(t_sensors *sensors)
 {
 	uint16_t sensor_number = sizeof(g_map_input) / sizeof(t_map_input);
@@ -693,7 +686,7 @@ void get_sensors_data(t_sensors *sensors)
 	// printf("addr of 3: %d|", (uint32_t)sensors + offsetof(t_sensors, time));
 	int *tmp = (int *)((uint32_t)sensors + offsetof(t_sensors, time));
 	*tmp = 42;
-	printf("Time : %d ||", sensors->time);
+	// printf("Time : %d ||", sensors->time);
 	for (uint16_t i = 0; i < sensor_number; i++)
 	{
 		switch (g_map_input[i].data_type)
@@ -720,7 +713,10 @@ void get_sensors_data(t_sensors *sensors)
 			break;
 		}
 	}
-	print_sensors_data(sensors);
+	if (LOG_ALL)
+	{
+		print_sensors_data(sensors);
+	}
 }
 
 void test_all_notes(PortMidiStream *stream)
@@ -778,10 +774,10 @@ int main(void)
 	{
 		for (int i = 0; i < 16; i++)
 		{
-			printf("%.2f ", get_voltage_value(i));
+			// printf("%.2f ", get_voltage_value(i));
 			get_sensors_data(&sensorsData);
 		}
-		printf("\n");
+		// printf("\n");
 		midi_write_multiple_euclidean(&music_data, &sensorsData);
 		sleep(1);
 	}
