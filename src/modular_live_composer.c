@@ -516,7 +516,7 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 								  M_MODE_MAJOR,														/* mode */
 								  A2,																/* mode_beg_note */
 								  4,																/* notes_per_cycle */
-								  (uint8_t)map_number(sensors_data->carousel_state, 0, 180, 80, 0), /* mess_chance */
+								  (uint8_t)map_number(sensors_data->carousel_state, 0, 119, 80, 0), /* mess_chance */
 								  1,																/* min_chord_size */
 								  1,																/* max_chord_size */
 								  (uint8_t)map_number(sensors_data->organ_1, 0, 1024, 48, 35),		/* min_velocity */
@@ -554,9 +554,9 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 
 	// Change euclidean datas with sensors values
 	// \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/
-	if ((uint32_t)sensors_data->photodiode_1 > 1024)
+	if ((uint32_t)sensors_data->photodiode_2 > 1024)
 	{
-		euclidean_datas[1].mess_chance = (uint32_t)map_number((uint32_t)sensors_data->photodiode_1, 0, 4096, 60, 20);
+		euclidean_datas[1].mess_chance = (uint32_t)map_number((uint32_t)sensors_data->photodiode_2, 0, 4096, 60, 20);
 
 		if (euclidean_datas[1].notes_per_cycle != (uint8_t)map_number(sensors_data->organ_1, 0, 1024, 2, 5))
 		{
