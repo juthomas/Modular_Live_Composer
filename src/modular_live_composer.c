@@ -358,8 +358,8 @@ void remove_chord(t_music_data *music_data, uint8_t *playing_notes_duration,
 
 void midi_delay_divs(t_music_data *music_data, uint16_t divs)
 {
-	usleep(music_data->current_quarter_value / (music_data->quarter_value / divs));
-	printf("-----SLEEP MS : %u :----", music_data->current_quarter_value / (music_data->quarter_value / divs));
+	usleep(music_data->current_quarter_value / (music_data->quarter_value / divs) * 100);
+	printf("-----SLEEP MS : %u :----", music_data->current_quarter_value / (music_data->quarter_value / divs) * 100);
 }
 
 void print_sensors_data(t_sensors *sensors)
