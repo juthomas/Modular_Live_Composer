@@ -790,7 +790,7 @@ int main(void)
 		}
 		// printf("\n");
 		midi_write_multiple_euclidean(&music_data, &sensorsData);
-		sleep(1);
+		// sleep(1);
 	}
 	Pm_Close(&stream);
 	Pm_Terminate();
