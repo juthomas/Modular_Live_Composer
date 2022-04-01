@@ -495,7 +495,8 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 	// Update Midi quarter value to move towards the quarter goal value
 	printf("\033[1;32mmusic data current quarter value : %d\033[1;37m\n", music_data->current_quarter_value);
 
-	update_quarter_value(music_data);
+	music_data->current_quarter_value = (uint32_t)map_number((uint32_t)sensors_data->photodiode_1, 0, 4096, 100000000, 50000); // RM THAT !!
+	// update_quarter_value(music_data); RM TO FIX
 	// Iterate for each euclidean circle
 	for (uint8_t current_euclidean_data = 0; current_euclidean_data < EUCLIDEAN_DATAS_LENGTH; current_euclidean_data++)
 	{
