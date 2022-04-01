@@ -59,9 +59,9 @@ int32_t map_number(int32_t x, int32_t in_min, int32_t in_max, int32_t out_min, i
 void midi_write_measure_note(t_music_data *music_data, unsigned char state,
 							 unsigned char channel, unsigned char note, unsigned char velocity)
 {
-	if (LOG_ALL)
-		printf("\033[1;35mwrite measure note : state=%s channel=%d note=%d velocity=%d\033[1;37m\n\n",
-			   (state == ON ? "ON" : "OFF"), channel, note, velocity);
+	// if (LOG_ALL)
+	printf("\033[1;35mwrite measure note : state=%s channel=%d note=%d velocity=%d\033[1;37m\n\n",
+		   (state == ON ? "ON" : "OFF"), channel, note, velocity);
 	// MIDI_delta_time(music_data->midi_file, 0);
 	// MIDI_delta_time(music_data->midi_file_redundancy, 0);
 	// MIDI_Note(music_data->midi_file, state, channel, note, velocity);
