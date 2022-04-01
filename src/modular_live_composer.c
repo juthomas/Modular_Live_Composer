@@ -581,8 +581,12 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 	// /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\.
 
 	// Each 30-60 seconds, request to get new notes in euclidean circles
-	printf("Time : %d", time(NULL));
-	printf("Last Time : %d", last_time);
+	if (LOG_ALL)
+	{
+
+		printf("Time : %d", time(NULL));
+		printf("Last Time : %d", last_time);
+	}
 	if (time(NULL) - last_time > 30 + rand() % 30)
 	{
 		reset_needed = 1;
