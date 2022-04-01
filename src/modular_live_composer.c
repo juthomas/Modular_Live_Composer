@@ -770,7 +770,7 @@ int main(void)
 	// durée d'une partition 40 000 000us
 	t_music_data music_data = {0};
 	// init_music_data(&music_data, 10, 1000000, 250000, 0.03);
-	init_music_data(&music_data, 10, 1000000, 100000000, 0.03);
+	init_music_data(&music_data, 10, 100000000, 250000, 0.03);
 
 	t_sensors sensorsData = {0};
 
