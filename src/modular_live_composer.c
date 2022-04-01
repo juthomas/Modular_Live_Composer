@@ -330,12 +330,16 @@ void remove_chord(t_music_data *music_data, uint8_t *playing_notes_duration,
 				  uint8_t *playing_notes, uint8_t playing_notes_length)
 {
 
-	printf("\033[1;96mRM func\n");
-	for (uint8_t i = 0; i < playing_notes_length; i++)
+	if (LOG_ALL)
 	{
-		printf("Playing notes[%d] : N = %d, D = %d\n", i, playing_notes[i], playing_notes_duration[i]);
+
+		printf("\033[1;96mRM func\n");
+		for (uint8_t i = 0; i < playing_notes_length; i++)
+		{
+			printf("Playing notes[%d] : N = %d, D = %d\n", i, playing_notes[i], playing_notes_duration[i]);
+		}
+		printf("\033[1;37m\n");
 	}
-	printf("\033[1;37m\n");
 
 	for (uint8_t playing_notes_i = 0; playing_notes_i < playing_notes_length; playing_notes_i++)
 	{
