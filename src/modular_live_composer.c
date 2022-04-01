@@ -583,10 +583,18 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 		euclidean_datas[2].max_steps_duration = (uint8_t)map_number(sensors_data->organ_1, 0, 1024, 14, 3);
 		// (uint32_t)map_number((uint32_t)sensors_data->photodiode_1, 0, 4096, 60, 0);
 	}
+	else
+	{
+		euclidean_datas[1].mess_chance = 100;
+	}
 
 	if ((uint32_t)sensors_data->photodiode_2 > 1024)
 	{
 		euclidean_datas[2].mess_chance = (uint32_t)map_number((uint32_t)sensors_data->photodiode_2, 1024, 2048, 80, 20);
+	}
+	else
+	{
+		euclidean_datas[2].mess_chance = 100;
 	}
 	// /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\.
 
