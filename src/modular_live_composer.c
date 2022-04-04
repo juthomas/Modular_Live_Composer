@@ -536,7 +536,7 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 			}
 			else if (current_euclidean_data == 1)
 			{
-				euclidean_datas[current_euclidean_data].euclidean_steps_length = (uint8_t)map_number((uint32_t)sensors_data->temperature_1, 0, 2048, 13, 26);
+				euclidean_datas[current_euclidean_data].euclidean_steps_length = (uint8_t)map_number((uint32_t)sensors_data->temperature_1, 0, 4096, 13, 26);
 				// euclidean_datas[current_euclidean_data].euclidean_steps_length = 13;
 				euclidean_datas[current_euclidean_data].notes_per_cycle = 2;
 				euclidean_datas[current_euclidean_data].mess_chance = 100;
@@ -544,7 +544,7 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 			else if (current_euclidean_data == 2)
 			{
 				euclidean_datas[current_euclidean_data].octaves_size = 3;
-				euclidean_datas[current_euclidean_data].euclidean_steps_length = (uint8_t)map_number((uint32_t)sensors_data->temperature_2, 0, 2048, 15, 30);
+				euclidean_datas[current_euclidean_data].euclidean_steps_length = (uint8_t)map_number((uint32_t)sensors_data->temperature_2, 0, 4096, 15, 30);
 				// euclidean_datas[current_euclidean_data].euclidean_steps_length = 15;
 				euclidean_datas[current_euclidean_data].notes_per_cycle = 4;
 				euclidean_datas[current_euclidean_data].step_gap =
@@ -556,9 +556,9 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 
 	// Change euclidean datas with sensors values
 	// \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/
-	if ((uint32_t)sensors_data->photodiode_2 > 512)
+	if ((uint32_t)sensors_data->photodiode_2 > 1024)
 	{
-		euclidean_datas[1].mess_chance = (uint32_t)map_number((uint32_t)sensors_data->photodiode_2, 0, 2048, 60, 20);
+		euclidean_datas[1].mess_chance = (uint32_t)map_number((uint32_t)sensors_data->photodiode_2, 0, 4096, 60, 20);
 
 		if (euclidean_datas[1].notes_per_cycle != (uint8_t)map_number(sensors_data->organ_1, 0, 1024, 2, 5))
 		{
@@ -590,9 +590,9 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 		euclidean_datas[1].mess_chance = 100;
 	}
 
-	if ((uint32_t)sensors_data->photodiode_2 > 1024)
+	if ((uint32_t)sensors_data->photodiode_2 > 2048)
 	{
-		euclidean_datas[2].mess_chance = (uint32_t)map_number((uint32_t)sensors_data->photodiode_2, 1024, 2048, 80, 20);
+		euclidean_datas[2].mess_chance = (uint32_t)map_number((uint32_t)sensors_data->photodiode_2, 2048, 4096, 80, 20);
 	}
 	else
 	{
