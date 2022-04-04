@@ -536,14 +536,16 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 			}
 			else if (current_euclidean_data == 1)
 			{
-				euclidean_datas[current_euclidean_data].euclidean_steps_length = 13;
+				euclidean_datas[current_euclidean_data].euclidean_steps_length = (uint8_t)map_number((uint32_t)sensors_data->temperature_1, 0, 2048, 13, 26);
+				// euclidean_datas[current_euclidean_data].euclidean_steps_length = 13;
 				euclidean_datas[current_euclidean_data].notes_per_cycle = 2;
 				euclidean_datas[current_euclidean_data].mess_chance = 100;
 			}
 			else if (current_euclidean_data == 2)
 			{
 				euclidean_datas[current_euclidean_data].octaves_size = 3;
-				euclidean_datas[current_euclidean_data].euclidean_steps_length = 15;
+				euclidean_datas[current_euclidean_data].euclidean_steps_length = (uint8_t)map_number((uint32_t)sensors_data->temperature_2, 0, 2048, 15, 30);
+				// euclidean_datas[current_euclidean_data].euclidean_steps_length = 15;
 				euclidean_datas[current_euclidean_data].notes_per_cycle = 4;
 				euclidean_datas[current_euclidean_data].step_gap =
 					euclidean_datas[current_euclidean_data].euclidean_steps_length / euclidean_datas[current_euclidean_data].notes_per_cycle;
