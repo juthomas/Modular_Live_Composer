@@ -536,7 +536,7 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 			}
 			else if (current_euclidean_data == 1)
 			{
-				euclidean_datas[current_euclidean_data].euclidean_steps_length = 12;
+				euclidean_datas[current_euclidean_data].euclidean_steps_length = 13;
 				euclidean_datas[current_euclidean_data].notes_per_cycle = 2;
 				euclidean_datas[current_euclidean_data].mess_chance = 100;
 			}
