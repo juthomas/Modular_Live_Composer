@@ -70,8 +70,8 @@ typedef struct s_map_input
 
 static const t_map_input g_map_input[] = {
 	// 7 note scales
-	(t_map_input){.active = 1, .input_nu = 0, .offset = offsetof(t_sensors, photodiode_1), .data_type = INTEGER, .int_max = 4095},
-	(t_map_input){.active = 1, .input_nu = 1, .offset = offsetof(t_sensors, photodiode_2), .data_type = INTEGER, .int_max = 4095},
+	(t_map_input){.active = 1, .input_nu = 0, .offset = offsetof(t_sensors, photodiode_1), .data_type = INTEGER, .int_max = 8190}, // x2
+	(t_map_input){.active = 1, .input_nu = 1, .offset = offsetof(t_sensors, photodiode_2), .data_type = INTEGER, .int_max = 8190},
 	(t_map_input){.active = 1, .input_nu = 1, .offset = offsetof(t_sensors, photodiode_3), .data_type = INTEGER, .int_max = 4095},
 	(t_map_input){.active = 1, .input_nu = 1, .offset = offsetof(t_sensors, photodiode_4), .data_type = INTEGER, .int_max = 4095},
 	(t_map_input){.active = 1, .input_nu = 1, .offset = offsetof(t_sensors, photodiode_5), .data_type = INTEGER, .int_max = 4095},
