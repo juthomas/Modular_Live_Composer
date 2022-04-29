@@ -562,6 +562,66 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 		}
 	}
 
+	if (sensors_data->carousel_state < 20)
+	{
+		if (euclidean_datas[0].mode_beg_note != A2)
+			reset_needed = 1;
+		euclidean_datas[0].mode_beg_note = A2;
+		euclidean_datas[1].mode_beg_note = A2;
+		euclidean_datas[2].mode_beg_note = A2;
+	}
+	else if (sensors_data->carousel_state < 40)
+	{
+		if (euclidean_datas[0].mode_beg_note != B2)
+			reset_needed = 1;
+		euclidean_datas[0].mode_beg_note = B2;
+		euclidean_datas[1].mode_beg_note = B2;
+		euclidean_datas[2].mode_beg_note = B2;
+	}
+	else if (sensors_data->carousel_state < 60)
+	{
+		if (euclidean_datas[0].mode_beg_note != C2)
+			reset_needed = 1;
+		euclidean_datas[0].mode_beg_note = C2;
+		euclidean_datas[1].mode_beg_note = C2;
+		euclidean_datas[2].mode_beg_note = C2;
+	}
+	else if (sensors_data->carousel_state < 80)
+	{
+		if (euclidean_datas[0].mode_beg_note != D2)
+			reset_needed = 1;
+		euclidean_datas[0].mode_beg_note = D2;
+		euclidean_datas[1].mode_beg_note = D2;
+		euclidean_datas[2].mode_beg_note = D2;
+	}
+	else if (sensors_data->carousel_state < 100)
+	{
+		if (euclidean_datas[0].mode_beg_note != E2)
+			reset_needed = 1;
+		euclidean_datas[0].mode_beg_note = E2;
+		euclidean_datas[1].mode_beg_note = E2;
+		euclidean_datas[2].mode_beg_note = E2;
+	}
+	else if (sensors_data->carousel_state < 110)
+	{
+		if (euclidean_datas[0].mode_beg_note != F2)
+			reset_needed = 1;
+		euclidean_datas[0].mode_beg_note = F2;
+		euclidean_datas[1].mode_beg_note = F2;
+		euclidean_datas[2].mode_beg_note = F2;
+	}
+	else
+	{
+		if (euclidean_datas[0].mode_beg_note != G2)
+			reset_needed = 1;
+		euclidean_datas[0].mode_beg_note = G2;
+		euclidean_datas[1].mode_beg_note = G2;
+		euclidean_datas[2].mode_beg_note = G2;
+	}
+
+
+
+
 	// Change euclidean datas with sensors values
 	// \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/
 	if ((uint32_t)sensors_data->photodiode_2 > 1024)
