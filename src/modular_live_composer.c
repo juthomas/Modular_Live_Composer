@@ -486,6 +486,10 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 	static uint8_t reset_needed = 1;
 	// Variable to check last reset time (to reset notes in euclidan circle)
 	static uint32_t last_time = 0;
+	static uint16_t measure_count_1 = 0;
+	static uint16_t measure_count_2 = 0;
+	static uint16_t measure_count_3 = 0;
+
 	// Initializing ast reset time with the current timestamp
 	if (last_time == 0)
 	{
@@ -609,22 +613,48 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 		printf("Time : %d", time(NULL));
 		printf("Last Time : %d", last_time);
 	}
-	if (time(NULL) - last_time > 30 + rand() % 30)
+	// if (time(NULL) - last_time > 30 + rand() % 30)
+	// {
+	// 	reset_needed = 1;
+	// 	last_time = time(NULL);
+	// 	printf("\n\n\n\n\n! RESETING !\n\n\n\n\n\n");
+	// }
+
+	if (measure_count_1 > 4)
 	{
-		reset_needed = 1;
-		last_time = time(NULL);
-		printf("\n\n\n\n\n! RESETING !\n\n\n\n\n\n");
+		get_new_euclidean_chords(&euclidean_datas[0]);
+		measure_count_1 = 0;
+		printf("\n\n\n\n\n! RESETING 0 !\n\n\n\n\n\n");
+
 	}
 
-	// If request to get new note, pick new random notes from allowed ones
-	if (reset_needed)
+	if (measure_count_2 > 7)
 	{
-		for (uint8_t current_euclidean_data = 0; current_euclidean_data < EUCLIDEAN_DATAS_LENGTH; current_euclidean_data++)
-		{
-			get_new_euclidean_chords(&euclidean_datas[current_euclidean_data]);
-		}
-		reset_needed = 0;
+		get_new_euclidean_chords(&euclidean_datas[1]);
+		measure_count_2 = 0;
+		printf("\n\n\n\n\n! RESETING 1 !\n\n\n\n\n\n");
+
 	}
+
+	if (measure_count_3 > 12)
+	{
+		get_new_euclidean_chords(&euclidean_datas[2]);
+		measure_count_3 = 0;
+		printf("\n\n\n\n\n! RESETING 2 !\n\n\n\n\n\n");
+
+	}
+
+
+
+	// If request to get new note, pick new random notes from allowed ones
+	// if (reset_needed)
+	// {
+	// 	for (uint8_t current_euclidean_data = 0; current_euclidean_data < EUCLIDEAN_DATAS_LENGTH; current_euclidean_data++)
+	// 	{
+	// 		get_new_euclidean_chords(&euclidean_datas[current_euclidean_data]);
+	// 	}
+	// 	reset_needed = 0;
+	// }
 
 	if (LOG_ALL)
 	{
@@ -663,6 +693,12 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 		midi_delay_divs(music_data, current_div_duration);
 		div_counter += current_div_duration;
 	}
+	measure_count_1++;
+	measure_count_2++;
+	measure_count_3++;
+
+
+
 }
 
 static PmTimestamp portmidi_timeproc(void *time_info)
