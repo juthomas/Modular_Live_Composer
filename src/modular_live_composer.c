@@ -563,7 +563,7 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 	}
 
 	static uint16_t mode_requested = A2;
-
+	static uint16_t type_mode_requested = M_MODE_MAJOR;
 
 	if (sensors_data->carousel_state < 20)
 	{
@@ -635,14 +635,24 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 		// euclidean_datas[2].mode_beg_note = G2;
 	}
 
+	type_mode_requested = sensors_data->lid_state / 5;
+
 	if (sensors_data->photodiode_1 < 500)
 	{
+		if (euclidean_datas[0].mode != type_mode_requested)
+			reset_needed = 1;
 		if (euclidean_datas[0].mode_beg_note != mode_requested)
 			reset_needed = 1;
 		euclidean_datas[0].mode_beg_note = mode_requested;
 		euclidean_datas[1].mode_beg_note = mode_requested;
 		euclidean_datas[2].mode_beg_note = mode_requested;
+
+		euclidean_datas[0].mode = type_mode_requested;
+		euclidean_datas[1].mode = type_mode_requested;
+		euclidean_datas[2].mode = type_mode_requested;
+
 	}
+
 
 
 
