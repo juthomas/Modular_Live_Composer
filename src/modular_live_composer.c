@@ -620,7 +620,7 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 	// 	printf("\n\n\n\n\n! RESETING !\n\n\n\n\n\n");
 	// }
 
-	if (measure_count_1 > 8)
+	if (measure_count_1 > 32)
 	{
 		get_new_euclidean_chords(&euclidean_datas[0]);
 		measure_count_1 = 0;
@@ -628,7 +628,7 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 
 	}
 
-	if (measure_count_2 > 15)
+	if (measure_count_2 > 55)
 	{
 		get_new_euclidean_chords(&euclidean_datas[1]);
 		measure_count_2 = 0;
@@ -636,7 +636,7 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 
 	}
 
-	if (measure_count_3 > 23)
+	if (measure_count_3 > 83)
 	{
 		get_new_euclidean_chords(&euclidean_datas[2]);
 		measure_count_3 = 0;
