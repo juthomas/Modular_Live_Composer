@@ -715,6 +715,8 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 		{
 			get_new_euclidean_chords(&euclidean_datas[current_euclidean_data]);
 		}
+		printf("\n\n\n\n\n! RESETING !\n\n\n\n\n\n");
+
 		reset_needed = 0;
 	}
 
