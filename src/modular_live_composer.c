@@ -562,63 +562,87 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 		}
 	}
 
+	static uint16_t mode_requested = A2;
+
+
 	if (sensors_data->carousel_state < 20)
 	{
-		if (euclidean_datas[0].mode_beg_note != A2)
-			reset_needed = 1;
-		euclidean_datas[0].mode_beg_note = A2;
-		euclidean_datas[1].mode_beg_note = A2;
-		euclidean_datas[2].mode_beg_note = A2;
+		mode_requested = A2;
+		// if (euclidean_datas[0].mode_beg_note != A2)
+		// 	reset_needed = 1;
+		// euclidean_datas[0].mode_beg_note = A2;
+		// euclidean_datas[1].mode_beg_note = A2;
+		// euclidean_datas[2].mode_beg_note = A2;
 	}
 	else if (sensors_data->carousel_state < 40)
 	{
-		if (euclidean_datas[0].mode_beg_note != B2)
-			reset_needed = 1;
-		euclidean_datas[0].mode_beg_note = B2;
-		euclidean_datas[1].mode_beg_note = B2;
-		euclidean_datas[2].mode_beg_note = B2;
+		mode_requested = B2;
+
+		// if (euclidean_datas[0].mode_beg_note != B2)
+		// 	reset_needed = 1;
+		// euclidean_datas[0].mode_beg_note = B2;
+		// euclidean_datas[1].mode_beg_note = B2;
+		// euclidean_datas[2].mode_beg_note = B2;
 	}
 	else if (sensors_data->carousel_state < 60)
 	{
-		if (euclidean_datas[0].mode_beg_note != C2)
-			reset_needed = 1;
-		euclidean_datas[0].mode_beg_note = C2;
-		euclidean_datas[1].mode_beg_note = C2;
-		euclidean_datas[2].mode_beg_note = C2;
+		mode_requested = C2;
+
+		// if (euclidean_datas[0].mode_beg_note != C2)
+		// 	reset_needed = 1;
+		// euclidean_datas[0].mode_beg_note = C2;
+		// euclidean_datas[1].mode_beg_note = C2;
+		// euclidean_datas[2].mode_beg_note = C2;
 	}
 	else if (sensors_data->carousel_state < 80)
 	{
-		if (euclidean_datas[0].mode_beg_note != D2)
-			reset_needed = 1;
-		euclidean_datas[0].mode_beg_note = D2;
-		euclidean_datas[1].mode_beg_note = D2;
-		euclidean_datas[2].mode_beg_note = D2;
+		mode_requested = D2;
+
+		// if (euclidean_datas[0].mode_beg_note != D2)
+		// 	reset_needed = 1;
+		// euclidean_datas[0].mode_beg_note = D2;
+		// euclidean_datas[1].mode_beg_note = D2;
+		// euclidean_datas[2].mode_beg_note = D2;
 	}
 	else if (sensors_data->carousel_state < 100)
 	{
-		if (euclidean_datas[0].mode_beg_note != E2)
-			reset_needed = 1;
-		euclidean_datas[0].mode_beg_note = E2;
-		euclidean_datas[1].mode_beg_note = E2;
-		euclidean_datas[2].mode_beg_note = E2;
+		mode_requested = E2;
+
+		// if (euclidean_datas[0].mode_beg_note != E2)
+		// 	reset_needed = 1;
+		// euclidean_datas[0].mode_beg_note = E2;
+		// euclidean_datas[1].mode_beg_note = E2;
+		// euclidean_datas[2].mode_beg_note = E2;
 	}
 	else if (sensors_data->carousel_state < 110)
 	{
-		if (euclidean_datas[0].mode_beg_note != F2)
-			reset_needed = 1;
-		euclidean_datas[0].mode_beg_note = F2;
-		euclidean_datas[1].mode_beg_note = F2;
-		euclidean_datas[2].mode_beg_note = F2;
+		mode_requested = F2;
+
+		// if (euclidean_datas[0].mode_beg_note != F2)
+		// 	reset_needed = 1;
+		// euclidean_datas[0].mode_beg_note = F2;
+		// euclidean_datas[1].mode_beg_note = F2;
+		// euclidean_datas[2].mode_beg_note = F2;
 	}
 	else
 	{
-		if (euclidean_datas[0].mode_beg_note != G2)
-			reset_needed = 1;
-		euclidean_datas[0].mode_beg_note = G2;
-		euclidean_datas[1].mode_beg_note = G2;
-		euclidean_datas[2].mode_beg_note = G2;
+		mode_requested = G2;
+
+		// if (euclidean_datas[0].mode_beg_note != G2)
+		// 	reset_needed = 1;
+		// euclidean_datas[0].mode_beg_note = G2;
+		// euclidean_datas[1].mode_beg_note = G2;
+		// euclidean_datas[2].mode_beg_note = G2;
 	}
 
+	if (sensors_data->photodiode_1 < 500)
+	{
+		if (euclidean_datas[0].mode_beg_note != mode_requested)
+			reset_needed = 1;
+		euclidean_datas[0].mode_beg_note = mode_requested;
+		euclidean_datas[1].mode_beg_note = mode_requested;
+		euclidean_datas[2].mode_beg_note = mode_requested;
+	}
 
 
 
