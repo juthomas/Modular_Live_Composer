@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <spidev_lib.h>
+// #include <spidev_lib.h>
 #include <unistd.h>
 #include <portmidi.h>
 #include <porttime.h>
@@ -812,30 +812,31 @@ void process_midi(PtTimestamp timestamp, void *userData)
 
 float get_voltage_value(uint8_t channel)
 {
-	spi_config_t spi_config;
-	uint8_t tx_buffer[3] = {0};
-	uint8_t rx_buffer[3] = {0};
-	int spifd;
-	float voltage_value;
+	return (9.0);
+	// spi_config_t spi_config;
+	// uint8_t tx_buffer[3] = {0};
+	// uint8_t rx_buffer[3] = {0};
+	// int spifd;
+	// float voltage_value;
 
-	spi_config.mode = 0;
-	spi_config.speed = 1000000;
-	spi_config.delay = 0;
-	spi_config.bits_per_word = 8;
+	// spi_config.mode = 0;
+	// spi_config.speed = 1000000;
+	// spi_config.delay = 0;
+	// spi_config.bits_per_word = 8;
 
-	spifd = spi_open(channel < 8 ? "/dev/spidev0.0" : "/dev/spidev0.1", spi_config);
-	if (spifd < 0)
-	{
-		printf("make sure that \"/dev/spidev0.0\" and \"/dev/spidev0.1\" are available\n");
-		return (-1);
-	}
-	tx_buffer[0] = 1;
-	tx_buffer[1] = ((8 + channel - (channel < 8 ? 0 : 8)) << 4);
-	tx_buffer[2] = 0;
-	spi_xfer(spifd, tx_buffer, 3, rx_buffer, 3);
-	voltage_value = (float)(((rx_buffer[1] & 3) << 8) + rx_buffer[2]) / 1023.0 * 9.9;
-	spi_close(spifd);
-	return (voltage_value);
+	// spifd = spi_open(channel < 8 ? "/dev/spidev0.0" : "/dev/spidev0.1", spi_config);
+	// if (spifd < 0)
+	// {
+	// 	printf("make sure that \"/dev/spidev0.0\" and \"/dev/spidev0.1\" are available\n");
+	// 	return (-1);
+	// }
+	// tx_buffer[0] = 1;
+	// tx_buffer[1] = ((8 + channel - (channel < 8 ? 0 : 8)) << 4);
+	// tx_buffer[2] = 0;
+	// spi_xfer(spifd, tx_buffer, 3, rx_buffer, 3);
+	// voltage_value = (float)(((rx_buffer[1] & 3) << 8) + rx_buffer[2]) / 1023.0 * 9.9;
+	// spi_close(spifd);
+	// return (voltage_value);
 }
 
 void get_sensors_data(t_sensors *sensors)
@@ -848,7 +849,7 @@ void get_sensors_data(t_sensors *sensors)
 
 	// printf("Offsetof time : %d", offsetof(t_sensors, time));
 	// printf("addr of 3: %d|", (uint32_t)sensors + offsetof(t_sensors, time));
-	int *tmp = (int *)((uint32_t)sensors + offsetof(t_sensors, time));
+	int *tmp = (int *)((uint64_t)sensors + offsetof(t_sensors, time));
 	*tmp = 42;
 	// printf("Time : %d ||", sensors->time);
 	for (uint16_t i = 0; i < sensor_number; i++)
@@ -857,19 +858,19 @@ void get_sensors_data(t_sensors *sensors)
 		{
 		case INTEGER:
 		{
-			int16_t *tmp = (int16_t *)((uint32_t)sensors + g_map_input[i].offset);
+			int16_t *tmp = (int16_t *)((uint64_t)sensors + g_map_input[i].offset);
 			*tmp = map_number(((uint32_t)(float)get_voltage_value(g_map_input[i].input_nu) * 100), 0, 1000, 0, g_map_input[i].int_max);
 		}
 		break;
 		case CHAR:
 		{
-			int8_t *tmp = (int8_t *)((uint32_t)sensors + g_map_input[i].offset);
+			int8_t *tmp = (int8_t *)((uint64_t)sensors + g_map_input[i].offset);
 			*tmp = map_number(((uint32_t)(float)get_voltage_value(g_map_input[i].input_nu) * 100), 0, 1000, 0, g_map_input[i].char_max);
 		}
 		break;
 		case BINARY:
 		{
-			int8_t *tmp = (int8_t *)((uint32_t)sensors + g_map_input[i].offset);
+			int8_t *tmp = (int8_t *)((uint64_t)sensors + g_map_input[i].offset);
 			*tmp = get_voltage_value(g_map_input[i].input_nu) < 5 ? 0 : 1;
 		}
 		break;
@@ -934,7 +935,7 @@ int main(void)
 			printf("id = %d, name : %s\n", i, device_info->name);
 	}
 
-	Pm_OpenOutput(&stream, 2, NULL, 128, portmidi_timeproc, NULL, 0);
+	Pm_OpenOutput(&stream, 3, NULL, 128, portmidi_timeproc, NULL, 0);
 	// test_all_notes(stream);
 	for (;;)
 	{
