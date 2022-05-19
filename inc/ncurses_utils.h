@@ -73,12 +73,15 @@ void draw_sensors_infos(t_ncurses *nstruct, int index, float v_val, int val)
 	// mvaddstr((index * 8) / (COLS), (index * 8) % COLS, "Bonjour");
 // box(bas, ACS_VLINE, ACS_HLINE);
 int largeur_max = COLS / col_width * col_width;
+int case_x = (index * col_width) / (largeur_max) * col_height;
+int case_y =  (index * col_width) % largeur_max;
 
 
-rectangle(nstruct->top,(index * col_width) / (largeur_max) * col_height, (index * col_width) % largeur_max,
-(index * col_width) / (largeur_max) * col_height + col_height, (index * col_width) % largeur_max + col_width);
 
-wmove(nstruct->top,(index * col_width) / (largeur_max) * col_height, (index * col_width) % largeur_max);
+rectangle(nstruct->top,case_x, case_y,
+case_x+ col_height, case_y + col_width);
+
+wmove(nstruct->top,case_x, case_y);
 
 
 char c_val[16];
