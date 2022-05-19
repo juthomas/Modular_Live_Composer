@@ -59,6 +59,7 @@ typedef struct s_map_input
 
 	uint16_t int_max;
 	uint8_t char_max;
+	char *name;
 	// uint32_t int_data;
 	// float float_data;
 	// uint32_t int_delta;
@@ -70,39 +71,39 @@ typedef struct s_map_input
 
 static const t_map_input g_map_input[] = {
 	// 7 note scales
-	(t_map_input){.active = 1, .input_nu = 0, .offset = offsetof(t_sensors, photodiode_1), .data_type = INTEGER, .int_max = 4096}, // x2
-	(t_map_input){.active = 1, .input_nu = 1, .offset = offsetof(t_sensors, photodiode_2), .data_type = INTEGER, .int_max = 4096}, // x2
-	(t_map_input){.active = 1, .input_nu = 1, .offset = offsetof(t_sensors, photodiode_3), .data_type = INTEGER, .int_max = 4095},
-	(t_map_input){.active = 1, .input_nu = 1, .offset = offsetof(t_sensors, photodiode_4), .data_type = INTEGER, .int_max = 4095},
-	(t_map_input){.active = 1, .input_nu = 1, .offset = offsetof(t_sensors, photodiode_5), .data_type = INTEGER, .int_max = 4095},
-	(t_map_input){.active = 1, .input_nu = 1, .offset = offsetof(t_sensors, photodiode_6), .data_type = INTEGER, .int_max = 4095},
-	(t_map_input){.active = 1, .input_nu = 2, .offset = offsetof(t_sensors, temperature_1), .data_type = INTEGER, .int_max = 4095}, // x2
-	(t_map_input){.active = 1, .input_nu = 3, .offset = offsetof(t_sensors, temperature_2), .data_type = INTEGER, .int_max = 4096}, // x2
-	(t_map_input){.active = 1, .input_nu = 7, .offset = offsetof(t_sensors, temperature_3), .data_type = INTEGER, .int_max = 4095},
-	(t_map_input){.active = 1, .input_nu = 7, .offset = offsetof(t_sensors, temperature_4), .data_type = INTEGER, .int_max = 4095},
-	(t_map_input){.active = 1, .input_nu = 7, .offset = offsetof(t_sensors, temperature_5), .data_type = INTEGER, .int_max = 4095},
-	(t_map_input){.active = 1, .input_nu = 7, .offset = offsetof(t_sensors, temperature_6), .data_type = INTEGER, .int_max = 4095},
-	(t_map_input){.active = 1, .input_nu = 7, .offset = offsetof(t_sensors, temperature_7), .data_type = INTEGER, .int_max = 4095},
-	(t_map_input){.active = 1, .input_nu = 7, .offset = offsetof(t_sensors, temperature_8), .data_type = INTEGER, .int_max = 4095},
-	(t_map_input){.active = 1, .input_nu = 7, .offset = offsetof(t_sensors, temperature_9), .data_type = INTEGER, .int_max = 4095},
-	(t_map_input){.active = 1, .input_nu = 7, .offset = offsetof(t_sensors, temperature_10), .data_type = INTEGER, .int_max = 4095},
-	(t_map_input){.active = 1, .input_nu = 7, .offset = offsetof(t_sensors, microphone), .data_type = BINARY},
-	(t_map_input){.active = 1, .input_nu = 7, .offset = offsetof(t_sensors, spectro_current), .data_type = INTEGER, .int_max = 65535},
-	(t_map_input){.active = 1, .input_nu = 7, .offset = offsetof(t_sensors, organ_current), .data_type = CHAR, .char_max = 255},
-	(t_map_input){.active = 1, .input_nu = 7, .offset = offsetof(t_sensors, vin_current), .data_type = INTEGER, .int_max = 65535},
-	(t_map_input){.active = 1, .input_nu = 7, .offset = offsetof(t_sensors, q7_current), .data_type = CHAR, .char_max = 255},
-	(t_map_input){.active = 1, .input_nu = 7, .offset = offsetof(t_sensors, t5v_current), .data_type = CHAR, .char_max = 255},
-	(t_map_input){.active = 1, .input_nu = 7, .offset = offsetof(t_sensors, t3_3v_current), .data_type = CHAR, .char_max = 255},
-	(t_map_input){.active = 1, .input_nu = 7, .offset = offsetof(t_sensors, motor_current), .data_type = INTEGER, .int_max = 65535},
-	(t_map_input){.active = 1, .input_nu = 4, .offset = offsetof(t_sensors, carousel_state), .data_type = CHAR, .char_max = 119},
-	(t_map_input){.active = 1, .input_nu = 5, .offset = offsetof(t_sensors, lid_state), .data_type = CHAR, .char_max = 53},
-	(t_map_input){.active = 1, .input_nu = 7, .offset = offsetof(t_sensors, organ_1), .data_type = INTEGER, .int_max = 1023},
-	(t_map_input){.active = 1, .input_nu = 7, .offset = offsetof(t_sensors, organ_2), .data_type = INTEGER, .int_max = 1023},
-	(t_map_input){.active = 1, .input_nu = 7, .offset = offsetof(t_sensors, organ_3), .data_type = INTEGER, .int_max = 1023},
-	(t_map_input){.active = 1, .input_nu = 7, .offset = offsetof(t_sensors, organ_4), .data_type = INTEGER, .int_max = 1023},
-	(t_map_input){.active = 1, .input_nu = 7, .offset = offsetof(t_sensors, organ_5), .data_type = INTEGER, .int_max = 1023},
-	(t_map_input){.active = 1, .input_nu = 7, .offset = offsetof(t_sensors, organ_6), .data_type = INTEGER, .int_max = 1023},
-	(t_map_input){.active = 1, .input_nu = 7, .offset = offsetof(t_sensors, timestamp), .data_type = INTEGER, .int_max = 65535}
+	(t_map_input){.active = 1, .input_nu = 0, .offset = offsetof(t_sensors, photodiode_1), .name = "photo1", .data_type = INTEGER, .int_max = 4096}, // x2
+	(t_map_input){.active = 1, .input_nu = 1, .offset = offsetof(t_sensors, photodiode_2), .name = "photo2", .data_type = INTEGER, .int_max = 4096}, // x2
+	(t_map_input){.active = 1, .input_nu = 1, .offset = offsetof(t_sensors, photodiode_3), .name = "photo3", .data_type = INTEGER, .int_max = 4095},
+	(t_map_input){.active = 1, .input_nu = 1, .offset = offsetof(t_sensors, photodiode_4), .name = "photo4", .data_type = INTEGER, .int_max = 4095},
+	(t_map_input){.active = 1, .input_nu = 1, .offset = offsetof(t_sensors, photodiode_5), .name = "photo5", .data_type = INTEGER, .int_max = 4095},
+	(t_map_input){.active = 1, .input_nu = 1, .offset = offsetof(t_sensors, photodiode_6), .name = "photo6", .data_type = INTEGER, .int_max = 4095},
+	(t_map_input){.active = 1, .input_nu = 2, .offset = offsetof(t_sensors, temperature_1), .name = "temp1", .data_type = INTEGER, .int_max = 4095}, // x2
+	(t_map_input){.active = 1, .input_nu = 3, .offset = offsetof(t_sensors, temperature_2), .name = "temp2", .data_type = INTEGER, .int_max = 4096}, // x2
+	(t_map_input){.active = 1, .input_nu = 7, .offset = offsetof(t_sensors, temperature_3), .name = "temp3", .data_type = INTEGER, .int_max = 4095},
+	(t_map_input){.active = 1, .input_nu = 7, .offset = offsetof(t_sensors, temperature_4), .name = "temp4", .data_type = INTEGER, .int_max = 4095},
+	(t_map_input){.active = 1, .input_nu = 7, .offset = offsetof(t_sensors, temperature_5), .name = "temp5", .data_type = INTEGER, .int_max = 4095},
+	(t_map_input){.active = 1, .input_nu = 7, .offset = offsetof(t_sensors, temperature_6), .name = "temp6", .data_type = INTEGER, .int_max = 4095},
+	(t_map_input){.active = 1, .input_nu = 7, .offset = offsetof(t_sensors, temperature_7), .name = "temp7", .data_type = INTEGER, .int_max = 4095},
+	(t_map_input){.active = 1, .input_nu = 7, .offset = offsetof(t_sensors, temperature_8), .name = "temp8", .data_type = INTEGER, .int_max = 4095},
+	(t_map_input){.active = 1, .input_nu = 7, .offset = offsetof(t_sensors, temperature_9), .name = "temp9", .data_type = INTEGER, .int_max = 4095},
+	(t_map_input){.active = 1, .input_nu = 7, .offset = offsetof(t_sensors, temperature_10), .name = "temp10", .data_type = INTEGER, .int_max = 4095},
+	(t_map_input){.active = 1, .input_nu = 7, .offset = offsetof(t_sensors, microphone), .name = "micro", .data_type = BINARY},
+	(t_map_input){.active = 1, .input_nu = 7, .offset = offsetof(t_sensors, spectro_current), .name = "spectro", .data_type = INTEGER, .int_max = 65535},
+	(t_map_input){.active = 1, .input_nu = 7, .offset = offsetof(t_sensors, organ_current), .name = "organ_cur", .data_type = CHAR, .char_max = 255},
+	(t_map_input){.active = 1, .input_nu = 7, .offset = offsetof(t_sensors, vin_current), .name = "vin_cur", .data_type = INTEGER, .int_max = 65535},
+	(t_map_input){.active = 1, .input_nu = 7, .offset = offsetof(t_sensors, q7_current), .name = "q7_cur", .data_type = CHAR, .char_max = 255},
+	(t_map_input){.active = 1, .input_nu = 7, .offset = offsetof(t_sensors, t5v_current), .name = "t5v_cur", .data_type = CHAR, .char_max = 255},
+	(t_map_input){.active = 1, .input_nu = 7, .offset = offsetof(t_sensors, t3_3v_current), .name = "t3_cur", .data_type = CHAR, .char_max = 255},
+	(t_map_input){.active = 1, .input_nu = 7, .offset = offsetof(t_sensors, motor_current), .name = "motor_cur", .data_type = INTEGER, .int_max = 65535},
+	(t_map_input){.active = 1, .input_nu = 4, .offset = offsetof(t_sensors, carousel_state), .name = "car_state", .data_type = CHAR, .char_max = 119},
+	(t_map_input){.active = 1, .input_nu = 5, .offset = offsetof(t_sensors, lid_state), .name = "lid", .data_type = CHAR, .char_max = 53},
+	(t_map_input){.active = 1, .input_nu = 7, .offset = offsetof(t_sensors, organ_1), .name = "organ1", .data_type = INTEGER, .int_max = 1023},
+	(t_map_input){.active = 1, .input_nu = 7, .offset = offsetof(t_sensors, organ_2), .name = "organ2", .data_type = INTEGER, .int_max = 1023},
+	(t_map_input){.active = 1, .input_nu = 7, .offset = offsetof(t_sensors, organ_3), .name = "organ3", .data_type = INTEGER, .int_max = 1023},
+	(t_map_input){.active = 1, .input_nu = 7, .offset = offsetof(t_sensors, organ_4), .name = "organ4", .data_type = INTEGER, .int_max = 1023},
+	(t_map_input){.active = 1, .input_nu = 7, .offset = offsetof(t_sensors, organ_5), .name = "organ5", .data_type = INTEGER, .int_max = 1023},
+	(t_map_input){.active = 1, .input_nu = 7, .offset = offsetof(t_sensors, organ_6), .name = "organ6", .data_type = INTEGER, .int_max = 1023},
+	(t_map_input){.active = 1, .input_nu = 7, .offset = offsetof(t_sensors, timestamp), .name = "time", .data_type = INTEGER, .int_max = 65535}
 
 };
 

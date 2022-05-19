@@ -65,7 +65,7 @@ void rectangle(WINDOW *win, int y1, int x1, int y2, int x2)
     mvwaddch(win,y2, x2, ACS_LRCORNER);
 }
 
-void draw_sensors_infos(t_ncurses *nstruct, int index, float v_val, int val)
+void draw_sensors_infos(t_ncurses *nstruct, int index, float v_val, int val, char *name)
 {
 	int col_width = COLS / 12;
 	int col_height = 8;
@@ -88,9 +88,11 @@ int case_y =  (index * col_width) % largeur_max;
 rectangle(nstruct->top,case_x, case_y,
 case_x+ col_height, case_y + col_width);
 
+
+
 wmove(nstruct->top,case_x + 1, case_y + 1);
-
-
+waddstr(nstruct->top, name);
+wmove(nstruct->top,case_x + 1, case_y + 2);
 char c_val[16];
 snprintf (c_val, 15, "%d", val);
 
