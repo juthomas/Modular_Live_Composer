@@ -943,7 +943,9 @@ int main(void)
 		PmDeviceInfo const *device_info = Pm_GetDeviceInfo(i);
 		if (device_info && device_info->output)
 		{
-			write_value(&curses_env, "bonjour");
+			char printf_hack[64];
+			snprintf(printf_hack, 64, "id = %d, name : %s\n", i, device_info->name);
+			write_value(&curses_env, printf_hack);
 
 			//printf("id = %d, name : %s\n", i, device_info->name);
 		}
