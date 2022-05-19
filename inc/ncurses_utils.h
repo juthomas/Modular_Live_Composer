@@ -78,6 +78,13 @@ int case_y =  (index * col_width) % largeur_max;
 
 
 
+    attron(COLOR_PAIR(CUSTOM_PAIR_1));
+    for (int i = 1; i < col_width; y++) {
+        mvhline(y, 1, ' ', col_width);
+    }
+    attroff(COLOR_PAIR(CUSTOM_PAIR_1));
+
+
 rectangle(nstruct->top,case_x, case_y,
 case_x+ col_height, case_y + col_width);
 
@@ -91,7 +98,7 @@ waddstr(nstruct->top, c_val );
 
 
 
-	// wrefresh(nstruct->top);
+	wrefresh(nstruct->top);
 
 }
 
