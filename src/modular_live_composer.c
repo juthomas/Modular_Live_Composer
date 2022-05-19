@@ -11,6 +11,8 @@
 #include "../inc/midi_euclidean.h"
 #include "../inc/midi.h"
 #include "../inc/map_input.h"
+#include "../inc/ncurses_utils.h"
+
 
 #define LOG_ALL 0
 
@@ -63,8 +65,8 @@ void midi_write_measure_note(t_music_data *music_data, unsigned char state,
 							 unsigned char channel, unsigned char note, unsigned char velocity)
 {
 	// if (LOG_ALL)
-	printf("\033[1;35mwrite measure note : state=%s channel=%d note=%d velocity=%d\033[1;37m\n\n",
-		   (state == ON ? "ON" : "OFF"), channel, note, velocity);
+	//printf("\033[1;35mwrite measure note : state=%s channel=%d note=%d velocity=%d\033[1;37m\n\n",
+	//	   (state == ON ? "ON" : "OFF"), channel, note, velocity);
 	// MIDI_delta_time(music_data->midi_file, 0);
 	// MIDI_delta_time(music_data->midi_file_redundancy, 0);
 	// MIDI_Note(music_data->midi_file, state, channel, note, velocity);
@@ -107,12 +109,12 @@ void create_chord(t_music_data *music_data, uint8_t *playing_notes_duration, uin
 
 	if (LOG_ALL)
 	{
-		printf("\033[1;32mChord to play\n");
+		//printf("\033[1;32mChord to play\n");
 		for (int i = 0; i < chord_size; i++)
 		{
-			printf("Note Chord[%d] : %d\n", i, note_offset + ((note_i & 0xFF00) >> 8) * 12 + g_midi_mode[mode].mode_sequence[((note_i & 0xFF) + 2 * i) % 7] + 12 * (((note_i & 0xFF) + 2 * i) / 7));
+			//printf("Note Chord[%d] : %d\n", i, note_offset + ((note_i & 0xFF00) >> 8) * 12 + g_midi_mode[mode].mode_sequence[((note_i & 0xFF) + 2 * i) % 7] + 12 * (((note_i & 0xFF) + 2 * i) / 7));
 		}
-		printf("\033[1;37m\n");
+		//printf("\033[1;37m\n");
 	}
 
 	for (uint8_t current_note = 0; current_note < chord_size; current_note++)
@@ -291,15 +293,15 @@ void print_euclidean_steps(t_euclidean *euclidean)
 {
 	for (uint8_t steps = 0; steps < euclidean->euclidean_steps_length; steps++)
 	{
-		printf("Step value : %d, octave : %d\n", euclidean->euclidean_steps[steps] & 0xFF,
+		//printf("Step value : %d, octave : %d\n", euclidean->euclidean_steps[steps] & 0xFF,
 			   (euclidean->euclidean_steps[steps] & 0xFF00) >> 8);
 	}
-	printf("Chord list : ");
+	//printf("Chord list : ");
 	for (uint8_t chord_list_i = 0; chord_list_i < euclidean->chords_list_length; chord_list_i++)
 	{
-		printf("%d,", euclidean->chords_list[chord_list_i]);
+		//printf("%d,", euclidean->chords_list[chord_list_i]);
 	}
-	printf("\n");
+	//printf("\n");
 }
 
 /**
@@ -362,7 +364,7 @@ void remove_chord(t_music_data *music_data, uint8_t *playing_notes_duration,
 void midi_delay_divs(t_music_data *music_data, uint16_t divs)
 {
 	usleep(music_data->current_quarter_value / (music_data->quarter_value / divs) * 100);
-	printf("-----SLEEP MS : %u :----\n", music_data->current_quarter_value / (music_data->quarter_value / divs) * 100);
+	//printf("-----SLEEP MS : %u :----\n", music_data->current_quarter_value / (music_data->quarter_value / divs) * 100);
 }
 
 void print_sensors_data(t_sensors *sensors)
@@ -498,15 +500,15 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 		last_time = time(NULL);
 	}
 
-	print_sensors_data(sensors_data);
+	//print_sensors_data(sensors_data);
 
 	music_data->quarter_value_goal = (uint32_t)map_number((uint32_t)sensors_data->photodiode_1, 0, FIX_4096, 100000000, 35000000);
 	// Update Midi quarter value to move towards the quarter goal value
-	printf("\033[1;32mmusic data current quarter value : %d\033[1;37m\n", music_data->current_quarter_value);
+	//printf("\033[1;32mmusic data current quarter value : %d\033[1;37m\n", music_data->current_quarter_value);
 	// 5000000
 	music_data->current_quarter_value = (uint32_t)map_number((uint32_t)sensors_data->photodiode_1, 0, FIX_4096, 100000000, 3500000); // RM THAT !!
 
-	printf("\033[1;32mmusic data current quarter value after  : %d\033[1;37m\n", music_data->current_quarter_value);
+	//printf("\033[1;32mmusic data current quarter value after  : %d\033[1;37m\n", music_data->current_quarter_value);
 
 	// update_quarter_value(music_data); RM TO FIX
 	// Iterate for each euclidean circle
@@ -720,7 +722,7 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 	{
 		get_new_euclidean_chords(&euclidean_datas[0]);
 		measure_count_1 = 0;
-		printf("\n\n\n\n\n! RESETING 0 !\n\n\n\n\n\n");
+		//printf("\n\n\n\n\n! RESETING 0 !\n\n\n\n\n\n");
 
 	}
 
@@ -728,7 +730,7 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 	{
 		get_new_euclidean_chords(&euclidean_datas[1]);
 		measure_count_2 = 0;
-		printf("\n\n\n\n\n! RESETING 1 !\n\n\n\n\n\n");
+		//printf("\n\n\n\n\n! RESETING 1 !\n\n\n\n\n\n");
 
 	}
 
@@ -736,7 +738,7 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 	{
 		get_new_euclidean_chords(&euclidean_datas[2]);
 		measure_count_3 = 0;
-		printf("\n\n\n\n\n! RESETING 2 !\n\n\n\n\n\n");
+		//printf("\n\n\n\n\n! RESETING 2 !\n\n\n\n\n\n");
 
 	}
 
@@ -749,7 +751,7 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 		{
 			get_new_euclidean_chords(&euclidean_datas[current_euclidean_data]);
 		}
-		printf("\n\n\n\n\n! RESETING !\n\n\n\n\n\n");
+		//printf("\n\n\n\n\n! RESETING !\n\n\n\n\n\n");
 
 		reset_needed = 0;
 	}
@@ -894,7 +896,7 @@ void test_all_notes(PortMidiStream *stream)
 		last_time = last_time + 300;
 		while (last_time > current_timestamp)
 			;
-		printf("current_note : 0x%02X (%03d)\n", current_note, current_note);
+		//printf("current_note : 0x%02X (%03d)\n", current_note, current_note);
 		PmError pme = Pm_WriteShort(stream, current_timestamp,
 									// Pm_Message(type << 4 | chan, byte1, byte2)
 									Pm_Message(0x9 << 4, current_note, 100)); // status | channel, note, velocity;
@@ -918,7 +920,7 @@ int main(void)
 	// PortMidiStream *stream;
 	Pt_Start(1, &process_midi, 0);
 	int midi_count = Pm_CountDevices();
-	printf("Device number : %d\n", midi_count);
+	//printf("Device number : %d\n", midi_count);
 
 	// durée d'une partition 40 000 000us
 	t_music_data music_data = {0};
@@ -931,7 +933,7 @@ int main(void)
 	{
 		PmDeviceInfo const *device_info = Pm_GetDeviceInfo(i);
 		if (device_info && device_info->output)
-			printf("id = %d, name : %s\n", i, device_info->name);
+			//printf("id = %d, name : %s\n", i, device_info->name);
 	}
 
 	Pm_OpenOutput(&stream, 2, NULL, 128, portmidi_timeproc, NULL, 0);
@@ -940,10 +942,10 @@ int main(void)
 	{
 		for (int i = 0; i < 16; i++)
 		{
-			// printf("%.2f ", get_voltage_value(i));
+			// //printf("%.2f ", get_voltage_value(i));
 			get_sensors_data(&sensorsData);
 		}
-		// printf("\n");
+		// //printf("\n");
 		midi_write_multiple_euclidean(&music_data, &sensorsData);
 		// sleep(1);
 	}
