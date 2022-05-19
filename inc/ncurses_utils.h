@@ -108,6 +108,15 @@ strcat(c_val, "v");
 waddstr(nstruct->top, c_val );
 
 
+int fill_char = (float)val / (float)max_val * (col_width - 1)
+
+	for (int i = 0; i < fill_char; i++)
+	{
+		wmove(nstruct->top,case_y + 5, case_x + i);
+		waddstr(nstruct->top, "#");
+	}
+
+
 	wrefresh(nstruct->top);
 
 }
