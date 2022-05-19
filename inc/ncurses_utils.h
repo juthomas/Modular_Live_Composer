@@ -78,11 +78,11 @@ int case_y =  (index * col_width) % largeur_max;
 
 
 
-    attron(COLOR_PAIR(CUSTOM_PAIR_1));
-    for (int i = 1; i < 8; i++) {
-        mvhline(i, 1, ' ', col_width);
+    // attron(COLOR_PAIR(CUSTOM_PAIR_1));
+    for (int i = 1; i < 7; i++) {
+        mvhline(i + case_x, 1 + case_y, ' ', col_width);
     }
-    attroff(COLOR_PAIR(CUSTOM_PAIR_1));
+    // attroff(COLOR_PAIR(CUSTOM_PAIR_1));
 
 
 rectangle(nstruct->top,case_x, case_y,
