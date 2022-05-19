@@ -69,7 +69,7 @@ void midi_write_measure_note(t_music_data *music_data, unsigned char state,
 	//	   (state == ON ? "ON" : "OFF"), channel, note, velocity);
 
 			char printf_hack[64];
-			snprintf(printf_hack, 64, "\033[1;35mwrite measure note : state=%s channel=%d note=%d velocity=%d\033[1;37m\n\n",
+			snprintf(printf_hack, 64, "write measure note : state=%s channel=%d note=%d velocity=%d",
 		   (state == ON ? "ON" : "OFF"), channel, note, velocity);
 			write_value(&curses_env, printf_hack);
 
@@ -118,9 +118,14 @@ void create_chord(t_music_data *music_data, uint8_t *playing_notes_duration, uin
 	if (LOG_ALL)
 	{
 		//printf("\033[1;32mChord to play\n");
+			write_value(&curses_env, "Chord to play");
+
 		for (int i = 0; i < chord_size; i++)
 		{
 			//printf("Note Chord[%d] : %d\n", i, note_offset + ((note_i & 0xFF00) >> 8) * 12 + g_midi_mode[mode].mode_sequence[((note_i & 0xFF) + 2 * i) % 7] + 12 * (((note_i & 0xFF) + 2 * i) / 7));
+					char printf_hack[64];
+			snprintf(printf_hack, 64, "Note Chord[%d] : %d\n", i, note_offset + ((note_i & 0xFF00) >> 8) * 12 + g_midi_mode[mode].mode_sequence[((note_i & 0xFF) + 2 * i) % 7] + 12 * (((note_i & 0xFF) + 2 * i) / 7));
+			write_value(&curses_env, printf_hack);
 		}
 		//printf("\033[1;37m\n");
 	}
