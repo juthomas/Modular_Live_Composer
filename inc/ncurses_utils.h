@@ -2,6 +2,8 @@
 #define NCURSES_UTILS_H
 #include <ncurses.h>
 #include <stdlib.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 #define MAP_COLOR(x) ((x)*1000 / 255)
@@ -74,7 +76,10 @@ rectangle(nstruct->top,(index * col_width) / (COLS) * col_height, (index * col_w
 (index * col_width) / (COLS) * col_height + col_height, (index * col_width) % COLS + col_width);
 
 wmove(nstruct->top,(index * col_width) / (COLS) * col_height, (index * col_width) % COLS);
-waddstr(nstruct->top, itoa(val));
+
+
+char test[42];
+waddstr(nstruct->top, itoa(42, test, 10) );
 
 
 
