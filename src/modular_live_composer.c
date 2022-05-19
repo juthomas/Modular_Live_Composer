@@ -956,5 +956,6 @@ int main(void)
 	}
 	Pm_Close(&stream);
 	Pm_Terminate();
+	exit_curses2(&curses_env);
 	return (0);
 }
