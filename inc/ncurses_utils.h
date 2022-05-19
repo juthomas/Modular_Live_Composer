@@ -56,7 +56,7 @@ void write_value(t_ncurses *nstruct, char *text)
 {
 	static int current_line = 0;
 	current_line++;
-	if (current_line > LINES / 2)
+	if (current_line >= LINES / 2)
 		current_line = 0;
 	// int col_width = COLS / 12;
 	// int col_height = 1;

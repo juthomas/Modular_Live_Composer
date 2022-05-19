@@ -67,6 +67,14 @@ void midi_write_measure_note(t_music_data *music_data, unsigned char state,
 	// if (LOG_ALL)
 	//printf("\033[1;35mwrite measure note : state=%s channel=%d note=%d velocity=%d\033[1;37m\n\n",
 	//	   (state == ON ? "ON" : "OFF"), channel, note, velocity);
+
+			char printf_hack[64];
+			snprintf(printf_hack, 64, "\033[1;35mwrite measure note : state=%s channel=%d note=%d velocity=%d\033[1;37m\n\n",
+		   (state == ON ? "ON" : "OFF"), channel, note, velocity)
+			write_value(&curses_env, printf_hack);
+
+
+
 	// MIDI_delta_time(music_data->midi_file, 0);
 	// MIDI_delta_time(music_data->midi_file_redundancy, 0);
 	// MIDI_Note(music_data->midi_file, state, channel, note, velocity);
@@ -731,7 +739,7 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 		measure_count_1 = 0;
 		//printf("\n\n\n\n\n! RESETING 0 !\n\n\n\n\n\n");
 
-			write_value(&curses_env, "\n\n\n\n\n! RESETING 0!\n\n\n\n\n\n");
+			write_value(&curses_env, "! RESETING 0!");
 
 
 	}
@@ -741,7 +749,7 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 		get_new_euclidean_chords(&euclidean_datas[1]);
 		measure_count_2 = 0;
 		//printf("\n\n\n\n\n! RESETING 1 !\n\n\n\n\n\n");
-			write_value(&curses_env, "\n\n\n\n\n! RESETING 1 !\n\n\n\n\n\n");
+			write_value(&curses_env, "! RESETING 1 !");
 
 
 	}
@@ -752,7 +760,7 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 		measure_count_3 = 0;
 		//printf("\n\n\n\n\n! RESETING 2 !\n\n\n\n\n\n");
 
-			write_value(&curses_env, "\n\n\n\n\n! RESETING 2 !\n\n\n\n\n\n");
+			write_value(&curses_env, "! RESETING 2 !");
 
 	}
 
@@ -767,7 +775,7 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 		}
 		//printf("\n\n\n\n\n! RESETING !\n\n\n\n\n\n");
 
-			write_value(&curses_env, "\n\n\n\n\n! RESETING !\n\n\n\n\n\n");
+			write_value(&curses_env, "! RESETING !");
 
 		reset_needed = 0;
 	}
