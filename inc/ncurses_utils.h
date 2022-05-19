@@ -73,26 +73,26 @@ void draw_sensors_infos(t_ncurses *nstruct, int index, float v_val, int val, cha
 	// mvaddstr((index * 8) / (COLS), (index * 8) % COLS, "Bonjour");
 // box(bas, ACS_VLINE, ACS_HLINE);
 int largeur_max = COLS / col_width * col_width;
-int case_x = (index * col_width) / (largeur_max) * col_height;
-int case_y =  (index * col_width) % largeur_max;
+int case_y = (index * col_width) / (largeur_max) * col_height;
+int case_x =  (index * col_width) % largeur_max;
 
 
 
     // attron(COLOR_PAIR(CUSTOM_PAIR_1));
     for (int i = 1; i < 7; i++) {
-        mvhline(i + case_x, 1 + case_y, ' ', col_width);
+        mvhline(i + case_y, 1 + case_x, ' ', col_width);
     }
     // attroff(COLOR_PAIR(CUSTOM_PAIR_1));
 
 
-rectangle(nstruct->top,case_x, case_y,
-case_x+ col_height, case_y + col_width);
+rectangle(nstruct->top,case_y, case_x,
+case_y+ col_height, case_x + col_width);
 
 
 
-wmove(nstruct->top,case_x + 1, case_y + 1);
+wmove(nstruct->top,case_y + 1, case_x + 1);
 waddstr(nstruct->top, name);
-wmove(nstruct->top,case_x + 1, case_y + 2);
+wmove(nstruct->top,case_y + 2, case_x + 1);
 char c_val[16];
 snprintf (c_val, 15, "%d", val);
 
