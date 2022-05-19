@@ -67,7 +67,7 @@ void rectangle(WINDOW *win, int y1, int x1, int y2, int x2)
 
 void draw_sensors_infos(t_ncurses *nstruct, int index, float v_val, int val)
 {
-	int col_width = 8;
+	int col_width = 16;
 	int col_height = 8;
 
 	// mvaddstr((index * 8) / (COLS), (index * 8) % COLS, "Bonjour");
