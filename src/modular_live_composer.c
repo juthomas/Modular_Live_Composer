@@ -5,6 +5,9 @@
 #include <unistd.h>
 #include <portmidi.h>
 #include <porttime.h>
+
+#include "../inc/ncurses_utils.h"
+
 #include "../inc/midi_notes.h"
 #include "../inc/midi_modes.h"
 // #include "../inc/midi_structs.h"
@@ -13,6 +16,8 @@
 #include "../inc/map_input.h"
 
 #define LOG_ALL 0
+
+
 
 // 							//durée d'une partition 40 000 000us
 // static t_music_data music_data = {.partition_duration = 40000000,
@@ -847,6 +852,7 @@ void get_sensors_data(t_sensors *sensors)
 	// printf("addr of 2: %d|", &sensors->date);
 	// printf("addr of 3: %d|", &sensors->time);
 
+
 	// printf("Offsetof time : %d", offsetof(t_sensors, time));
 	// printf("addr of 3: %d|", (uint32_t)sensors + offsetof(t_sensors, time));
 	int *tmp = (int *)((uint64_t)sensors + offsetof(t_sensors, time));
@@ -854,6 +860,7 @@ void get_sensors_data(t_sensors *sensors)
 	// printf("Time : %d ||", sensors->time);
 	for (uint16_t i = 0; i < sensor_number; i++)
 	{
+		 draw_sensors_infos(&curses_env, i, 0, 0);
 		switch (g_map_input[i].data_type)
 		{
 		case INTEGER:
@@ -915,6 +922,33 @@ void test_all_notes(PortMidiStream *stream)
 
 int main(void)
 {
+    // WINDOW *haut, *bas;
+    
+
+	init_curses(&curses_env);
+    // initscr();
+    
+	// start_color();			/* Start color 			*/
+	// // CUSTOM_INIT_COLOR(46, 0x0000FF);
+	// init_color(100, MAP_COLOR(0), MAP_COLOR(0),MAP_COLOR(0xFF));
+	// // init_color(45, 0, 1000, 0);
+	// CUSTOM_INIT_COLOR(101, 0x00FF00);
+	// init_pair(1, 100, 101);
+
+	// haut= subwin(stdscr, LINES / 2, COLS, 0, 0);        // Créé une fenêtre de 'LINES / 2' lignes et de COLS colonnes en 0, 0
+    // bas= subwin(stdscr, LINES / 2, COLS, LINES / 2, 0); // Créé la même fenêtre que ci-dessus sauf que les coordonnées changent
+    
+    // box(haut, ACS_VLINE, ACS_HLINE);
+    // box(bas, ACS_VLINE, ACS_HLINE);
+	// wattron(haut, COLOR_PAIR(1));
+	// wattron(bas, COLOR_PAIR(1));
+    
+    // mvwprintw(haut, 1, 1, "Ceci est la fenetre du haut");
+    // mvwprintw(bas, 1, 1, "Ceci est la fenetre du bas");
+    // wrefresh(haut);
+    // wrefresh(bas);
+	// wattroff(haut, COLOR_PAIR(1));
+
 	PmTimestamp last_time = 0;
 	// PortMidiStream *stream;
 	Pt_Start(1, &process_midi, 0);
@@ -932,7 +966,9 @@ int main(void)
 	{
 		PmDeviceInfo const *device_info = Pm_GetDeviceInfo(i);
 		if (device_info && device_info->output)
-			printf("id = %d, name : %s\n", i, device_info->name);
+		{
+			// printf("id = %d, name : %s\n", i, device_info->name);
+		}
 	}
 
 	Pm_OpenOutput(&stream, 3, NULL, 128, portmidi_timeproc, NULL, 0);
@@ -945,10 +981,11 @@ int main(void)
 			get_sensors_data(&sensorsData);
 		}
 		// printf("\n");
-		midi_write_multiple_euclidean(&music_data, &sensorsData);
-		// sleep(1);
+		// midi_write_multiple_euclidean(&music_data, &sensorsData);
+		sleep(1);
 	}
 	Pm_Close(&stream);
 	Pm_Terminate();
+	exit_curses(&curses_env);
 	return (0);
 }
