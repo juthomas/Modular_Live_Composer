@@ -71,8 +71,8 @@ void draw_sensors_infos(t_ncurses *nstruct, int index, float v_val, int val)
 rectangle(nstruct->top,(index * col_width) / (COLS) * col_height, (index * col_width) % COLS,
 (index * col_width) / (COLS) * col_height + col_height, (index * col_width) % COLS + col_width);
 
-// wmove(nstruct->top,(index * col_width) / (COLS) * col_height, (index * col_width) % COLS);
-// waddstr(nstruct->top, "Bonjour");
+wmove(nstruct->top,(index * col_width) / (COLS) * col_height, (index * col_width) % COLS);
+waddstr(nstruct->top, "Bonjour");
 
 
 
