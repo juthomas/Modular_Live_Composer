@@ -853,6 +853,8 @@ void get_sensors_data(t_sensors *sensors)
 	int *tmp = (int *)((uint32_t)sensors + offsetof(t_sensors, time));
 	*tmp = 42;
 	// printf("Time : %d ||", sensors->time);
+	
+	 wclear(nstruct->top);
 	for (uint16_t i = 0; i < sensor_number; i++)
 	{
 		switch (g_map_input[i].data_type)
