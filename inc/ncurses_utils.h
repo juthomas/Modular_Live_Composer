@@ -79,7 +79,9 @@ wmove(nstruct->top,(index * col_width) / (COLS) * col_height, (index * col_width
 
 
 char test[42];
-waddstr(nstruct->top, itoa(42, test, 10) );
+snprintf (test, sizeof(41), "%d",42);
+
+waddstr(nstruct->top, test );
 
 
 
