@@ -78,10 +78,10 @@ rectangle(nstruct->top,(index * col_width) / (COLS) * col_height, (index * col_w
 wmove(nstruct->top,(index * col_width) / (COLS) * col_height, (index * col_width) % COLS);
 
 
-char test[42];
-snprintf (test, sizeof(41), "%d",42);
+char c_val[16];
+snprintf (c_val, 15, "%d", val);
 
-waddstr(nstruct->top, test );
+waddstr(nstruct->top, c_val );
 
 
 
