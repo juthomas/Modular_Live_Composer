@@ -293,6 +293,7 @@ void print_euclidean_steps(t_euclidean *euclidean)
 {
 	for (uint8_t steps = 0; steps < euclidean->euclidean_steps_length; steps++)
 	{
+		
 		//printf("Step value : %d, octave : %d\n", euclidean->euclidean_steps[steps] & 0xFF,
 		//	   (euclidean->euclidean_steps[steps] & 0xFF00) >> 8);
 	}
@@ -365,6 +366,12 @@ void midi_delay_divs(t_music_data *music_data, uint16_t divs)
 {
 	usleep(music_data->current_quarter_value / (music_data->quarter_value / divs) * 100);
 	//printf("-----SLEEP MS : %u :----\n", music_data->current_quarter_value / (music_data->quarter_value / divs) * 100);
+
+			char printf_hack[64];
+			snprintf(printf_hack, 64,"-----SLEEP MS : %u :----\n", music_data->current_quarter_value / (music_data->quarter_value / divs) * 100);
+			write_value(&curses_env, printf_hack);
+
+
 }
 
 void print_sensors_data(t_sensors *sensors)
@@ -724,6 +731,9 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 		measure_count_1 = 0;
 		//printf("\n\n\n\n\n! RESETING 0 !\n\n\n\n\n\n");
 
+			write_value(&curses_env, "\n\n\n\n\n! RESETING 0!\n\n\n\n\n\n");
+
+
 	}
 
 	if (measure_count_2 > 55)
@@ -731,6 +741,8 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 		get_new_euclidean_chords(&euclidean_datas[1]);
 		measure_count_2 = 0;
 		//printf("\n\n\n\n\n! RESETING 1 !\n\n\n\n\n\n");
+			write_value(&curses_env, "\n\n\n\n\n! RESETING 1 !\n\n\n\n\n\n");
+
 
 	}
 
@@ -739,6 +751,8 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 		get_new_euclidean_chords(&euclidean_datas[2]);
 		measure_count_3 = 0;
 		//printf("\n\n\n\n\n! RESETING 2 !\n\n\n\n\n\n");
+
+			write_value(&curses_env, "\n\n\n\n\n! RESETING 2 !\n\n\n\n\n\n");
 
 	}
 
@@ -752,6 +766,8 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 			get_new_euclidean_chords(&euclidean_datas[current_euclidean_data]);
 		}
 		//printf("\n\n\n\n\n! RESETING !\n\n\n\n\n\n");
+
+			write_value(&curses_env, "\n\n\n\n\n! RESETING !\n\n\n\n\n\n");
 
 		reset_needed = 0;
 	}
