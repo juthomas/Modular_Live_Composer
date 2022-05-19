@@ -54,19 +54,18 @@ void exit_curses2(t_ncurses *nstruct)
 
 void write_value(t_ncurses *nstruct, int index, char text)
 {
-	int col_width = COLS / 12;
-	int col_height = 1;
-
-	// mvaddstr((index * 8) / (COLS), (index * 8) % COLS, "Bonjour");
-	// box(bas, ACS_VLINE, ACS_HLINE);
-	int largeur_max = COLS / col_width * col_width;
-	int case_y = (index * col_width) / (largeur_max)*col_height;
-	int case_x = (index * col_width) % largeur_max;
+	// int col_width = COLS / 12;
+	// int col_height = 1;
 
 
-	mvhline(case_y, case_x, ' ', col_width);
-	wmove(nstruct->top, case_y, case_x);
-	waddstr(nstruct->top, text);
+	// int largeur_max = COLS / col_width * col_width;
+	// int case_y = (index * col_width) / (largeur_max)*col_height;
+	// int case_x = (index * col_width) % largeur_max;
+
+
+	// mvhline(case_y, case_x, ' ', col_width);
+	wmove(nstruct->bottom, 1, 1);
+	waddstr(nstruct->bottom, text);
 }
 
 void rectangle(WINDOW *win, int y1, int x1, int y2, int x2)
