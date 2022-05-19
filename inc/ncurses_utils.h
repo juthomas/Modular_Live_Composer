@@ -9,7 +9,6 @@
 #define MAP_COLOR(x) ((x)*1000 / 255)
 #define CUSTOM_INIT_COLOR(index, color) init_color(index, MAP_COLOR((color & 0xFF0000) >> 16), MAP_COLOR((color & 0x00FF00) >> 8), MAP_COLOR(color & 0x0000FF))
 
-	
 typedef struct s_ncurses
 {
 	WINDOW *bottom;
@@ -53,16 +52,33 @@ void exit_curses2(t_ncurses *nstruct)
 	free(nstruct->top);
 }
 
+void write_value(t_ncurses *nstruct, int index, char text)
+{
+	int col_width = COLS / 12;
+	int col_height = 1;
+
+	// mvaddstr((index * 8) / (COLS), (index * 8) % COLS, "Bonjour");
+	// box(bas, ACS_VLINE, ACS_HLINE);
+	int largeur_max = COLS / col_width * col_width;
+	int case_y = (index * col_width) / (largeur_max)*col_height;
+	int case_x = (index * col_width) % largeur_max;
+
+
+	mvhline(case_y, case_x, ' ', col_width);
+	wmove(nstruct->top, case_y, case_x);
+	waddstr(nstruct->top, text);
+}
+
 void rectangle(WINDOW *win, int y1, int x1, int y2, int x2)
 {
-    mvwhline(win,y1, x1, 0, x2-x1);
-    mvwhline(win, y2, x1, 0, x2-x1);
-    mvwvline(win, y1, x1, 0, y2-y1);
-    mvwvline(win, y1, x2, 0, y2-y1);
-    mvwaddch(win,y1, x1, ACS_ULCORNER);
-    mvwaddch(win,y2, x1, ACS_LLCORNER);
-    mvwaddch(win,y1, x2, ACS_URCORNER);
-    mvwaddch(win,y2, x2, ACS_LRCORNER);
+	mvwhline(win, y1, x1, 0, x2 - x1);
+	mvwhline(win, y2, x1, 0, x2 - x1);
+	mvwvline(win, y1, x1, 0, y2 - y1);
+	mvwvline(win, y1, x2, 0, y2 - y1);
+	mvwaddch(win, y1, x1, ACS_ULCORNER);
+	mvwaddch(win, y2, x1, ACS_LLCORNER);
+	mvwaddch(win, y1, x2, ACS_URCORNER);
+	mvwaddch(win, y2, x2, ACS_LRCORNER);
 }
 
 void draw_sensors_infos(t_ncurses *nstruct, int index, float v_val, int val, char *name, int max_val)
@@ -71,59 +87,52 @@ void draw_sensors_infos(t_ncurses *nstruct, int index, float v_val, int val, cha
 	int col_height = 8;
 
 	// mvaddstr((index * 8) / (COLS), (index * 8) % COLS, "Bonjour");
-// box(bas, ACS_VLINE, ACS_HLINE);
-int largeur_max = COLS / col_width * col_width;
-int case_y = (index * col_width) / (largeur_max) * col_height;
-int case_x =  (index * col_width) % largeur_max;
+	// box(bas, ACS_VLINE, ACS_HLINE);
+	int largeur_max = COLS / col_width * col_width;
+	int case_y = (index * col_width) / (largeur_max)*col_height;
+	int case_x = (index * col_width) % largeur_max;
 
+	// attron(COLOR_PAIR(CUSTOM_PAIR_1));
+	for (int i = 1; i < 7; i++)
+	{
+		mvhline(i + case_y, 1 + case_x, ' ', col_width);
+	}
+	// attroff(COLOR_PAIR(CUSTOM_PAIR_1));
 
+	rectangle(nstruct->top, case_y, case_x,
+			  case_y + col_height, case_x + col_width);
 
-    // attron(COLOR_PAIR(CUSTOM_PAIR_1));
-    for (int i = 1; i < 7; i++) {
-        mvhline(i + case_y, 1 + case_x, ' ', col_width);
-    }
-    // attroff(COLOR_PAIR(CUSTOM_PAIR_1));
+	wmove(nstruct->top, case_y + 1, case_x + 1);
+	waddstr(nstruct->top, name);
+	wmove(nstruct->top, case_y + 2, case_x + 1);
+	char c_val[32];
+	snprintf(c_val, 32, "%d", val);
 
+	strcat(c_val, " / ");
+	char c_val2[8];
+	snprintf(c_val2, 7, "%d", max_val);
+	strcat(c_val, c_val2);
 
-rectangle(nstruct->top,case_y, case_x,
-case_y+ col_height, case_x + col_width);
+	waddstr(nstruct->top, c_val);
+	wmove(nstruct->top, case_y + 3, case_x + 1);
+	snprintf(c_val, 7, "%.2f", v_val);
+	strcat(c_val, "v");
+	waddstr(nstruct->top, c_val);
 
+	int fill_char = (float)val / (float)max_val * (col_width - 2);
 
-
-wmove(nstruct->top,case_y + 1, case_x + 1);
-waddstr(nstruct->top, name);
-wmove(nstruct->top,case_y + 2, case_x + 1);
-char c_val[32];
-snprintf (c_val, 32, "%d", val);
-
-strcat(c_val, " / ");
-char c_val2[8];
-snprintf (c_val2, 7, "%d", max_val);
-strcat(c_val, c_val2);
-
-waddstr(nstruct->top, c_val );
-wmove(nstruct->top,case_y + 3, case_x + 1);
-snprintf (c_val, 7, "%.2f", v_val);
-strcat(c_val, "v");
-waddstr(nstruct->top, c_val );
-
-
-int fill_char = (float)val / (float)max_val * (col_width - 2);
-
-		wmove(nstruct->top,case_y + 5, case_x + 1);
-		waddstr(nstruct->top, "[");
-		wmove(nstruct->top,case_y + 5, case_x + col_width - 1);
-		waddstr(nstruct->top, "]");
+	wmove(nstruct->top, case_y + 5, case_x + 1);
+	waddstr(nstruct->top, "[");
+	wmove(nstruct->top, case_y + 5, case_x + col_width - 1);
+	waddstr(nstruct->top, "]");
 
 	for (int i = 0; i < fill_char; i++)
 	{
-		wmove(nstruct->top,case_y + 5, case_x + 2 +i);
+		wmove(nstruct->top, case_y + 5, case_x + 2 + i);
 		waddstr(nstruct->top, "#");
 	}
 
-
 	wrefresh(nstruct->top);
-
 }
 
 #endif
