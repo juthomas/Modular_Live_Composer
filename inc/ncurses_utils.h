@@ -101,9 +101,11 @@ char c_val2[8];
 snprintf (c_val2, 7, "%d", max_val);
 strcat(c_val, c_val2);
 
-
 waddstr(nstruct->top, c_val );
-
+wmove(nstruct->top,case_y + 3, case_x + 1);
+snprintf (c_val, 7, "%.2f", v_val);
+strcat(c_val, "v");
+waddstr(nstruct->top, c_val );
 
 
 	wrefresh(nstruct->top);
