@@ -41,7 +41,7 @@ void init_curses(t_ncurses *nstruct)
 	wrefresh(nstruct->bottom);
 }
 
-void exit_curses(t_ncurses *nstruct)
+void exit_curses2(t_ncurses *nstruct)
 {
 	endwin();
 
