@@ -79,8 +79,8 @@ int case_y =  (index * col_width) % largeur_max;
 
 
     attron(COLOR_PAIR(CUSTOM_PAIR_1));
-    for (int i = 1; i < col_width; y++) {
-        mvhline(y, 1, ' ', col_width);
+    for (int i = 1; i < 8; i++) {
+        mvhline(i, 1, ' ', col_width);
     }
     attroff(COLOR_PAIR(CUSTOM_PAIR_1));
 
