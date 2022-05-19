@@ -854,7 +854,7 @@ void get_sensors_data(t_sensors *sensors)
 	*tmp = 42;
 	// printf("Time : %d ||", sensors->time);
 	
-	 wclear(nstruct->top);
+	 wclear(curses_env.top);
 	for (uint16_t i = 0; i < sensor_number; i++)
 	{
 		switch (g_map_input[i].data_type)
