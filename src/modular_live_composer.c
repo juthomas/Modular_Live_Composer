@@ -887,6 +887,7 @@ void get_sensors_data(t_sensors *sensors)
 			break;
 		}
 	}
+	wrefresh(curses_env.top);
 	if (LOG_ALL)
 	{
 		print_sensors_data(sensors);

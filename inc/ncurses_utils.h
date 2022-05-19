@@ -91,7 +91,7 @@ waddstr(nstruct->top, c_val );
 
 
 
-	wrefresh(nstruct->top);
+	// wrefresh(nstruct->top);
 
 }
 
