@@ -868,13 +868,17 @@ void get_sensors_data(t_sensors *sensors)
 		case CHAR:
 		{
 			int8_t *tmp = (int8_t *)((uint32_t)sensors + g_map_input[i].offset);
-			*tmp = map_number(((uint32_t)(float)get_voltage_value(g_map_input[i].input_nu) * 100), 0, 1000, 0, g_map_input[i].char_max);
+			float voltage_value = get_voltage_value(g_map_input[i].input_nu);
+			*tmp = map_number(((uint32_t)(float)voltage_value * 100), 0, 1000, 0, g_map_input[i].char_max);
+			draw_sensors_infos(&curses_env, i, voltage_value, *tmp);
 		}
 		break;
 		case BINARY:
 		{
 			int8_t *tmp = (int8_t *)((uint32_t)sensors + g_map_input[i].offset);
-			*tmp = get_voltage_value(g_map_input[i].input_nu) < 5 ? 0 : 1;
+			float voltage_value = get_voltage_value(g_map_input[i].input_nu);
+			*tmp = voltage_value < 5 ? 0 : 1;
+			draw_sensors_infos(&curses_env, i, voltage_value, *tmp);
 		}
 		break;
 		default:

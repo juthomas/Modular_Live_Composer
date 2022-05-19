@@ -81,7 +81,7 @@ int case_y =  (index * col_width) % largeur_max;
 rectangle(nstruct->top,case_x, case_y,
 case_x+ col_height, case_y + col_width);
 
-wmove(nstruct->top,case_x, case_y);
+wmove(nstruct->top,case_x + 1, case_y + 1);
 
 
 char c_val[16];
