@@ -70,7 +70,7 @@ void midi_write_measure_note(t_music_data *music_data, unsigned char state,
 
 			char printf_hack[64];
 			snprintf(printf_hack, 64, "\033[1;35mwrite measure note : state=%s channel=%d note=%d velocity=%d\033[1;37m\n\n",
-		   (state == ON ? "ON" : "OFF"), channel, note, velocity)
+		   (state == ON ? "ON" : "OFF"), channel, note, velocity);
 			write_value(&curses_env, printf_hack);
 
 
