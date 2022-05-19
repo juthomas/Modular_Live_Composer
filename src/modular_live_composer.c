@@ -860,7 +860,9 @@ void get_sensors_data(t_sensors *sensors)
 		case INTEGER:
 		{
 			int16_t *tmp = (int16_t *)((uint32_t)sensors + g_map_input[i].offset);
-			*tmp = map_number(((uint32_t)(float)get_voltage_value(g_map_input[i].input_nu) * 100), 0, 1000, 0, g_map_input[i].int_max);
+			float voltage_value = get_voltage_value(g_map_input[i].input_nu);
+			*tmp = map_number(((uint32_t)(float)voltage_value * 100), 0, 1000, 0, g_map_input[i].int_max);
+			draw_sensors_infos(&curses_env, i, voltage_value, *tmp);
 		}
 		break;
 		case CHAR:
@@ -916,6 +918,7 @@ void test_all_notes(PortMidiStream *stream)
 
 int main(void)
 {
+	init_curses(&curses_env);
 	PmTimestamp last_time = 0;
 	// PortMidiStream *stream;
 	Pt_Start(1, &process_midi, 0);
