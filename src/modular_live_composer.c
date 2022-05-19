@@ -294,7 +294,7 @@ void print_euclidean_steps(t_euclidean *euclidean)
 	for (uint8_t steps = 0; steps < euclidean->euclidean_steps_length; steps++)
 	{
 		//printf("Step value : %d, octave : %d\n", euclidean->euclidean_steps[steps] & 0xFF,
-			   (euclidean->euclidean_steps[steps] & 0xFF00) >> 8);
+		//	   (euclidean->euclidean_steps[steps] & 0xFF00) >> 8);
 	}
 	//printf("Chord list : ");
 	for (uint8_t chord_list_i = 0; chord_list_i < euclidean->chords_list_length; chord_list_i++)
@@ -933,7 +933,9 @@ int main(void)
 	{
 		PmDeviceInfo const *device_info = Pm_GetDeviceInfo(i);
 		if (device_info && device_info->output)
+		{
 			//printf("id = %d, name : %s\n", i, device_info->name);
+		}
 	}
 
 	Pm_OpenOutput(&stream, 2, NULL, 128, portmidi_timeproc, NULL, 0);
