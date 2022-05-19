@@ -65,6 +65,7 @@ void write_value(t_ncurses *nstruct, int index, char text)
 
 	// mvhline(case_y, case_x, ' ', col_width);
 	wmove(nstruct->bottom, 1, 1);
+	waddstr(nstruct->bottom, "cc");
 	// waddstr(nstruct->bottom, text);
 }
 
