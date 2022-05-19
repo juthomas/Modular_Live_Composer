@@ -64,8 +64,8 @@ void write_value(t_ncurses *nstruct, int index, char text)
 
 
 	// mvhline(case_y, case_x, ' ', col_width);
-	wmove(nstruct->bottom, 1, 1);
-	waddstr(nstruct->bottom, text);
+	// wmove(nstruct->bottom, 1, 1);
+	// waddstr(nstruct->bottom, text);
 }
 
 void rectangle(WINDOW *win, int y1, int x1, int y2, int x2)
