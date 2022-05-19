@@ -52,7 +52,7 @@ void exit_curses2(t_ncurses *nstruct)
 	free(nstruct->top);
 }
 
-void write_value(t_ncurses *nstruct, int index, char text)
+void write_value(t_ncurses *nstruct, int index, char *text)
 {
 	// int col_width = COLS / 12;
 	// int col_height = 1;
@@ -65,7 +65,7 @@ void write_value(t_ncurses *nstruct, int index, char text)
 
 	// mvhline(case_y, case_x, ' ', col_width);
 	wmove(nstruct->bottom, 1, 1);
-	waddstr(nstruct->bottom, "ccrgewgqgqgqrgeqrgr");
+	waddstr(nstruct->bottom, text);
 	wrefresh(nstruct->bottom);
 
 	// waddstr(nstruct->bottom, text);
