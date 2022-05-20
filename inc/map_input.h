@@ -79,7 +79,7 @@ static const t_map_input g_map_input[] = {
 	(t_map_input){.active = 1, .input_nu = 1, .offset = offsetof(t_sensors, photodiode_6), .name = "photodiode_6", .data_type = INTEGER, .int_max = 4095},
 	(t_map_input){.active = 1, .input_nu = 2, .offset = offsetof(t_sensors, temperature_1), .name = "temperature_1", .data_type = INTEGER, .int_max = 4095}, // x2
 	(t_map_input){.active = 1, .input_nu = 3, .offset = offsetof(t_sensors, temperature_2), .name = "temperature_2", .data_type = INTEGER, .int_max = 4096}, // x2
-	(t_map_input){.active = 1, .input_nu = 7, .offset = offsetof(t_sensors, temperature_3), .name = "temperature_3", .data_type = INTEGER, .int_max = 4095},
+	(t_map_input){.active = 1, .input_nu = 6, .offset = offsetof(t_sensors, temperature_3), .name = "temperature_3", .data_type = INTEGER, .int_max = 4095},
 	(t_map_input){.active = 1, .input_nu = 7, .offset = offsetof(t_sensors, temperature_4), .name = "temperature_4", .data_type = INTEGER, .int_max = 4095},
 	(t_map_input){.active = 1, .input_nu = 7, .offset = offsetof(t_sensors, temperature_5), .name = "temperature_5", .data_type = INTEGER, .int_max = 4095},
 	(t_map_input){.active = 1, .input_nu = 7, .offset = offsetof(t_sensors, temperature_6), .name = "temperature_6", .data_type = INTEGER, .int_max = 4095},
