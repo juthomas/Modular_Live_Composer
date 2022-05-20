@@ -114,7 +114,7 @@ void draw_sensors_infos(t_ncurses *nstruct, int index, float v_val, int val, cha
 	waddstr(nstruct->top, name);
 	wmove(nstruct->top, case_y + 2, case_x + 1);
 	char c_val[32];
-	snprintf(c_val, 32, "%d", val);
+	snprintf(c_val, 32, "input : %d", input_nu);
 	waddstr(nstruct->top, c_val);
 	wmove(nstruct->top, case_y + 3, case_x + 1);
 	// char c_val[32];
