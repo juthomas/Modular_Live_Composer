@@ -554,6 +554,8 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 			);
 			if (current_euclidean_data == 0)
 			{
+				euclidean_datas[current_euclidean_data].min_chord_size = (uint8_t)map_number((uint32_t)sensors_data->temperature_3, 0, FIX_4096 - 400, 1, 3);	//temperature_3
+				euclidean_datas[current_euclidean_data].max_chord_size = (uint8_t)map_number((uint32_t)sensors_data->temperature_3, 0, FIX_4096 - 400, 1, 3);	//temperature_3
 				euclidean_datas[current_euclidean_data].octaves_size = 3;
 				euclidean_datas[current_euclidean_data].euclidean_steps_length = 24;
 				euclidean_datas[current_euclidean_data].notes_per_cycle = 4;
