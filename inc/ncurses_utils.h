@@ -38,7 +38,7 @@ void init_curses(t_ncurses *nstruct)
 	CUSTOM_INIT_COLOR(CUSTOM_COLOR_2, 0x0000FF);
 	init_pair(CUSTOM_PAIR_1, CUSTOM_COLOR_1, CUSTOM_COLOR_2);
 	nstruct->top = subwin(stdscr, LINES / 2, COLS, 0, 0);			 // Créé une fenêtre de 'LINES / 2' lignes et de COLS colonnes en 0, 0
-	nstruct->bottom = subwin(stdscr, LINES / 2, COLS, LINES / 2, COLS / 2); // Créé la même fenêtre que ci-dessus sauf que les coordonnées changent
+	nstruct->bottom = subwin(stdscr, LINES / 2, COLS / 2, LINES / 2, COLS / 2); // Créé la même fenêtre que ci-dessus sauf que les coordonnées changent
 	// nstruct->bottom_right = subwin(stdscr, LINES / 2, COLS / 2, LINES / 2, 0); // Créé la même fenêtre que ci-dessus sauf que les coordonnées changent
 	wbkgd(nstruct->bottom, COLOR_PAIR(CUSTOM_PAIR_1));
 	wrefresh(nstruct->top);
