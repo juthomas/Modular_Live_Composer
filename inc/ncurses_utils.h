@@ -89,7 +89,7 @@ void write_mode(t_ncurses *nstruct, int mode, int beg_note)
 	wmove(nstruct->bottom_right, 1, 1);
 	char c_val[32];
 	snprintf(c_val, 32, "mode : %d, beg_node : %d", mode, beg_note);
-	waddstr(nstruct->top, c_val);
+	waddstr(nstruct->bottom_right, c_val);
 	wrefresh(nstruct->bottom_right);
 }
 
