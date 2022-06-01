@@ -13,6 +13,7 @@ typedef struct s_ncurses
 {
 	WINDOW *bottom;
 	WINDOW *top;
+	WINDOW *bottom_right;
 } t_ncurses;
 
 enum E_CUSTOM_COLORS
@@ -24,7 +25,8 @@ enum E_CUSTOM_COLORS
 
 enum E_CUSTOM_PAIRS
 {
-	CUSTOM_PAIR_1 = 1
+	CUSTOM_PAIR_1 = 1,
+	CUSTOM_PAIR_2
 };
 
 t_ncurses curses_env;
@@ -37,12 +39,15 @@ void init_curses(t_ncurses *nstruct)
 	CUSTOM_INIT_COLOR(CUSTOM_COLOR_1, 0x00FF00);
 	CUSTOM_INIT_COLOR(CUSTOM_COLOR_2, 0x0000FF);
 	init_pair(CUSTOM_PAIR_1, CUSTOM_COLOR_1, CUSTOM_COLOR_2);
+	init_pair(CUSTOM_PAIR_2, CUSTOM_COLOR_2, CUSTOM_COLOR_1);
 	nstruct->top = subwin(stdscr, LINES / 2, COLS, 0, 0);			 // Créé une fenêtre de 'LINES / 2' lignes et de COLS colonnes en 0, 0
 	nstruct->bottom = subwin(stdscr, LINES / 2, COLS / 2, LINES / 2, 0); // Créé la même fenêtre que ci-dessus sauf que les coordonnées changent
-	// nstruct->bottom_right = subwin(stdscr, LINES / 2, COLS / 2, LINES / 2, 0); // Créé la même fenêtre que ci-dessus sauf que les coordonnées changent
+	nstruct->bottom_right = subwin(stdscr, LINES / 2, COLS / 2, LINES / 2, COLS / 2); // Créé la même fenêtre que ci-dessus sauf que les coordonnées changent
 	wbkgd(nstruct->bottom, COLOR_PAIR(CUSTOM_PAIR_1));
+	wbkgd(nstruct->bottom_right, COLOR_PAIR(CUSTOM_PAIR_1));
 	wrefresh(nstruct->top);
 	wrefresh(nstruct->bottom);
+	wrefresh(nstruct->bottom_right);
 }
 
 void exit_curses2(t_ncurses *nstruct)
