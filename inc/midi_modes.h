@@ -59,46 +59,46 @@ typedef struct s_midi_modes
 
 static const t_midi_modes g_midi_mode[] = {
 	// 7 note scales
-	(t_midi_modes){.mode_name = M_MODE_MAJOR, .starting_note = C4, .mode_sequence = {0, 2, 4, 5, 7, 9, 11}},
-	(t_midi_modes){.mode_name = M_MODE_IONIAN, .starting_note = C4, .mode_sequence = {0, 2, 4, 5, 7, 9, 11}},
-	(t_midi_modes){.mode_name = M_MODE_DORIAN, .starting_note = C4, .mode_sequence = {0, 2, 4, 5, 7, 9, 10}},
-	(t_midi_modes){.mode_name = M_MODE_PHRYGIAN, .starting_note = C4, .mode_sequence = {0, 1, 3, 5, 7, 8, 10}},
-	(t_midi_modes){.mode_name = M_MODE_LYDIAN, .starting_note = C4, .mode_sequence = {0, 2, 4, 6, 7, 9, 11}},
-	(t_midi_modes){.mode_name = M_MODE_MIXOLYDIAN, .starting_note = C4, .mode_sequence = {0, 2, 4, 5, 7, 9, 10}},
-	(t_midi_modes){.mode_name = M_MODE_AEOLIAN, .starting_note = C4, .mode_sequence = {0, 2, 3, 5, 7, 8, 10}},
-	(t_midi_modes){.mode_name = M_MODE_MINOR, .starting_note = C4, .mode_sequence = {0, 2, 3, 5, 7, 8, 10}},
-	(t_midi_modes){.mode_name = M_MODE_LOCRIAN, .starting_note = C4, .mode_sequence = {0, 1, 3, 5, 6, 8, 10}},
+	(t_midi_modes){.mode_name = M_MODE_MAJOR, name = "M_MODE_MAJOR", .starting_note = C4, .mode_sequence = {0, 2, 4, 5, 7, 9, 11}},
+	(t_midi_modes){.mode_name = M_MODE_IONIAN, name = "M_MODE_IONIAN", .starting_note = C4, .mode_sequence = {0, 2, 4, 5, 7, 9, 11}},
+	(t_midi_modes){.mode_name = M_MODE_DORIAN, name = "M_MODE_DORIAN", .starting_note = C4, .mode_sequence = {0, 2, 4, 5, 7, 9, 10}},
+	(t_midi_modes){.mode_name = M_MODE_PHRYGIAN, name = "M_MODE_PHRYGIAN", .starting_note = C4, .mode_sequence = {0, 1, 3, 5, 7, 8, 10}},
+	(t_midi_modes){.mode_name = M_MODE_LYDIAN, name = "M_MODE_LYDIAN", .starting_note = C4, .mode_sequence = {0, 2, 4, 6, 7, 9, 11}},
+	(t_midi_modes){.mode_name = M_MODE_MIXOLYDIAN, name = "M_MODE_MIXOLYDIAN", .starting_note = C4, .mode_sequence = {0, 2, 4, 5, 7, 9, 10}},
+	(t_midi_modes){.mode_name = M_MODE_AEOLIAN, name = "M_MODE_AEOLIAN", .starting_note = C4, .mode_sequence = {0, 2, 3, 5, 7, 8, 10}},
+	(t_midi_modes){.mode_name = M_MODE_MINOR, name = "M_MODE_MINOR", .starting_note = C4, .mode_sequence = {0, 2, 3, 5, 7, 8, 10}},
+	(t_midi_modes){.mode_name = M_MODE_LOCRIAN, name = "M_MODE_LOCRIAN", .starting_note = C4, .mode_sequence = {0, 1, 3, 5, 6, 8, 10}},
 
-	(t_midi_modes){.mode_name = M_MODE_HARMONIC_MINOR, .starting_note = C4, .mode_sequence = {0, 2, 3, 5, 7, 8, 11}},
-	(t_midi_modes){.mode_name = M_MODE_HARMONIC_MAJOR, .starting_note = C4, .mode_sequence = {0, 2, 4, 5, 7, 8, 11}},
+	(t_midi_modes){.mode_name = M_MODE_HARMONIC_MINOR, name = "M_MODE_HARMONIC_MINOR", .starting_note = C4, .mode_sequence = {0, 2, 3, 5, 7, 8, 11}},
+	(t_midi_modes){.mode_name = M_MODE_HARMONIC_MAJOR, name = "M_MODE_HARMONIC_MAJOR", .starting_note = C4, .mode_sequence = {0, 2, 4, 5, 7, 8, 11}},
 
-	(t_midi_modes){.mode_name = M_MODE_MELODIC_MINOR, .starting_note = C4, .mode_sequence = {0, 2, 3, 5, 7, 9, 11}},
-	(t_midi_modes){.mode_name = M_MODE_MELODIC_MINOR_DESC, .starting_note = C4, .mode_sequence = {0, 2, 3, 5, 7, 8, 10}},
-	(t_midi_modes){.mode_name = M_MODE_MELODIC_MAJOR, .starting_note = C4, .mode_sequence = {0, 2, 4, 5, 7, 8, 10}},
+	(t_midi_modes){.mode_name = M_MODE_MELODIC_MINOR, name = "M_MODE_MELODIC_MINOR", .starting_note = C4, .mode_sequence = {0, 2, 3, 5, 7, 9, 11}},
+	(t_midi_modes){.mode_name = M_MODE_MELODIC_MINOR_DESC, name = "M_MODE_MELODIC_MINOR_DESC", .starting_note = C4, .mode_sequence = {0, 2, 3, 5, 7, 8, 10}},
+	(t_midi_modes){.mode_name = M_MODE_MELODIC_MAJOR, name = "M_MODE_MELODIC_MAJOR", .starting_note = C4, .mode_sequence = {0, 2, 4, 5, 7, 8, 10}},
 
-	(t_midi_modes){.mode_name = M_MODE_BARTOK, .starting_note = C4, .mode_sequence = {0, 2, 4, 5, 7, 8, 10}},
-	(t_midi_modes){.mode_name = M_MODE_HINDU, .starting_note = C4, .mode_sequence = {0, 2, 4, 5, 7, 8, 10}},
+	(t_midi_modes){.mode_name = M_MODE_BARTOK, name = "M_MODE_BARTOK", .starting_note = C4, .mode_sequence = {0, 2, 4, 5, 7, 8, 10}},
+	(t_midi_modes){.mode_name = M_MODE_HINDU, name = "M_MODE_HINDU", .starting_note = C4, .mode_sequence = {0, 2, 4, 5, 7, 8, 10}},
 
 	// raga modes
-	(t_midi_modes){.mode_name = M_MODE_TODI, .starting_note = C4, .mode_sequence = {0, 1, 3, 6, 7, 8, 11}},
-	(t_midi_modes){.mode_name = M_MODE_PURVI, .starting_note = C4, .mode_sequence = {0, 1, 4, 6, 7, 8, 11}},
-	(t_midi_modes){.mode_name = M_MODE_MARVA, .starting_note = C4, .mode_sequence = {0, 1, 4, 6, 7, 9, 11}},
-	(t_midi_modes){.mode_name = M_MODE_BHAIRAVI, .starting_note = C4, .mode_sequence = {0, 1, 4, 5, 7, 8, 11}},
-	(t_midi_modes){.mode_name = M_MODE_AHIRBHAIRAV, .starting_note = C4, .mode_sequence = {0, 1, 4, 5, 7, 9, 10}},
+	(t_midi_modes){.mode_name = M_MODE_TODI, name = "M_MODE_TODI", .starting_note = C4, .mode_sequence = {0, 1, 3, 6, 7, 8, 11}},
+	(t_midi_modes){.mode_name = M_MODE_PURVI, name = "M_MODE_PURVI", .starting_note = C4, .mode_sequence = {0, 1, 4, 6, 7, 8, 11}},
+	(t_midi_modes){.mode_name = M_MODE_MARVA, name = "M_MODE_MARVA", .starting_note = C4, .mode_sequence = {0, 1, 4, 6, 7, 9, 11}},
+	(t_midi_modes){.mode_name = M_MODE_BHAIRAVI, name = "M_MODE_BHAIRAVI", .starting_note = C4, .mode_sequence = {0, 1, 4, 5, 7, 8, 11}},
+	(t_midi_modes){.mode_name = M_MODE_AHIRBHAIRAV, name = "M_MODE_AHIRBHAIRAV", .starting_note = C4, .mode_sequence = {0, 1, 4, 5, 7, 9, 10}},
 
-	(t_midi_modes){.mode_name = M_MODE_SUPER_LOCRIAN, .starting_note = C4, .mode_sequence = {0, 1, 3, 4, 6, 8, 10}},
-	(t_midi_modes){.mode_name = M_MODE_ROMANIAN_MINOR, .starting_note = C4, .mode_sequence = {0, 2, 3, 6, 7, 9, 10}},
-	(t_midi_modes){.mode_name = M_MODE_HUNGARIAN_MINOR, .starting_note = C4, .mode_sequence = {0, 2, 3, 6, 7, 8, 11}},
-	(t_midi_modes){.mode_name = M_MODE_NEAPOLITAN_MINOR, .starting_note = C4, .mode_sequence = {0, 1, 3, 5, 7, 8, 11}},
-	(t_midi_modes){.mode_name = M_MODE_ENIGMATIC, .starting_note = C4, .mode_sequence = {0, 1, 4, 6, 8, 10, 11}},
-	(t_midi_modes){.mode_name = M_MODE_SPANISH, .starting_note = C4, .mode_sequence = {0, 1, 4, 5, 7, 8, 10}},
-	(t_midi_modes){.mode_name = M_MODE_GYPSY, .starting_note = C4, .mode_sequence = {0, 2, 3, 6, 7, 8, 10}},
+	(t_midi_modes){.mode_name = M_MODE_SUPER_LOCRIAN, name = "M_MODE_SUPER_LOCRIAN", .starting_note = C4, .mode_sequence = {0, 1, 3, 4, 6, 8, 10}},
+	(t_midi_modes){.mode_name = M_MODE_ROMANIAN_MINOR, name = "M_MODE_ROMANIAN_MINOR", .starting_note = C4, .mode_sequence = {0, 2, 3, 6, 7, 9, 10}},
+	(t_midi_modes){.mode_name = M_MODE_HUNGARIAN_MINOR, name = "M_MODE_HUNGARIAN_MINOR", .starting_note = C4, .mode_sequence = {0, 2, 3, 6, 7, 8, 11}},
+	(t_midi_modes){.mode_name = M_MODE_NEAPOLITAN_MINOR, name = "M_MODE_NEAPOLITAN_MINOR", .starting_note = C4, .mode_sequence = {0, 1, 3, 5, 7, 8, 11}},
+	(t_midi_modes){.mode_name = M_MODE_ENIGMATIC, name = "M_MODE_ENIGMATIC", .starting_note = C4, .mode_sequence = {0, 1, 4, 6, 8, 10, 11}},
+	(t_midi_modes){.mode_name = M_MODE_SPANISH, name = "M_MODE_SPANISH", .starting_note = C4, .mode_sequence = {0, 1, 4, 5, 7, 8, 10}},
+	(t_midi_modes){.mode_name = M_MODE_GYPSY, name = "M_MODE_GYPSY", .starting_note = C4, .mode_sequence = {0, 2, 3, 6, 7, 8, 10}},
 
 	// modes of whole tones with added note
-	(t_midi_modes){.mode_name = M_MODE_LEADING_WHOLE_TONE, .starting_note = C4, .mode_sequence = {0, 2, 4, 6, 8, 10, 11}},
-	(t_midi_modes){.mode_name = M_MODE_LYDIAN_MINOR, .starting_note = C4, .mode_sequence = {0, 2, 4, 6, 7, 8, 10}},
-	(t_midi_modes){.mode_name = M_MODE_NEAPOLITAN_MAJOR, .starting_note = C4, .mode_sequence = {0, 1, 3, 5, 7, 9, 11}},
-	(t_midi_modes){.mode_name = M_MODE_LOCRIAN_MAJOR, .starting_note = C4, .mode_sequence = {0, 2, 4, 5, 6, 8, 10}},
+	(t_midi_modes){.mode_name = M_MODE_LEADING_WHOLE_TONE, name = "M_MODE_LEADING_WHOLE_TONE", .starting_note = C4, .mode_sequence = {0, 2, 4, 6, 8, 10, 11}},
+	(t_midi_modes){.mode_name = M_MODE_LYDIAN_MINOR, name = "M_MODE_LYDIAN_MINOR", .starting_note = C4, .mode_sequence = {0, 2, 4, 6, 7, 8, 10}},
+	(t_midi_modes){.mode_name = M_MODE_NEAPOLITAN_MAJOR, name = "M_MODE_NEAPOLITAN_MAJOR", .starting_note = C4, .mode_sequence = {0, 1, 3, 5, 7, 9, 11}},
+	(t_midi_modes){.mode_name = M_MODE_LOCRIAN_MAJOR, name = "M_MODE_LOCRIAN_MAJOR", .starting_note = C4, .mode_sequence = {0, 2, 4, 5, 6, 8, 10}},
 };
 
 #endif
