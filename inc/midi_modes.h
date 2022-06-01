@@ -54,6 +54,7 @@ typedef struct s_midi_modes
 	uint8_t mode_name;
 	uint8_t starting_note;	  //Note de depart du mode
 	uint8_t mode_sequence[7]; //Interval en demi-tons// 12 au total
+	char *name;
 } t_midi_modes;
 
 static const t_midi_modes g_midi_mode[] = {
