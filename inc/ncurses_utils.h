@@ -74,13 +74,23 @@ void write_value(t_ncurses *nstruct, char *text)
 
 
 	// mvhline(case_y, case_x, ' ', col_width);
-	mvhline(current_line, 1, ' ', COLS);
+	mvhline(current_line, 1, ' ', COLS / 2);
 
 	wmove(nstruct->bottom, current_line, 1);
 	waddstr(nstruct->bottom, text);
 	wrefresh(nstruct->bottom);
 
 	// waddstr(nstruct->bottom, text);
+}
+
+
+void write_mode(t_ncurses *nstruct, int mode, int beg_note)
+{
+	wmove(nstruct->bottom_right, 1, 1);
+	char c_val[32];
+	snprintf(c_val, 32, "mode : %d, beg_node : %d", mode, beg_note);
+	waddstr(nstruct->top, c_val);
+	wrefresh(nstruct->bottom_right);
 }
 
 void rectangle(WINDOW *win, int y1, int x1, int y2, int x2)
