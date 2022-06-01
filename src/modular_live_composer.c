@@ -683,7 +683,8 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 
 	}
 
-	write_mode(&curses_env, g_midi_mode[euclidean_datas[0].mode].name , g_notes_definitions[euclidean_datas[0].mode_beg_note - A0].name);
+	// write_mode(&curses_env, g_midi_mode[euclidean_datas[0].mode].name , g_notes_definitions[euclidean_datas[0].mode_beg_note - A0].name);
+	write_mode(&curses_env, g_midi_mode[euclidean_datas[0].mode].name , g_notes_definitions[1].name);
 
 
 
