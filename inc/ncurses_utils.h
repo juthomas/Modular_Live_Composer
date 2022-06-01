@@ -44,7 +44,7 @@ void init_curses(t_ncurses *nstruct)
 	nstruct->bottom = subwin(stdscr, LINES / 2, COLS / 2, LINES / 2, 0); // Créé la même fenêtre que ci-dessus sauf que les coordonnées changent
 	nstruct->bottom_right = subwin(stdscr, LINES / 2, COLS / 2, LINES / 2, COLS / 2); // Créé la même fenêtre que ci-dessus sauf que les coordonnées changent
 	wbkgd(nstruct->bottom, COLOR_PAIR(CUSTOM_PAIR_1));
-	wbkgd(nstruct->bottom_right, COLOR_PAIR(CUSTOM_PAIR_1));
+	wbkgd(nstruct->bottom_right, COLOR_PAIR(CUSTOM_PAIR_2));
 	wrefresh(nstruct->top);
 	wrefresh(nstruct->bottom);
 	wrefresh(nstruct->bottom_right);
