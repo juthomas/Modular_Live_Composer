@@ -1002,8 +1002,8 @@ int main(void)
 			get_sensors_data(&sensorsData);
 		}
 		// //printf("\n");
-		midi_write_multiple_euclidean(&music_data, &sensorsData);
-		// sleep(1);
+		// midi_write_multiple_euclidean(&music_data, &sensorsData);
+		sleep(1);
 	}
 	Pm_Close(&stream);
 	Pm_Terminate();
