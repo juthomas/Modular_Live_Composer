@@ -87,8 +87,8 @@ void write_value(t_ncurses *nstruct, char *text)
 void write_mode(t_ncurses *nstruct, char *mode, char *beg_note)
 {
 	wmove(nstruct->bottom_right, 1, 1);
-	char c_val[42];
-	snprintf(c_val, 42, "mode : %s, beg_node : %s", mode, beg_note);
+	char c_val[64];
+	snprintf(c_val, 64, "mode : %s, beg_node : %s", mode, beg_note);
 	waddstr(nstruct->bottom_right, c_val);
 	wrefresh(nstruct->bottom_right);
 }
