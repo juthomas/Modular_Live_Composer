@@ -682,6 +682,8 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 		euclidean_datas[2].mode = type_mode_requested;
 
 	}
+euclidean_datas[0].mode = M_MODE_AEOLIAN;
+
 	write_mode(&curses_env, euclidean_datas[0].mode , euclidean_datas[0].mode_beg_note);
 
 
