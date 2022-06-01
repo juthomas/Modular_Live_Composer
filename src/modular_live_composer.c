@@ -498,7 +498,7 @@ void init_music_data(t_music_data *music_data, uint32_t partition_duration,
 
 #define EUCLIDEAN_DATAS_LENGTH 3
 
-#define FIX_4096 3686
+#define FIX_4096 4096//3686
 
 void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_data)
 {
@@ -1002,8 +1002,8 @@ int main(void)
 			get_sensors_data(&sensorsData);
 		}
 		// //printf("\n");
-		// midi_write_multiple_euclidean(&music_data, &sensorsData);
-		sleep(1);
+		midi_write_multiple_euclidean(&music_data, &sensorsData);
+		// sleep(1);
 	}
 	Pm_Close(&stream);
 	Pm_Terminate();
