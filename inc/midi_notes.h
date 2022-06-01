@@ -246,6 +246,6 @@ static const t_note_definition g_notes_definitions[] =
 	(t_note_definition){.note = FS9, .name = "FS9"},
 	(t_note_definition){.note = G9, .name = "G9"},
 	(t_note_definition){.note = GS9, .name = "GS9"}
-}
+};
 
 #endif
