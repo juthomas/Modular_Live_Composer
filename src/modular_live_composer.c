@@ -273,6 +273,28 @@ int16_t get_new_chord_from_list(uint8_t *chords_list, uint8_t chord_list_length,
 	}
 }
 
+//TODO: TESTING NOTE SHIFTING
+void shift_euclidean_steps(t_euclidean *euclidean, int shift_value)
+{
+	for (uint8_t steps = 0; steps < euclidean->euclidean_steps_length; steps++)
+	{
+		if (euclidean->euclidean_steps[steps] != -1)
+		{
+			int16_t tmp = 0;
+			if ((euclidean->euclidean_steps[steps] & 0x00FF) + shift_value >= 0)
+			{
+				tmp = ((euclidean->euclidean_steps[steps] & 0x00FF) + shift_value) % 7;
+				tmp |= ((((euclidean->euclidean_steps[steps] & 0xFF) >> 8) + (((euclidean->euclidean_steps[steps] & 0x00FF) + shift_value) / 7)) << 8);
+			}
+			else
+			{
+				tmp = (7 + ((euclidean->euclidean_steps[steps] & 0x00FF) + shift_value)) % 7;
+				tmp |= ((((euclidean->euclidean_steps[steps] & 0xFF) >> 8) + ((7 + ((euclidean->euclidean_steps[steps] & 0x00FF) + shift_value)) / 7 - 1)) << 8);
+			}
+		} 
+	}
+}
+
 /**
  * @brief Getting a new chord from chord list (Randomly)
  *        and ajusting his pitch (Randomly)
