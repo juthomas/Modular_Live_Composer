@@ -292,7 +292,7 @@ void shift_euclidean_steps(t_euclidean *euclidean, int shift_value)
 			else
 			{
 				tmp = (7 + ((euclidean->euclidean_steps[steps] & 0x00FF) + shift_value)) % 7;
-				int16_t tmp2 = ((((euclidean->euclidean_steps[steps] & 0xFF00) >> 8) + ((7 + ((euclidean->euclidean_steps[steps] & 0x00FF) + shift_value)) / 7 - 1)) << 8);
+				int32_t tmp2 = ((((euclidean->euclidean_steps[steps] & 0xFF00) >> 8) + ((7 + ((euclidean->euclidean_steps[steps] & 0x00FF) + shift_value)) / 7 - 1)) << 8);
 				if (tmp2 > 0)
 				tmp |= tmp2;
 				// tmp |= ((((euclidean->euclidean_steps[steps] & 0xFF00) >> 8) + ((7 + ((euclidean->euclidean_steps[steps] & 0x00FF) + shift_value)) / 7 - 1)) << 8);
