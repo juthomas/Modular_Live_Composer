@@ -518,7 +518,7 @@ void init_music_data(t_music_data *music_data, uint32_t partition_duration,
 	music_data->quarter_value_step_updating = tempo_acceleration; // Acceleration per measure in percentage (1.0=100%, 0.05=5%)
 }
 
-#define EUCLIDEAN_DATAS_LENGTH 3
+#define EUCLIDEAN_DATAS_LENGTH 4
 
 #define FIX_4096 4096//3686
 
@@ -536,6 +536,8 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 	static uint16_t measure_count_2 = 0;
 	static uint16_t measure_count_3 = 0;
 
+
+	static int16_t delta_shift = 0;
 	// Initializing ast reset time with the current timestamp
 	if (last_time == 0)
 	{
@@ -603,7 +605,24 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 					euclidean_datas[current_euclidean_data].euclidean_steps_length / euclidean_datas[current_euclidean_data].notes_per_cycle;
 				euclidean_datas[current_euclidean_data].mess_chance = 100;
 			}
+			else if (current_euclidean_data == 3)
+			{
+				euclidean_datas[current_euclidean_data].octaves_size = 3;
+				euclidean_datas[current_euclidean_data].euclidean_steps_length = 6
+				// euclidean_datas[current_euclidean_data].euclidean_steps_length = 15;
+				euclidean_datas[current_euclidean_data].notes_per_cycle = 2;
+				euclidean_datas[current_euclidean_data].step_gap =
+				euclidean_datas[current_euclidean_data].euclidean_steps_length / euclidean_datas[current_euclidean_data].notes_per_cycle;
+				euclidean_datas[current_euclidean_data].mess_chance = 100;
+			}
 		}
+	}
+
+	if (delta_shift != 4)
+	{
+		int16_t tmp = 4 - delta_shift
+		shift_euclidean_steps(euclidean_datas[3], tmp);
+		delta_shift += tmp;
 	}
 
 	euclidean_datas[0].min_chord_size = (sensors_data->vin_current % 4) + 1; //(uint8_t)map_number((uint32_t)sensors_data->temperature_3, 0, FIX_4096 - 400, 1, 7);	//temperature_3
@@ -814,7 +833,7 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 		}
 		//printf("\n\n\n\n\n! RESETING !\n\n\n\n\n\n");
 
-			write_value(&curses_env, "! RESETING !");
+			write_value(&curses_env, "! FULL RESETING !");
 
 		reset_needed = 0;
 	}
