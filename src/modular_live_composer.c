@@ -860,7 +860,7 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 		// For each euclidean circle, create corresponding chord
 		for (uint8_t current_euclidean_data = 0; current_euclidean_data < EUCLIDEAN_DATAS_LENGTH; current_euclidean_data++)
 		{
-			if (current_euclidean_data == 3)
+			// if (current_euclidean_data == 3)
 			write_euclidean_step(music_data, &euclidean_datas[current_euclidean_data]);
 		}
 		// Remove chords that end this quarter division
