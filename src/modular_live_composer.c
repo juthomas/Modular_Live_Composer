@@ -624,7 +624,7 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 	if (delta_shift != (uint32_t)map_number((uint32_t)sensors_data->spectro_current, 0, 65535, -14, 14))
 	{
 		int16_t tmp = (uint32_t)map_number((uint32_t)sensors_data->spectro_current, 0, 65535, -14, 14) - delta_shift;
-		// shift_euclidean_steps(&euclidean_datas[3], tmp);
+		shift_euclidean_steps(&euclidean_datas[3], tmp);
 		delta_shift += tmp;
 	}
 
