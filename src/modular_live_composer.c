@@ -273,7 +273,7 @@ int16_t get_new_chord_from_list(uint8_t *chords_list, uint8_t chord_list_length,
 	}
 }
 
-//TODO: TESTING NOTE SHIFTING
+//TODO: TESTING NOTE SHIFTING AND FIX THIS FCKING SHIT + TROUVER UN FIX POUR LE RESET ETC...
 void shift_euclidean_steps(t_euclidean *euclidean, int shift_value)
 {
 	for (uint8_t steps = 0; steps < euclidean->euclidean_steps_length; steps++)
@@ -297,7 +297,7 @@ void shift_euclidean_steps(t_euclidean *euclidean, int shift_value)
 				tmp |= tmp2;
 				// tmp |= ((((euclidean->euclidean_steps[steps] & 0xFF00) >> 8) + ((7 + ((euclidean->euclidean_steps[steps] & 0x00FF) + shift_value)) / 7 - 1)) << 8);
 			}
-			if (((tmp & 0xFF00) >> 8) > 5)
+			if (((tmp & 0xFF00) >> 8) > 4)
 			{
 				tmp &= 0xFF;
 			}
