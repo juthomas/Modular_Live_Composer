@@ -297,6 +297,10 @@ void shift_euclidean_steps(t_euclidean *euclidean, int shift_value)
 				tmp |= tmp2;
 				// tmp |= ((((euclidean->euclidean_steps[steps] & 0xFF00) >> 8) + ((7 + ((euclidean->euclidean_steps[steps] & 0x00FF) + shift_value)) / 7 - 1)) << 8);
 			}
+			if (((tmp & 0xFF00) >> 8) > 5)
+			{
+				tmp &= 0xFF;
+			}
 			euclidean->euclidean_steps[steps] = tmp;
 			snprintf(printf_hack, 64,"After NOTE %x\n", euclidean->euclidean_steps[steps] & 0xFFFF);
 			write_value(&curses_env, printf_hack);	
