@@ -281,7 +281,7 @@ void shift_euclidean_steps(t_euclidean *euclidean, int shift_value)
 		if (euclidean->euclidean_steps[steps] != -1)
 		{
 				char printf_hack[64];
-			snprintf(printf_hack, 64,"BEFORE NOTE %x\n", euclidean->euclidean_steps[steps] );
+			snprintf(printf_hack, 64,"BEFORE NOTE %x %d\n", euclidean->euclidean_steps[steps], shift_value );
 			write_value(&curses_env, printf_hack);		
 			int16_t tmp = 0;
 			if ((euclidean->euclidean_steps[steps] & 0x00FF) + shift_value >= 0)
@@ -845,7 +845,7 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 		//printf("\n\n\n\n\n! RESETING !\n\n\n\n\n\n");
 
 			write_value(&curses_env, "! FULL RESETING !");
-delta_shift = 0;
+// delta_shift = 0;
 		reset_needed = 0;
 	}
 
