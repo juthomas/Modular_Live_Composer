@@ -280,6 +280,9 @@ void shift_euclidean_steps(t_euclidean *euclidean, int shift_value)
 	{
 		if (euclidean->euclidean_steps[steps] != -1)
 		{
+				char printf_hack[64];
+			snprintf(printf_hack, 64,"BEFORE NOTE %x\n", euclidean->euclidean_steps[steps] );
+			write_value(&curses_env, printf_hack);		
 			int16_t tmp = 0;
 			if ((euclidean->euclidean_steps[steps] & 0x00FF) + shift_value >= 0)
 			{
@@ -291,6 +294,8 @@ void shift_euclidean_steps(t_euclidean *euclidean, int shift_value)
 				tmp = (7 + ((euclidean->euclidean_steps[steps] & 0x00FF) + shift_value)) % 7;
 				tmp |= ((((euclidean->euclidean_steps[steps] & 0xFF00) >> 8) + ((7 + ((euclidean->euclidean_steps[steps] & 0x00FF) + shift_value)) / 7 - 1)) << 8);
 			}
+			snprintf(printf_hack, 64,"After NOTE %x\n", euclidean->euclidean_steps[steps] );
+			write_value(&curses_env, printf_hack);	
 		} 
 	}
 }
@@ -624,8 +629,7 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 
 	if (delta_shift != (uint32_t)map_number((uint32_t)sensors_data->spectro_current, 0, 33535, -34, 34))
 	{
-			snprintf(printf_hack, 64,"TRYING TO CHANGE HEIGHT CIRCLE 3 %d\n", (uint32_t)map_number((uint32_t)sensors_data->spectro_current, 0, 33535, -34, 34) );
-write_value(&curses_env, printf_hack);	
+
 		int16_t tmp = (uint32_t)map_number((uint32_t)sensors_data->spectro_current, 0,33535, -34, 34) - delta_shift;
 		shift_euclidean_steps(&euclidean_datas[3], tmp);
 		delta_shift += tmp;
