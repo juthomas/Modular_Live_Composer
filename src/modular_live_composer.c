@@ -284,12 +284,12 @@ void shift_euclidean_steps(t_euclidean *euclidean, int shift_value)
 			if ((euclidean->euclidean_steps[steps] & 0x00FF) + shift_value >= 0)
 			{
 				tmp = ((euclidean->euclidean_steps[steps] & 0x00FF) + shift_value) % 7;
-				tmp |= ((((euclidean->euclidean_steps[steps] & 0xFF) >> 8) + (((euclidean->euclidean_steps[steps] & 0x00FF) + shift_value) / 7)) << 8);
+				tmp |= ((((euclidean->euclidean_steps[steps] & 0xFF00) >> 8) + (((euclidean->euclidean_steps[steps] & 0x00FF) + shift_value) / 7)) << 8);
 			}
 			else
 			{
 				tmp = (7 + ((euclidean->euclidean_steps[steps] & 0x00FF) + shift_value)) % 7;
-				tmp |= ((((euclidean->euclidean_steps[steps] & 0xFF) >> 8) + ((7 + ((euclidean->euclidean_steps[steps] & 0x00FF) + shift_value)) / 7 - 1)) << 8);
+				tmp |= ((((euclidean->euclidean_steps[steps] & 0xFF00) >> 8) + ((7 + ((euclidean->euclidean_steps[steps] & 0x00FF) + shift_value)) / 7 - 1)) << 8);
 			}
 		} 
 	}
@@ -629,7 +629,7 @@ write_value(&curses_env, printf_hack);
 		int16_t tmp = (uint32_t)map_number((uint32_t)sensors_data->spectro_current, 0,33535, -34, 34) - delta_shift;
 		shift_euclidean_steps(&euclidean_datas[3], tmp);
 		delta_shift += tmp;
-		reset_needed = 1;
+		// reset_needed = 1;
 	}
 
 	euclidean_datas[0].min_chord_size = (sensors_data->vin_current % 4) + 1; //(uint8_t)map_number((uint32_t)sensors_data->temperature_3, 0, FIX_4096 - 400, 1, 7);	//temperature_3
