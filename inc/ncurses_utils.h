@@ -106,7 +106,7 @@ void rectangle(WINDOW *win, int y1, int x1, int y2, int x2)
 	mvwaddch(win, y2, x2, ACS_LRCORNER);
 }
 
-void draw_sensors_infos(t_ncurses *nstruct, int index, float v_val, int val, char *name, int max_val, int input_nu)
+void draw_sensors_infos(t_ncurses *nstruct, int index, float v_val, int32_t val, char *name, int32_t max_val, int input_nu)
 {
 	int col_width = COLS / 12;
 	int col_height = 8;

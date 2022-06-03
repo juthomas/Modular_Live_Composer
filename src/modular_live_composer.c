@@ -613,14 +613,15 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 				euclidean_datas[current_euclidean_data].notes_per_cycle = 2;
 				euclidean_datas[current_euclidean_data].step_gap =
 				euclidean_datas[current_euclidean_data].euclidean_steps_length / euclidean_datas[current_euclidean_data].notes_per_cycle;
-				euclidean_datas[current_euclidean_data].mess_chance = 100;
+				euclidean_datas[current_euclidean_data].mess_chance = 00;
 			}
 		}
 	}
 
-	if (delta_shift != 4)
+
+	if (delta_shift != (uint32_t)map_number((uint32_t)sensors_data->spectro_current, 0, 65535, -14, 14))
 	{
-		int16_t tmp = 4 - delta_shift;
+		int16_t tmp = (uint32_t)map_number((uint32_t)sensors_data->spectro_current, 0, 65535, -14, 14) - delta_shift;
 		shift_euclidean_steps(&euclidean_datas[3], tmp);
 		delta_shift += tmp;
 	}
@@ -859,6 +860,7 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 		// For each euclidean circle, create corresponding chord
 		for (uint8_t current_euclidean_data = 0; current_euclidean_data < EUCLIDEAN_DATAS_LENGTH; current_euclidean_data++)
 		{
+			if (current_euclidean_data == 3)
 			write_euclidean_step(music_data, &euclidean_datas[current_euclidean_data]);
 		}
 		// Remove chords that end this quarter division
