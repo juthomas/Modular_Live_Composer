@@ -283,25 +283,18 @@ void shift_euclidean_steps(t_euclidean *euclidean, int shift_value)
 				char printf_hack[64];
 			snprintf(printf_hack, 64,"BEFORE NOTE %x %d\n", euclidean->euclidean_steps[steps], shift_value );
 			write_value(&curses_env, printf_hack);		
+
 			uint32_t tmp = 0;
-			if ((euclidean->euclidean_steps[steps] & 0x00FF) + shift_value >= 0)
-			{
-				tmp = ((euclidean->euclidean_steps[steps] & 0x00FF) + shift_value) % 7;
-				tmp |= ((((euclidean->euclidean_steps[steps] & 0xFF00) >> 8) + (((euclidean->euclidean_steps[steps] & 0x00FF) + shift_value) / 7)) << 8);
-			}
-			else
-			{
-				tmp = abs((7 + ((euclidean->euclidean_steps[steps] & 0x00FF) + shift_value)) % 7);
-				uint32_t tmp2 = ((((euclidean->euclidean_steps[steps] & 0xFF00) >> 8) + ((7 + ((euclidean->euclidean_steps[steps] & 0x00FF) + shift_value)) / 7 - 1)) << 8);
-				if (tmp2 > 0)
-				tmp |= tmp2;
-				// tmp |= ((((euclidean->euclidean_steps[steps] & 0xFF00) >> 8) + ((7 + ((euclidean->euclidean_steps[steps] & 0x00FF) + shift_value)) / 7 - 1)) << 8);
-			}
-			if (((tmp & 0xFF00) >> 8) > 4)
-			{
-				tmp &= 0xFF;
-			}
+
+			int tmp_shift = shift_value;
+			// printf("Bidule : %d\n", ((euclidean->euclidean_steps[steps] & 0xFF00) >> 8) * 7 + (((euclidean->euclidean_steps[steps] & 0x00FF) + tmp_shift)));
+			if (((euclidean->euclidean_steps[steps] & 0xFF00) >> 8) * 7 + (((euclidean->euclidean_steps[steps] & 0x00FF) + tmp_shift)) < 0)
+				tmp_shift = tmp_shift - (((euclidean->euclidean_steps[steps] & 0xFF00) >> 8) * 7 + (((euclidean->euclidean_steps[steps] & 0x00FF) + tmp_shift)));
+			// printf("New shift : %d\n", tmp_shift);
+			tmp = (7 + ((euclidean->euclidean_steps[steps] & 0x00FF) + tmp_shift)) % 7;
+			tmp |= ((((euclidean->euclidean_steps[steps] & 0xFF00) >> 8) + ((7 + ((euclidean->euclidean_steps[steps] & 0x00FF) + tmp_shift)) / 7 - 1)) << 8);
 			euclidean->euclidean_steps[steps] = tmp;
+
 			snprintf(printf_hack, 64,"After NOTE %x\n", euclidean->euclidean_steps[steps] & 0xFFFF);
 			write_value(&curses_env, printf_hack);	
 		} 
@@ -558,6 +551,8 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 	}
 
 	//print_sensors_data(sensors_data);
+
+	sensors_data->photodiode_1 = 4000;/////////
 
 	music_data->quarter_value_goal = (uint32_t)map_number((uint32_t)sensors_data->photodiode_1, 0, FIX_4096, 100000000, 35000000);
 	// Update Midi quarter value to move towards the quarter goal value
@@ -849,6 +844,7 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 		{
 			get_new_euclidean_chords(&euclidean_datas[current_euclidean_data]);
 		}
+		shift_euclidean_steps(&euclidean_datas[3], 10);
 		//printf("\n\n\n\n\n! RESETING !\n\n\n\n\n\n");
 
 			write_value(&curses_env, "! FULL RESETING !");
