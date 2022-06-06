@@ -649,6 +649,8 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 		shift_euclidean_steps(&euclidean_datas[3], 10);
 		delta_shift = 10;
 		circle_3_reset_ctdown = 10;
+		snprintf(printf_hack, 64,"4TH CIRCLE RESET <<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n");
+		write_value(&curses_env, printf_hack);
 	}
 
 
