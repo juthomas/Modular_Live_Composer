@@ -543,7 +543,7 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 	static uint16_t measure_count_3 = 0;
 
 
-	static int16_t delta_shift = 0;
+	static int16_t delta_shift = 10;
 	// Initializing ast reset time with the current timestamp
 	if (last_time == 0)
 	{
@@ -845,6 +845,7 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 			get_new_euclidean_chords(&euclidean_datas[current_euclidean_data]);
 		}
 		shift_euclidean_steps(&euclidean_datas[3], 10);
+		delta_shift = 10;
 		//printf("\n\n\n\n\n! RESETING !\n\n\n\n\n\n");
 
 			write_value(&curses_env, "! FULL RESETING !");
