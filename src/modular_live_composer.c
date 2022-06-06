@@ -552,7 +552,7 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 
 	//print_sensors_data(sensors_data);
 
-	sensors_data->photodiode_1 = 4000;/////////
+	sensors_data->photodiode_1 = 4090;/////////
 
 	music_data->quarter_value_goal = (uint32_t)map_number((uint32_t)sensors_data->photodiode_1, 0, FIX_4096, 100000000, 35000000);
 	// Update Midi quarter value to move towards the quarter goal value
