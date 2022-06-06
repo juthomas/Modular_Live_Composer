@@ -544,6 +544,9 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 
 
 	static int16_t delta_shift = 10;
+
+	static int16_t circle_3_reset_ctdown = 10;
+
 	// Initializing ast reset time with the current timestamp
 	if (last_time == 0)
 	{
@@ -639,6 +642,15 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 		delta_shift += tmp;
 		// reset_needed = 1;
 	}
+
+	if (circle_3_reset_ctdown <= 0)
+	{
+		get_new_euclidean_chords(&euclidean_datas[3]);
+		shift_euclidean_steps(&euclidean_datas[3], 10);
+		delta_shift = 10;
+		circle_3_reset_ctdown = 10;
+	}
+
 
 	euclidean_datas[0].min_chord_size = (sensors_data->vin_current % 4) + 1; //(uint8_t)map_number((uint32_t)sensors_data->temperature_3, 0, FIX_4096 - 400, 1, 7);	//temperature_3
 	euclidean_datas[0].max_chord_size = (sensors_data->vin_current % 4) + 1;	//temperature_3
@@ -841,12 +853,11 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 	// Initialize notes or if requested to get new note, pick new random notes from allowed ones
 	if (reset_needed)
 	{
-		for (uint8_t current_euclidean_data = 0; current_euclidean_data < EUCLIDEAN_DATAS_LENGTH; current_euclidean_data++)
+		for (uint8_t current_euclidean_data = 0; current_euclidean_data < EUCLIDEAN_DATAS_LENGTH - 1; current_euclidean_data++)
 		{
 			get_new_euclidean_chords(&euclidean_datas[current_euclidean_data]);
 		}
-		shift_euclidean_steps(&euclidean_datas[3], 10);
-		delta_shift = 10;
+
 		//printf("\n\n\n\n\n! RESETING !\n\n\n\n\n\n");
 
 			write_value(&curses_env, "! FULL RESETING !");
