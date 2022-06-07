@@ -545,7 +545,7 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 
 	static int16_t delta_shift = 10;
 
-	static int16_t circle_3_reset_ctdown = 10;
+	static int16_t circle_3_reset_ctdown = 0;
 
 	// Initializing ast reset time with the current timestamp
 	if (last_time == 0)
@@ -653,7 +653,7 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 		snprintf(printf_hack, 64,"4TH CIRCLE RESET <<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n");
 		write_value(&curses_env, printf_hack);
 	}
-	if (music_data->current_quarter_value < 45000000)
+	if (music_data->current_quarter_value < 30000000)
 	{
 		euclidean_datas[3].mess_chance = 20;
 	}
