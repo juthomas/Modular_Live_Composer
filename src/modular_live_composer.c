@@ -561,6 +561,9 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 	// 5000000
 	music_data->current_quarter_value = (uint32_t)map_number((uint32_t)sensors_data->photodiode_1, 0, FIX_4096, 100000000, 3500000); // RM THAT !!
 
+	write_speed(&curses_env, music_data->current_quarter_value);
+
+
 	//printf("\033[1;32mmusic data current quarter value after  : %d\033[1;37m\n", music_data->current_quarter_value);
 
 	// update_quarter_value(music_data); RM TO FIX
