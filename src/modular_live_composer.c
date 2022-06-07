@@ -620,15 +620,15 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 			else if (current_euclidean_data == 3)
 			{
 				euclidean_datas[current_euclidean_data].octaves_size = 1;
-				euclidean_datas[current_euclidean_data].euclidean_steps_length = 6;
+				euclidean_datas[current_euclidean_data].euclidean_steps_length = 5;
 				// euclidean_datas[current_euclidean_data].euclidean_steps_length = 15;
 				euclidean_datas[current_euclidean_data].mode_beg_note = A2 - 12;
 				euclidean_datas[current_euclidean_data].notes_per_cycle = 3;
 				euclidean_datas[current_euclidean_data].step_gap =
 				euclidean_datas[current_euclidean_data].euclidean_steps_length / euclidean_datas[current_euclidean_data].notes_per_cycle;
 				euclidean_datas[current_euclidean_data].mess_chance = 100;
-				euclidean_datas[current_euclidean_data].min_steps_duration = 2;
-				euclidean_datas[current_euclidean_data].max_steps_duration = 3;
+				euclidean_datas[current_euclidean_data].min_steps_duration = 1;
+				euclidean_datas[current_euclidean_data].max_steps_duration = 2;
 			}
 		}
 	}
@@ -653,7 +653,7 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 		snprintf(printf_hack, 64,"4TH CIRCLE RESET <<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n");
 		write_value(&curses_env, printf_hack);
 	}
-	if (music_data->current_quarter_value < 45000000)
+	if (music_data->current_quarter_value < 55000000)
 	{
 		euclidean_datas[3].mess_chance = 20;
 	}
