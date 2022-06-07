@@ -623,7 +623,7 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 				euclidean_datas[current_euclidean_data].notes_per_cycle = 3;
 				euclidean_datas[current_euclidean_data].step_gap =
 				euclidean_datas[current_euclidean_data].euclidean_steps_length / euclidean_datas[current_euclidean_data].notes_per_cycle;
-				euclidean_datas[current_euclidean_data].mess_chance = 20;
+				euclidean_datas[current_euclidean_data].mess_chance = 100;
 				euclidean_datas[current_euclidean_data].min_steps_duration = 2;
 				euclidean_datas[current_euclidean_data].max_steps_duration = 3;
 			}
