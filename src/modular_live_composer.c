@@ -892,12 +892,12 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 
 
 			// char printf_hack[64];
-					snprintf(printf_hack, 64,"BEG WRITING CHORD %d\n", current_euclidean_data);
+					// snprintf(printf_hack, 64,"BEG WRITING CHORD %d\n", current_euclidean_data);
 
-					write_value(&curses_env, printf_hack);
+					// write_value(&curses_env, printf_hack);
 					write_euclidean_step(music_data, &euclidean_datas[current_euclidean_data]);
-					snprintf(printf_hack, 64,"END WRITING CHORD %d\n", current_euclidean_data);
-					write_value(&curses_env, printf_hack);
+					// snprintf(printf_hack, 64,"END WRITING CHORD %d\n", current_euclidean_data);
+					// write_value(&curses_env, printf_hack);
 			// }
 		}
 		// Remove chords that end this quarter division
