@@ -94,6 +94,17 @@ void write_mode(t_ncurses *nstruct, char *mode, char *beg_note)
 	wrefresh(nstruct->bottom_right);
 }
 
+void write_speed(t_ncurses *nstruct, int32_t speed)
+{
+	mvwhline(nstruct->bottom_right, 2, 1, ' ', COLS / 2);
+	wmove(nstruct->bottom_right, 2, 1);
+	char c_val[64];
+	snprintf(c_val, 64, "speed : %d", speed);
+	waddstr(nstruct->bottom_right, c_val);
+	wrefresh(nstruct->bottom_right);
+}
+
+
 void rectangle(WINDOW *win, int y1, int x1, int y2, int x2)
 {
 	mvwhline(win, y1, x1, 0, x2 - x1);
