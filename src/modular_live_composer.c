@@ -653,7 +653,7 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 		snprintf(printf_hack, 64,"4TH CIRCLE RESET <<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n");
 		write_value(&curses_env, printf_hack);
 	}
-	if (music_data->current_quarter_value < 55000000)
+	if (music_data->current_quarter_value < 45000000)
 	{
 		euclidean_datas[3].mess_chance = 20;
 	}
