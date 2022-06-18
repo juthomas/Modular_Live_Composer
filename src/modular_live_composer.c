@@ -559,7 +559,8 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 	// Update Midi quarter value to move towards the quarter goal value
 	//printf("\033[1;32mmusic data current quarter value : %d\033[1;37m\n", music_data->current_quarter_value);
 	// 5000000
-	music_data->current_quarter_value = (uint32_t)map_number((uint32_t)sensors_data->photodiode_1, 0, FIX_4096, 100000000, 3500000); // RM THAT !!
+	music_data->current_quarter_value = (uint32_t)map_number((uint32_t)sensors_data->photodiode_1, 0, FIX_4096, 50000000, 1800000); // RM THAT !!
+	// music_data->current_quarter_value = (uint32_t)map_number((uint32_t)sensors_data->photodiode_1, 0, FIX_4096, 100000000, 3500000); // RM THAT !!
 
 	write_speed(&curses_env, music_data->current_quarter_value);
 
@@ -591,7 +592,7 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 			if (current_euclidean_data == 0)
 			{
 				euclidean_datas[current_euclidean_data].octaves_size = 3;
-				euclidean_datas[current_euclidean_data].euclidean_steps_length = 24;
+				euclidean_datas[current_euclidean_data].euclidean_steps_length = 48;//24
 				euclidean_datas[current_euclidean_data].notes_per_cycle = 4;
 				euclidean_datas[current_euclidean_data].step_gap =
 					euclidean_datas[current_euclidean_data].euclidean_steps_length / euclidean_datas[current_euclidean_data].notes_per_cycle;
@@ -600,7 +601,7 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 			}
 			else if (current_euclidean_data == 1)
 			{
-				euclidean_datas[current_euclidean_data].euclidean_steps_length = (uint8_t)map_number((uint32_t)sensors_data->temperature_1, 0, FIX_4096, 13, 39);
+				euclidean_datas[current_euclidean_data].euclidean_steps_length = (uint8_t)map_number((uint32_t)sensors_data->temperature_1, 0, FIX_4096, 26, 79);//13 39
 				euclidean_datas[current_euclidean_data].mode_beg_note = A2 - 12;
 				euclidean_datas[current_euclidean_data].octaves_size = 3;
 				// euclidean_datas[current_euclidean_data].euclidean_steps_length = 13;
@@ -610,7 +611,7 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 			else if (current_euclidean_data == 2)
 			{
 				euclidean_datas[current_euclidean_data].octaves_size = 3;
-				euclidean_datas[current_euclidean_data].euclidean_steps_length = (uint8_t)map_number((uint32_t)sensors_data->temperature_2, 0, FIX_4096, 15, 45);
+				euclidean_datas[current_euclidean_data].euclidean_steps_length = (uint8_t)map_number((uint32_t)sensors_data->temperature_2, 0, FIX_4096, 30, 91);//15 45
 				// euclidean_datas[current_euclidean_data].euclidean_steps_length = 15;
 				euclidean_datas[current_euclidean_data].notes_per_cycle = 4;
 				euclidean_datas[current_euclidean_data].step_gap =
