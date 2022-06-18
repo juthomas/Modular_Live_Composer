@@ -620,7 +620,7 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 			}
 			else if (current_euclidean_data == 3)
 			{
-				euclidean_datas[current_euclidean_data].octaves_size = 1;
+				euclidean_datas[current_euclidean_data].octaves_size = 2;
 				euclidean_datas[current_euclidean_data].euclidean_steps_length = 5;
 				// euclidean_datas[current_euclidean_data].euclidean_steps_length = 15;
 				euclidean_datas[current_euclidean_data].mode_beg_note = A2 - 12;
