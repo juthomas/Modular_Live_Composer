@@ -875,7 +875,7 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 	// Initialize notes or if requested to get new note, pick new random notes from allowed ones
 	if (reset_needed)
 	{
-		for (uint8_t current_euclidean_data = 0; current_euclidean_data < EUCLIDEAN_DATAS_LENGTH - 1; current_euclidean_data++)
+		for (uint8_t current_euclidean_data = 0; current_euclidean_data < EUCLIDEAN_DATAS_LENGTH; current_euclidean_data++)
 		{
 			get_new_euclidean_chords(&euclidean_datas[current_euclidean_data]);
 		}
