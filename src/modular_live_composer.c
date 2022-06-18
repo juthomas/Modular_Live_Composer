@@ -647,7 +647,7 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 
 	if (circle_3_reset_ctdown <= 0)
 	{
-		euclidean_datas[3].euclidean_steps_length = rand() % 4 + 3;
+		euclidean_datas[3].euclidean_steps_length = rand() % 6 + 3;
 		get_new_euclidean_chords(&euclidean_datas[3]);
 		shift_euclidean_steps(&euclidean_datas[3], 10);
 		delta_shift = 10;
