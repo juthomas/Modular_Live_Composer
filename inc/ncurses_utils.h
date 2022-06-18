@@ -99,7 +99,7 @@ void write_speed(t_ncurses *nstruct, int32_t speed)
 	mvwhline(nstruct->bottom_right, 2, 1, ' ', COLS / 2);
 	wmove(nstruct->bottom_right, 2, 1);
 	char c_val[64];
-	snprintf(c_val, 64, "speed : %d %d %d", speed / 1000000, speed / 1000 % 1000, speed % 1000);
+	snprintf(c_val, 64, "speed : %d %03d %03d", speed / 1000000, speed / 1000 % 1000, speed % 1000);
 	waddstr(nstruct->bottom_right, c_val);
 	wrefresh(nstruct->bottom_right);
 }
