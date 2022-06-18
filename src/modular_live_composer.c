@@ -651,7 +651,7 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 
 		euclidean_datas[3].notes_per_cycle = rand() % (euclidean_datas[3].euclidean_steps_length);
 		euclidean_datas[3].step_gap =
-			euclidean_datas[3].euclidean_steps_length / euclidean_datas[current_euclidean_data].notes_per_cycle;
+			euclidean_datas[3].euclidean_steps_length / euclidean_datas[3].notes_per_cycle;
 
 		get_new_euclidean_chords(&euclidean_datas[3]);
 		shift_euclidean_steps(&euclidean_datas[3], 10);
