@@ -621,10 +621,10 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 			else if (current_euclidean_data == 3)
 			{
 				euclidean_datas[current_euclidean_data].octaves_size = 1;
-				euclidean_datas[current_euclidean_data].euclidean_steps_length = 2;
+				euclidean_datas[current_euclidean_data].euclidean_steps_length = 5;
 				// euclidean_datas[current_euclidean_data].euclidean_steps_length = 15;
 				euclidean_datas[current_euclidean_data].mode_beg_note = A2 - 12;
-				euclidean_datas[current_euclidean_data].notes_per_cycle = 1;
+				euclidean_datas[current_euclidean_data].notes_per_cycle = 2;
 				euclidean_datas[current_euclidean_data].step_gap =
 				euclidean_datas[current_euclidean_data].euclidean_steps_length / euclidean_datas[current_euclidean_data].notes_per_cycle;
 				euclidean_datas[current_euclidean_data].mess_chance = 100;
@@ -654,7 +654,9 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 		snprintf(printf_hack, 64,"4TH CIRCLE RESET <<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n");
 		write_value(&curses_env, printf_hack);
 	}
-	if (music_data->current_quarter_value < 30000000 && circle_3_reset_ctdown < 7)
+	//15000000
+	//30000000
+	if (music_data->current_quarter_value < 15000000 && circle_3_reset_ctdown < 7)
 	{
 		euclidean_datas[3].mess_chance = 30;
 	}
