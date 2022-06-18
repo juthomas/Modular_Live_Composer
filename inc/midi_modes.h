@@ -9,7 +9,6 @@ enum e_midi_modes
 	M_MODE_MAJOR,
 	M_MODE_IONIAN,
 	M_MODE_PHRYGIAN,
-	M_MODE_LYDIAN,
 	M_MODE_MIXOLYDIAN,
 	M_MODE_AEOLIAN,
 	M_MODE_MINOR,
@@ -48,6 +47,7 @@ enum e_midi_modes
 
 	// Supressed modes
 	M_MODE_DORIAN,
+	M_MODE_LYDIAN,
 
 
 	M_MODE_ALL,
@@ -66,7 +66,6 @@ static const t_midi_modes g_midi_mode[] = {
 	(t_midi_modes){.mode_name = M_MODE_MAJOR, .name = "M_MODE_MAJOR", .starting_note = C4, .mode_sequence = {0, 2, 4, 5, 7, 9, 11}},
 	(t_midi_modes){.mode_name = M_MODE_IONIAN, .name = "M_MODE_IONIAN", .starting_note = C4, .mode_sequence = {0, 2, 4, 5, 7, 9, 11}},
 	(t_midi_modes){.mode_name = M_MODE_PHRYGIAN, .name = "M_MODE_PHRYGIAN", .starting_note = C4, .mode_sequence = {0, 1, 3, 5, 7, 8, 10}},
-	(t_midi_modes){.mode_name = M_MODE_LYDIAN, .name = "M_MODE_LYDIAN", .starting_note = C4, .mode_sequence = {0, 2, 4, 6, 7, 9, 11}},
 	(t_midi_modes){.mode_name = M_MODE_MIXOLYDIAN, .name = "M_MODE_MIXOLYDIAN", .starting_note = C4, .mode_sequence = {0, 2, 4, 5, 7, 9, 10}},
 	(t_midi_modes){.mode_name = M_MODE_AEOLIAN, .name = "M_MODE_AEOLIAN", .starting_note = C4, .mode_sequence = {0, 2, 3, 5, 7, 8, 10}},
 	(t_midi_modes){.mode_name = M_MODE_MINOR, .name = "M_MODE_MINOR", .starting_note = C4, .mode_sequence = {0, 2, 3, 5, 7, 8, 10}},
@@ -103,6 +102,7 @@ static const t_midi_modes g_midi_mode[] = {
 	(t_midi_modes){.mode_name = M_MODE_NEAPOLITAN_MAJOR, .name = "M_MODE_NEAPOLITAN_MAJOR", .starting_note = C4, .mode_sequence = {0, 1, 3, 5, 7, 9, 11}},
 	(t_midi_modes){.mode_name = M_MODE_LOCRIAN_MAJOR, .name = "M_MODE_LOCRIAN_MAJOR", .starting_note = C4, .mode_sequence = {0, 2, 4, 5, 6, 8, 10}},
 	(t_midi_modes){.mode_name = M_MODE_DORIAN, .name = "M_MODE_DORIAN", .starting_note = C4, .mode_sequence = {0, 2, 4, 5, 7, 9, 10}},
+	(t_midi_modes){.mode_name = M_MODE_LYDIAN, .name = "M_MODE_LYDIAN", .starting_note = C4, .mode_sequence = {0, 2, 4, 6, 7, 9, 11}},
 };
 
 #endif
