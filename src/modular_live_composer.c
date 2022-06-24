@@ -590,7 +590,7 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 				euclidean_datas[current_euclidean_data].step_gap =
 					euclidean_datas[current_euclidean_data].euclidean_steps_length / euclidean_datas[current_euclidean_data].notes_per_cycle;
 
-				euclidean_datas[current_euclidean_data].mess_chance = 30;
+				euclidean_datas[current_euclidean_data].mess_chance = 50;
 			}
 			else if (current_euclidean_data == 1)
 			{
@@ -776,7 +776,7 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 	// \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/
 	if ((uint32_t)sensors_data->photodiode_2 > 1024)
 	{
-		euclidean_datas[1].mess_chance = 20; //(uint32_t)map_number((uint32_t)sensors_data->photodiode_2, 0, 4096, 60, 20);
+		euclidean_datas[1].mess_chance = 40; //(uint32_t)map_number((uint32_t)sensors_data->photodiode_2, 0, 4096, 60, 20);
 
 		if (euclidean_datas[1].notes_per_cycle != (uint8_t)map_number(sensors_data->organ_1, 0, 1024, 2, 5))
 		{
@@ -810,7 +810,7 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 
 	if ((uint32_t)sensors_data->photodiode_2 > 2048)
 	{
-		euclidean_datas[2].mess_chance = 20; //(uint32_t)map_number((uint32_t)sensors_data->photodiode_2, 2048, 4096, 80, 20);
+		euclidean_datas[2].mess_chance = 40; //(uint32_t)map_number((uint32_t)sensors_data->photodiode_2, 2048, 4096, 80, 20);
 	}
 	else
 	{
@@ -885,7 +885,7 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 
 	uint16_t div_counter = 0;
 	uint16_t div_goal = 512; // Whole division (quarter * 4)
-	uint16_t looseness = 62;//40; // Humanization in divisions delta, cannot be superior of divgoal / 8
+	uint16_t looseness = 60;//40; // Humanization in divisions delta, cannot be superior of divgoal / 8
 
 	// Write a midi measure (iterate on each quarter)
 	for (uint8_t current_quarter = 0; current_quarter < 4; current_quarter++)
