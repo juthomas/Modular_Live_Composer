@@ -664,7 +664,7 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 	//30000000
 	if (circle_3_reset_ctdown <= 0)
 	{
-		circle_3_reset_ctdown = 1;
+		circle_3_reset_ctdown = 30;
 	}
 
 	if (music_data->current_quarter_value < 15000000 && circle_3_reset_ctdown % (3 + (rand() % 4)) >= 2)
