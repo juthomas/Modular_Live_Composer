@@ -645,7 +645,7 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 		// reset_needed = 1;
 	}
 
-	if (circle_3_reset_ctdown <= 0)
+	if (circle_3_reset_ctdown % 2 == 0)
 	{
 		euclidean_datas[3].euclidean_steps_length = rand() % 6 + 3;
 
@@ -656,13 +656,18 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 		get_new_euclidean_chords(&euclidean_datas[3]);
 		shift_euclidean_steps(&euclidean_datas[3], 10);
 		delta_shift = 10;
-		circle_3_reset_ctdown = 1;
+		// circle_3_reset_ctdown = 1;
 		snprintf(printf_hack, 64,"4TH CIRCLE RESET <<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n");
 		write_value(&curses_env, printf_hack);
 	}
 	//15000000
 	//30000000
-	if (music_data->current_quarter_value < 15000000 && circle_3_reset_ctdown < 7)
+	if (circle_3_reset_ctdown <= 0)
+	{
+		circle_3_reset_ctdown = 1;
+	}
+
+	if (music_data->current_quarter_value < 15000000 && circle_3_reset_ctdown % 3 != 0)
 	{
 		euclidean_datas[3].mess_chance = 30;
 	}
