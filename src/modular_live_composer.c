@@ -885,7 +885,7 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 
 	uint16_t div_counter = 0;
 	uint16_t div_goal = 512; // Whole division (quarter * 4)
-	uint16_t looseness = 40; // Humanization in divisions delta, cannot be superior of divgoal / 8
+	uint16_t looseness = 62//40; // Humanization in divisions delta, cannot be superior of divgoal / 8
 
 	// Write a midi measure (iterate on each quarter)
 	for (uint8_t current_quarter = 0; current_quarter < 4; current_quarter++)
