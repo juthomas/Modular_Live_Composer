@@ -26,4 +26,4 @@
 
 ## debugging using Vs Code
 
-add `@id:ms-vscode.makefile-tools` extension + add `-g` flag in makefile
+* add `@id:ms-vscode.makefile-tools` extension + add `-g` flag in makefile
