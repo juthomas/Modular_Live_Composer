@@ -205,10 +205,10 @@ void init_euclidean_struct(t_euclidean *euclidean, uint8_t steps_length,
 						   uint8_t min_steps_duration, uint8_t max_steps_duration)
 {
 	euclidean->euclidean_steps_length = steps_length;
-	euclidean->euclidean_steps = (int16_t *)malloc(sizeof(int16_t) * (1 << 16));
+	euclidean->euclidean_steps = (int16_t *)malloc(sizeof(int16_t) * (1 << 16));//TODO: realloc
 	euclidean->octaves_size = octave_size;
 	euclidean->chords_list_length = chord_list_length;
-	euclidean->chords_list = (uint8_t *)malloc(sizeof(uint8_t) * (1 << 8));
+	euclidean->chords_list = (uint8_t *)malloc(sizeof(uint8_t) * (1 << 8));//TODO: realloc
 	euclidean->mode = mode;
 	euclidean->mode_beg_note = mode_beg_note;
 	euclidean->notes_per_cycle = notes_per_cycle;
@@ -885,6 +885,13 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 			print_euclidean_steps(&euclidean_datas[current_euclidean_data]);
 		}
 	}
+
+	show_euclidean_circle(&curses_env, 0, &euclidean_datas[0]);
+	show_euclidean_circle(&curses_env, 1, &euclidean_datas[1]);
+	show_euclidean_circle(&curses_env, 2, &euclidean_datas[2]);
+	show_euclidean_circle(&curses_env, 3, &euclidean_datas[3]);
+
+
 
 	uint16_t div_counter = 0;
 	uint16_t div_goal = 512; // Whole division (quarter * 4)

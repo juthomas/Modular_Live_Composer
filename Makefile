@@ -15,7 +15,7 @@ SRC_DIR = src
 
 ## Compilating Utilities
 # FAST = -Ofast
-DEBUG = #-fsanitize=address -g
+DEBUG = -g #-fsanitize=address
 WARNINGS = -Wall -Wextra# -Werror
 FLAGS = $(DEBUG)# $(WARNINGS) $(FAST) $(DEBUG)# -D_REENTRANT
 
