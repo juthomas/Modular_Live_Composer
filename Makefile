@@ -15,16 +15,16 @@ SRC_DIR = src
 
 ## Compilating Utilities
 # FAST = -Ofast
-DEBUG = -g # -fsanitize=address
+DEBUG = -g #-fsanitize=address
 WARNINGS = -Wall -Wextra# -Werror
-FLAGS =  # $(WARNINGS) $(FAST) $(DEBUG)# -D_REENTRANT
+FLAGS = $(DEBUG)# $(WARNINGS) $(FAST) $(DEBUG)# -D_REENTRANT
 
 #OS X, the math library is part of libSystem
 #Warning for -lm flag is normal on OS X
 INC = $(INC_DIR:%=-I./%) -lm -lspidev-lib -lportmidi -lncurses
 
 # CC = clang $(FLAGS) $(INC)
-CC = gcc $(FLAGS)
+CC = clang $(FLAGS)
 
 ## List of Headers and C files 
 

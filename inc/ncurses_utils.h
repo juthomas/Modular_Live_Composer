@@ -40,8 +40,8 @@ void init_curses(t_ncurses *nstruct)
 	CUSTOM_INIT_COLOR(CUSTOM_COLOR_2, 0x0000FF);
 	init_pair(CUSTOM_PAIR_1, CUSTOM_COLOR_1, CUSTOM_COLOR_2);
 	init_pair(CUSTOM_PAIR_2, CUSTOM_COLOR_2, CUSTOM_COLOR_1);
-	nstruct->top = subwin(stdscr, LINES / 2, COLS, 0, 0);			 // Créé une fenêtre de 'LINES / 2' lignes et de COLS colonnes en 0, 0
-	nstruct->bottom = subwin(stdscr, LINES / 2, COLS / 2, LINES / 2, 0); // Créé la même fenêtre que ci-dessus sauf que les coordonnées changent
+	nstruct->top = subwin(stdscr, LINES / 2, COLS, 0, 0);							  // Créé une fenêtre de 'LINES / 2' lignes et de COLS colonnes en 0, 0
+	nstruct->bottom = subwin(stdscr, LINES / 2, COLS / 2, LINES / 2, 0);			  // Créé la même fenêtre que ci-dessus sauf que les coordonnées changent
 	nstruct->bottom_right = subwin(stdscr, LINES / 2, COLS / 2, LINES / 2, COLS / 2); // Créé la même fenêtre que ci-dessus sauf que les coordonnées changent
 	wbkgd(nstruct->bottom, COLOR_PAIR(CUSTOM_PAIR_1));
 	wbkgd(nstruct->bottom_right, COLOR_PAIR(CUSTOM_PAIR_2));
@@ -67,11 +67,9 @@ void write_value(t_ncurses *nstruct, char *text)
 	// int col_width = COLS / 12;
 	// int col_height = 1;
 
-
 	// int largeur_max = COLS / col_width * col_width;
 	// int case_y = (index * col_width) / (largeur_max)*col_height;
 	// int case_x = (index * col_width) % largeur_max;
-
 
 	// mvhline(case_y, case_x, ' ', col_width);
 	mvhline(current_line, 1, ' ', COLS / 2);
@@ -83,7 +81,6 @@ void write_value(t_ncurses *nstruct, char *text)
 	// waddstr(nstruct->bottom, text);
 }
 
-
 void write_mode(t_ncurses *nstruct, char *mode, char *beg_note)
 {
 	mvwhline(nstruct->bottom_right, 1, 1, ' ', COLS / 2);
@@ -91,6 +88,63 @@ void write_mode(t_ncurses *nstruct, char *mode, char *beg_note)
 	char c_val[64];
 	snprintf(c_val, 64, "mode : %s, beg_node : %s", mode, beg_note);
 	waddstr(nstruct->bottom_right, c_val);
+	wrefresh(nstruct->bottom_right);
+}
+
+void write_speed(t_ncurses *nstruct, int32_t speed)
+{
+	mvwhline(nstruct->bottom_right, 2, 1, ' ', COLS / 2);
+	wmove(nstruct->bottom_right, 2, 1);
+	char c_val[64];
+	snprintf(c_val, 64, "speed : %d %03d %03d", speed / 1000000, speed / 1000 % 1000, speed % 1000);
+	waddstr(nstruct->bottom_right, c_val);
+	wrefresh(nstruct->bottom_right);
+}
+
+void show_euclidean_circle(t_ncurses *nstruct, int8_t circle, t_euclidean *euclidean)
+{
+	mvwhline(nstruct->bottom_right, 5 + circle * 4, 1, ' ', COLS / 2);
+	mvwhline(nstruct->bottom_right, 4 + circle * 4, 1, ' ', COLS / 2);
+
+	wmove(nstruct->bottom_right, 4 + circle * 4, 1 + euclidean->current_step);
+	waddstr(nstruct->bottom_right, "|");
+
+	mvwhline(nstruct->bottom_right, 6 + circle * 4, 1, ' ', COLS / 2);
+	wmove(nstruct->bottom_right, 6 + circle * 4, 1);
+	char c_val[64];
+	snprintf(c_val, 64, "mess chance : %02d/100",euclidean->mess_chance);
+	waddstr(nstruct->bottom_right, c_val);
+
+
+
+	for (uint8_t steps = 0; steps < euclidean->euclidean_steps_length; steps++)
+	{
+
+		if (euclidean->euclidean_steps[steps] == -1)
+		{
+			wmove(nstruct->bottom_right, 5 + circle * 4, 1 + steps);
+			waddstr(nstruct->bottom_right, "O");
+		}
+		else
+		{
+			wmove(nstruct->bottom_right, 5 + circle * 4, 1 + steps);
+			waddstr(nstruct->bottom_right, "#");
+		}
+
+		// if (steps % euclidean->step_gap == 0)
+		// {
+		// 	euclidean->euclidean_steps[steps] = get_new_chord_from_list(euclidean->chords_list,
+		// 																euclidean->chords_list_length, steps, euclidean->euclidean_steps);
+		// 	euclidean->euclidean_steps[steps] |= (rand() % euclidean->octaves_size) << 8; // add octave property
+		// 	if (LOG_ALL)
+		// 		printf("New step : %d\n", euclidean->euclidean_steps[steps]);
+		// }
+		// else
+		// {
+		// 	euclidean->euclidean_steps[steps] = -1;
+		// }
+	}
+
 	wrefresh(nstruct->bottom_right);
 }
 

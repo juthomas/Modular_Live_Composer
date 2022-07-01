@@ -13,7 +13,6 @@
 #include "../inc/map_input.h"
 #include "../inc/ncurses_utils.h"
 
-
 #define LOG_ALL 0
 
 // 							//durée d'une partition 40 000 000us
@@ -65,15 +64,13 @@ void midi_write_measure_note(t_music_data *music_data, unsigned char state,
 							 unsigned char channel, unsigned char note, unsigned char velocity)
 {
 	// if (LOG_ALL)
-	//printf("\033[1;35mwrite measure note : state=%s channel=%d note=%d velocity=%d\033[1;37m\n\n",
+	// printf("\033[1;35mwrite measure note : state=%s channel=%d note=%d velocity=%d\033[1;37m\n\n",
 	//	   (state == ON ? "ON" : "OFF"), channel, note, velocity);
 
-			char printf_hack[64];
-			snprintf(printf_hack, 64, "write measure note : state=%s channel=%d note=%d velocity=%d",
-		   (state == ON ? "ON" : "OFF"), channel, note, velocity);
-			write_value(&curses_env, printf_hack);
-
-
+	char printf_hack[64];
+	snprintf(printf_hack, 64, "write measure note : state=%s channel=%d note=%d velocity=%d",
+			 (state == ON ? "ON" : "OFF"), channel, note, velocity);
+	write_value(&curses_env, printf_hack);
 
 	// MIDI_delta_time(music_data->midi_file, 0);
 	// MIDI_delta_time(music_data->midi_file_redundancy, 0);
@@ -117,17 +114,17 @@ void create_chord(t_music_data *music_data, uint8_t *playing_notes_duration, uin
 
 	if (LOG_ALL)
 	{
-		//printf("\033[1;32mChord to play\n");
-			write_value(&curses_env, "Chord to play");
+		// printf("\033[1;32mChord to play\n");
+		write_value(&curses_env, "Chord to play");
 
 		for (int i = 0; i < chord_size; i++)
 		{
-			//printf("Note Chord[%d] : %d\n", i, note_offset + ((note_i & 0xFF00) >> 8) * 12 + g_midi_mode[mode].mode_sequence[((note_i & 0xFF) + 2 * i) % 7] + 12 * (((note_i & 0xFF) + 2 * i) / 7));
-					char printf_hack[64];
+			// printf("Note Chord[%d] : %d\n", i, note_offset + ((note_i & 0xFF00) >> 8) * 12 + g_midi_mode[mode].mode_sequence[((note_i & 0xFF) + 2 * i) % 7] + 12 * (((note_i & 0xFF) + 2 * i) / 7));
+			char printf_hack[64];
 			snprintf(printf_hack, 64, "Note Chord[%d] : %d\n", i, note_offset + ((note_i & 0xFF00) >> 8) * 12 + g_midi_mode[mode].mode_sequence[((note_i & 0xFF) + 2 * i) % 7] + 12 * (((note_i & 0xFF) + 2 * i) / 7));
 			write_value(&curses_env, printf_hack);
 		}
-		//printf("\033[1;37m\n");
+		// printf("\033[1;37m\n");
 	}
 
 	for (uint8_t current_note = 0; current_note < chord_size; current_note++)
@@ -208,10 +205,10 @@ void init_euclidean_struct(t_euclidean *euclidean, uint8_t steps_length,
 						   uint8_t min_steps_duration, uint8_t max_steps_duration)
 {
 	euclidean->euclidean_steps_length = steps_length;
-	euclidean->euclidean_steps = (int16_t *)malloc(sizeof(int16_t) * steps_length);
+	euclidean->euclidean_steps = (int16_t *)malloc(sizeof(int16_t) * (1 << 16));//TODO: realloc
 	euclidean->octaves_size = octave_size;
 	euclidean->chords_list_length = chord_list_length;
-	euclidean->chords_list = (uint8_t *)malloc(sizeof(uint8_t) * chord_list_length);
+	euclidean->chords_list = (uint8_t *)malloc(sizeof(uint8_t) * (1 << 8));//TODO: realloc
 	euclidean->mode = mode;
 	euclidean->mode_beg_note = mode_beg_note;
 	euclidean->notes_per_cycle = notes_per_cycle;
@@ -273,16 +270,16 @@ int16_t get_new_chord_from_list(uint8_t *chords_list, uint8_t chord_list_length,
 	}
 }
 
-//TODO: TESTING NOTE SHIFTING AND FIX THIS FCKING SHIT + TROUVER UN FIX POUR LE RESET ETC...
+// TODO: TESTING NOTE SHIFTING AND FIX THIS FCKING SHIT + TROUVER UN FIX POUR LE RESET ETC...
 void shift_euclidean_steps(t_euclidean *euclidean, int shift_value)
 {
 	for (uint8_t steps = 0; steps < euclidean->euclidean_steps_length; steps++)
 	{
 		if (euclidean->euclidean_steps[steps] != -1)
 		{
-				char printf_hack[64];
-			snprintf(printf_hack, 64,"BEFORE NOTE %x %d\n", euclidean->euclidean_steps[steps], shift_value );
-			write_value(&curses_env, printf_hack);		
+			char printf_hack[64];
+			snprintf(printf_hack, 64, "BEFORE NOTE %x %d\n", euclidean->euclidean_steps[steps], shift_value);
+			write_value(&curses_env, printf_hack);
 
 			uint32_t tmp = 0;
 
@@ -295,9 +292,9 @@ void shift_euclidean_steps(t_euclidean *euclidean, int shift_value)
 			tmp |= ((((euclidean->euclidean_steps[steps] & 0xFF00) >> 8) + ((7 + ((euclidean->euclidean_steps[steps] & 0x00FF) + tmp_shift)) / 7 - 1)) << 8);
 			euclidean->euclidean_steps[steps] = tmp;
 
-			snprintf(printf_hack, 64,"After NOTE %x\n", euclidean->euclidean_steps[steps] & 0xFFFF);
-			write_value(&curses_env, printf_hack);	
-		} 
+			snprintf(printf_hack, 64, "After NOTE %x\n", euclidean->euclidean_steps[steps] & 0xFFFF);
+			write_value(&curses_env, printf_hack);
+		}
 	}
 }
 
@@ -334,16 +331,16 @@ void print_euclidean_steps(t_euclidean *euclidean)
 {
 	for (uint8_t steps = 0; steps < euclidean->euclidean_steps_length; steps++)
 	{
-		
-		//printf("Step value : %d, octave : %d\n", euclidean->euclidean_steps[steps] & 0xFF,
+
+		// printf("Step value : %d, octave : %d\n", euclidean->euclidean_steps[steps] & 0xFF,
 		//	   (euclidean->euclidean_steps[steps] & 0xFF00) >> 8);
 	}
-	//printf("Chord list : ");
+	// printf("Chord list : ");
 	for (uint8_t chord_list_i = 0; chord_list_i < euclidean->chords_list_length; chord_list_i++)
 	{
-		//printf("%d,", euclidean->chords_list[chord_list_i]);
+		// printf("%d,", euclidean->chords_list[chord_list_i]);
 	}
-	//printf("\n");
+	// printf("\n");
 }
 
 /**
@@ -405,14 +402,15 @@ void remove_chord(t_music_data *music_data, uint8_t *playing_notes_duration,
 
 void midi_delay_divs(t_music_data *music_data, uint16_t divs)
 {
-	usleep(music_data->current_quarter_value / (music_data->quarter_value / divs) * 100);
-	//printf("-----SLEEP MS : %u :----\n", music_data->current_quarter_value / (music_data->quarter_value / divs) * 100);
+	if (divs > 0)
+	{
+		usleep(music_data->current_quarter_value / (music_data->quarter_value / divs) * 100);
+	}
+	// printf("-----SLEEP MS : %u :----\n", music_data->current_quarter_value / (music_data->quarter_value / divs) * 100);
 
-			char printf_hack[64];
-			snprintf(printf_hack, 64,"-----SLEEP MS : %u :----\n", music_data->current_quarter_value / (music_data->quarter_value / divs) * 100);
-			write_value(&curses_env, printf_hack);
-
-
+	char printf_hack[64];
+	snprintf(printf_hack, 64, "-----SLEEP MS : %u :----\n", music_data->current_quarter_value / (music_data->quarter_value / divs) * 100);
+	write_value(&curses_env, printf_hack);
 }
 
 void print_sensors_data(t_sensors *sensors)
@@ -526,7 +524,7 @@ void init_music_data(t_music_data *music_data, uint32_t partition_duration,
 
 #define EUCLIDEAN_DATAS_LENGTH 4
 
-#define FIX_4096 4096//3686
+#define FIX_4096 4096 // 3686
 
 void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_data)
 {
@@ -542,25 +540,28 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 	static uint16_t measure_count_2 = 0;
 	static uint16_t measure_count_3 = 0;
 
-
 	static int16_t delta_shift = 10;
+
+	static int16_t circle_3_reset_ctdown = 0;
+
 	// Initializing ast reset time with the current timestamp
 	if (last_time == 0)
 	{
 		last_time = time(NULL);
 	}
 
-	//print_sensors_data(sensors_data);
-
-	sensors_data->photodiode_1 = 4090;/////////
+	// print_sensors_data(sensors_data);
 
 	music_data->quarter_value_goal = (uint32_t)map_number((uint32_t)sensors_data->photodiode_1, 0, FIX_4096, 100000000, 35000000);
 	// Update Midi quarter value to move towards the quarter goal value
-	//printf("\033[1;32mmusic data current quarter value : %d\033[1;37m\n", music_data->current_quarter_value);
+	// printf("\033[1;32mmusic data current quarter value : %d\033[1;37m\n", music_data->current_quarter_value);
 	// 5000000
-	music_data->current_quarter_value = (uint32_t)map_number((uint32_t)sensors_data->photodiode_1, 0, FIX_4096, 100000000, 3500000); // RM THAT !!
+	music_data->current_quarter_value = (uint32_t)map_number((uint32_t)sensors_data->photodiode_1, 0, FIX_4096, 50000000, 1800000); // RM THAT !!
+	// music_data->current_quarter_value = (uint32_t)map_number((uint32_t)sensors_data->photodiode_1, 0, FIX_4096, 100000000, 3500000); // RM THAT !!
 
-	//printf("\033[1;32mmusic data current quarter value after  : %d\033[1;37m\n", music_data->current_quarter_value);
+	write_speed(&curses_env, music_data->current_quarter_value);
+
+	// printf("\033[1;32mmusic data current quarter value after  : %d\033[1;37m\n", music_data->current_quarter_value);
 
 	// update_quarter_value(music_data); RM TO FIX
 	// Iterate for each euclidean circle
@@ -587,16 +588,16 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 			if (current_euclidean_data == 0)
 			{
 				euclidean_datas[current_euclidean_data].octaves_size = 3;
-				euclidean_datas[current_euclidean_data].euclidean_steps_length = 24;
+				euclidean_datas[current_euclidean_data].euclidean_steps_length = 48; // 24
 				euclidean_datas[current_euclidean_data].notes_per_cycle = 4;
 				euclidean_datas[current_euclidean_data].step_gap =
 					euclidean_datas[current_euclidean_data].euclidean_steps_length / euclidean_datas[current_euclidean_data].notes_per_cycle;
 
-				euclidean_datas[current_euclidean_data].mess_chance = 30;
+				euclidean_datas[current_euclidean_data].mess_chance = 50;
 			}
 			else if (current_euclidean_data == 1)
 			{
-				euclidean_datas[current_euclidean_data].euclidean_steps_length = (uint8_t)map_number((uint32_t)sensors_data->temperature_1, 0, FIX_4096, 13, 39);
+				euclidean_datas[current_euclidean_data].euclidean_steps_length = (uint8_t)map_number((uint32_t)sensors_data->temperature_1, 0, FIX_4096, 26, 79); // 13 39
 				euclidean_datas[current_euclidean_data].mode_beg_note = A2 - 12;
 				euclidean_datas[current_euclidean_data].octaves_size = 3;
 				// euclidean_datas[current_euclidean_data].euclidean_steps_length = 13;
@@ -606,7 +607,7 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 			else if (current_euclidean_data == 2)
 			{
 				euclidean_datas[current_euclidean_data].octaves_size = 3;
-				euclidean_datas[current_euclidean_data].euclidean_steps_length = (uint8_t)map_number((uint32_t)sensors_data->temperature_2, 0, FIX_4096, 15, 45);
+				euclidean_datas[current_euclidean_data].euclidean_steps_length = (uint8_t)map_number((uint32_t)sensors_data->temperature_2, 0, FIX_4096, 30, 91); // 15 45
 				// euclidean_datas[current_euclidean_data].euclidean_steps_length = 15;
 				euclidean_datas[current_euclidean_data].notes_per_cycle = 4;
 				euclidean_datas[current_euclidean_data].step_gap =
@@ -615,40 +616,73 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 			}
 			else if (current_euclidean_data == 3)
 			{
-				euclidean_datas[current_euclidean_data].octaves_size = 1;
-				euclidean_datas[current_euclidean_data].euclidean_steps_length = 6;
+				euclidean_datas[current_euclidean_data].octaves_size = 2;
+				euclidean_datas[current_euclidean_data].euclidean_steps_length = 5;
 				// euclidean_datas[current_euclidean_data].euclidean_steps_length = 15;
-				euclidean_datas[current_euclidean_data].mode_beg_note = A2 - 10;
-				euclidean_datas[current_euclidean_data].notes_per_cycle = 3;
+				euclidean_datas[current_euclidean_data].mode_beg_note = A2 - 12;
+				euclidean_datas[current_euclidean_data].notes_per_cycle = 2;
 				euclidean_datas[current_euclidean_data].step_gap =
-				euclidean_datas[current_euclidean_data].euclidean_steps_length / euclidean_datas[current_euclidean_data].notes_per_cycle;
-				euclidean_datas[current_euclidean_data].mess_chance = 40;
-				euclidean_datas[current_euclidean_data].min_steps_duration = 2;
-				euclidean_datas[current_euclidean_data].max_steps_duration = 3;
+					euclidean_datas[current_euclidean_data].euclidean_steps_length / euclidean_datas[current_euclidean_data].notes_per_cycle;
+				euclidean_datas[current_euclidean_data].mess_chance = 100;
+				euclidean_datas[current_euclidean_data].min_steps_duration = 1;
+				euclidean_datas[current_euclidean_data].max_steps_duration = 2;
 			}
 		}
 	}
 
 	char printf_hack[64];
 
-	if (delta_shift != (uint32_t)map_number((uint32_t)sensors_data->spectro_current, 0, 33535, -10, 10))
+	if (delta_shift != (uint32_t)map_number((uint32_t)sensors_data->spectro_current, 0, 33535, 0, 10))
 	{
 
-		int16_t tmp = (uint32_t)map_number((uint32_t)sensors_data->spectro_current, 0,33535, -10, 10) - delta_shift;
+		int16_t tmp = (uint32_t)map_number((uint32_t)sensors_data->spectro_current, 0, 33535, 0, 10) - delta_shift;
 		shift_euclidean_steps(&euclidean_datas[3], tmp);
 		delta_shift += tmp;
 		// reset_needed = 1;
 	}
 
+	if (circle_3_reset_ctdown % 2 == 0)
+	{
+		euclidean_datas[3].euclidean_steps_length = rand() % 6 + 3;
+
+		euclidean_datas[3].notes_per_cycle = rand() % (euclidean_datas[3].euclidean_steps_length * 3 / 4) + 1;
+		euclidean_datas[3].step_gap =
+			euclidean_datas[3].euclidean_steps_length / euclidean_datas[3].notes_per_cycle;
+
+		get_new_euclidean_chords(&euclidean_datas[3]);
+		shift_euclidean_steps(&euclidean_datas[3], 10);
+		delta_shift = 10;
+		// circle_3_reset_ctdown = 1;
+		snprintf(printf_hack, 64, "4TH CIRCLE RESET <<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n");
+		write_value(&curses_env, printf_hack);
+	}
+	// 15000000
+	// 30000000
+	if (circle_3_reset_ctdown <= 0)
+	{
+		circle_3_reset_ctdown = 30;
+	}
+
+	int tmp = (1 + (rand() % 5));
+	if (music_data->current_quarter_value < 15000000 && circle_3_reset_ctdown % (tmp + 1 + (rand() % 4)) < tmp)
+	{
+		euclidean_datas[3].mess_chance = 70;
+	}
+	else
+	{
+		euclidean_datas[3].mess_chance = 100;
+	}
+
+	circle_3_reset_ctdown--;
+
 	euclidean_datas[0].min_chord_size = (sensors_data->vin_current % 4) + 1; //(uint8_t)map_number((uint32_t)sensors_data->temperature_3, 0, FIX_4096 - 400, 1, 7);	//temperature_3
-	euclidean_datas[0].max_chord_size = (sensors_data->vin_current % 4) + 1;	//temperature_3
-	
-	snprintf(printf_hack, 64,"CHORDSIZE CIRCLE 1 %d\n", euclidean_datas[0].min_chord_size );
+	euclidean_datas[0].max_chord_size = (sensors_data->vin_current % 4) + 1; // temperature_3
+
+	snprintf(printf_hack, 64, "CHORDSIZE CIRCLE 1 %d\n", euclidean_datas[0].min_chord_size);
 	write_value(&curses_env, printf_hack);
-	
+
 	static uint16_t mode_requested = A2;
 	static uint16_t type_mode_requested = M_MODE_MAJOR;
-
 
 	if (sensors_data->carousel_state < 20)
 	{
@@ -735,21 +769,17 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 		euclidean_datas[0].mode = type_mode_requested;
 		euclidean_datas[1].mode = type_mode_requested;
 		euclidean_datas[2].mode = type_mode_requested;
-
 	}
 
-	write_mode(&curses_env, g_midi_mode[euclidean_datas[0].mode].name , g_notes_definitions[euclidean_datas[0].mode_beg_note - A0].name);
+	write_mode(&curses_env, g_midi_mode[euclidean_datas[0].mode].name, g_notes_definitions[euclidean_datas[0].mode_beg_note - A0].name);
 	// write_mode(&curses_env, g_midi_mode[euclidean_datas[0].mode].name , g_notes_definitions[1].name);
 	// write_mode(&curses_env, g_midi_mode[euclidean_datas[0].mode].name , "bonjour");
-
-
-
 
 	// Change euclidean datas with sensors values
 	// \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/
 	if ((uint32_t)sensors_data->photodiode_2 > 1024)
 	{
-		euclidean_datas[1].mess_chance = 20; //(uint32_t)map_number((uint32_t)sensors_data->photodiode_2, 0, 4096, 60, 20);
+		euclidean_datas[1].mess_chance = 40; //(uint32_t)map_number((uint32_t)sensors_data->photodiode_2, 0, 4096, 60, 20);
 
 		if (euclidean_datas[1].notes_per_cycle != (uint8_t)map_number(sensors_data->organ_1, 0, 1024, 2, 5))
 		{
@@ -783,7 +813,7 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 
 	if ((uint32_t)sensors_data->photodiode_2 > 2048)
 	{
-		euclidean_datas[2].mess_chance = 20; //(uint32_t)map_number((uint32_t)sensors_data->photodiode_2, 2048, 4096, 80, 20);
+		euclidean_datas[2].mess_chance = 40; //(uint32_t)map_number((uint32_t)sensors_data->photodiode_2, 2048, 4096, 80, 20);
 	}
 	else
 	{
@@ -795,7 +825,7 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 	if (LOG_ALL)
 	{
 
-		printf("Time : %d", time(NULL));
+		printf("Time : %ld", time(NULL));
 		printf("Last Time : %d", last_time);
 	}
 	// if (time(NULL) - last_time > 30 + rand() % 30)
@@ -809,34 +839,27 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 	{
 		get_new_euclidean_chords(&euclidean_datas[0]);
 		measure_count_1 = 0;
-		//printf("\n\n\n\n\n! RESETING 0 !\n\n\n\n\n\n");
+		// printf("\n\n\n\n\n! RESETING 0 !\n\n\n\n\n\n");
 
-			write_value(&curses_env, "! RESETING 0!");
-
-
+		write_value(&curses_env, "! RESETING 0!");
 	}
 
 	if (measure_count_2 > 55)
 	{
 		get_new_euclidean_chords(&euclidean_datas[1]);
 		measure_count_2 = 0;
-		//printf("\n\n\n\n\n! RESETING 1 !\n\n\n\n\n\n");
-			write_value(&curses_env, "! RESETING 1 !");
-
-
+		// printf("\n\n\n\n\n! RESETING 1 !\n\n\n\n\n\n");
+		write_value(&curses_env, "! RESETING 1 !");
 	}
 
 	if (measure_count_3 > 83)
 	{
 		get_new_euclidean_chords(&euclidean_datas[2]);
 		measure_count_3 = 0;
-		//printf("\n\n\n\n\n! RESETING 2 !\n\n\n\n\n\n");
+		// printf("\n\n\n\n\n! RESETING 2 !\n\n\n\n\n\n");
 
-			write_value(&curses_env, "! RESETING 2 !");
-
+		write_value(&curses_env, "! RESETING 2 !");
 	}
-
-
 
 	// Initialize notes or if requested to get new note, pick new random notes from allowed ones
 	if (reset_needed)
@@ -845,12 +868,11 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 		{
 			get_new_euclidean_chords(&euclidean_datas[current_euclidean_data]);
 		}
-		shift_euclidean_steps(&euclidean_datas[3], 10);
-		delta_shift = 10;
-		//printf("\n\n\n\n\n! RESETING !\n\n\n\n\n\n");
 
-			write_value(&curses_env, "! FULL RESETING !");
-// delta_shift = 0;
+		// printf("\n\n\n\n\n! RESETING !\n\n\n\n\n\n");
+
+		write_value(&curses_env, "! FULL RESETING !");
+		// delta_shift = 0;
 		reset_needed = 0;
 	}
 
@@ -864,28 +886,39 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 		}
 	}
 
+	// show_euclidean_circle(&curses_env, 0, &euclidean_datas[0]);
+	// show_euclidean_circle(&curses_env, 1, &euclidean_datas[1]);
+	// show_euclidean_circle(&curses_env, 2, &euclidean_datas[2]);
+	// show_euclidean_circle(&curses_env, 3, &euclidean_datas[3]);
+
+
+
 	uint16_t div_counter = 0;
 	uint16_t div_goal = 512; // Whole division (quarter * 4)
-	uint16_t looseness = 40; // Humanization in divisions delta, cannot be superior of divgoal / 8
+	uint16_t looseness = 42; //40; // Humanization in divisions delta, cannot be superior of (divgoal / 3 - divgoal / 4)
 
 	// Write a midi measure (iterate on each quarter)
 	for (uint8_t current_quarter = 0; current_quarter < 4; current_quarter++)
 	{
 		uint16_t current_div_duration;
+		show_euclidean_circle(&curses_env, 0, &euclidean_datas[0]);
+		show_euclidean_circle(&curses_env, 1, &euclidean_datas[1]);
+		show_euclidean_circle(&curses_env, 2, &euclidean_datas[2]);
+		show_euclidean_circle(&curses_env, 3, &euclidean_datas[3]);
+
 		// For each euclidean circle, create corresponding chord
 		for (uint8_t current_euclidean_data = 0; current_euclidean_data < EUCLIDEAN_DATAS_LENGTH; current_euclidean_data++)
 		{
 			// if (current_euclidean_data == 3)
 			// {
 
-
 			// char printf_hack[64];
-					snprintf(printf_hack, 64,"BEG WRITING CHORD %d\n", current_euclidean_data);
+			// snprintf(printf_hack, 64,"BEG WRITING CHORD %d\n", current_euclidean_data);
 
-					write_value(&curses_env, printf_hack);
-					write_euclidean_step(music_data, &euclidean_datas[current_euclidean_data]);
-					snprintf(printf_hack, 64,"END WRITING CHORD %d\n", current_euclidean_data);
-					write_value(&curses_env, printf_hack);
+			// write_value(&curses_env, printf_hack);
+			write_euclidean_step(music_data, &euclidean_datas[current_euclidean_data]);
+			// snprintf(printf_hack, 64,"END WRITING CHORD %d\n", current_euclidean_data);
+			// write_value(&curses_env, printf_hack);
 			// }
 		}
 		// Remove chords that end this quarter division
@@ -905,9 +938,6 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 	measure_count_1++;
 	measure_count_2++;
 	measure_count_3++;
-
-
-
 }
 
 static PmTimestamp portmidi_timeproc(void *time_info)
@@ -962,7 +992,7 @@ void get_sensors_data(t_sensors *sensors)
 	int *tmp = (int *)((uint32_t)sensors + offsetof(t_sensors, time));
 	*tmp = 42;
 	// printf("Time : %d ||", sensors->time);
-	
+
 	//  wclear(curses_env.top);
 	for (uint16_t i = 0; i < sensor_number; i++)
 	{
@@ -1013,7 +1043,7 @@ void test_all_notes(PortMidiStream *stream)
 		last_time = last_time + 300;
 		while (last_time > current_timestamp)
 			;
-		//printf("current_note : 0x%02X (%03d)\n", current_note, current_note);
+		// printf("current_note : 0x%02X (%03d)\n", current_note, current_note);
 		PmError pme = Pm_WriteShort(stream, current_timestamp,
 									// Pm_Message(type << 4 | chan, byte1, byte2)
 									Pm_Message(0x9 << 4, current_note, 100)); // status | channel, note, velocity;
@@ -1031,6 +1061,44 @@ void test_all_notes(PortMidiStream *stream)
 	}
 }
 
+void		override_sensors_data(t_sensors *sensors)
+{
+	// sensors->photodiode_2 = 3976;
+	// sensors->photodiode_3 = 3976;
+	// sensors->photodiode_4 = 3976;
+	// sensors->photodiode_5 = 3976;
+	// sensors->photodiode_6 = 3976;
+	// sensors->temperature_1 = 4049;
+	// sensors->temperature_2 = 3051;
+	// sensors->vin_current = 22216;
+	// sensors->spectro_current = 31915;
+
+	// sensors->photodiode_1 = 4096;
+	// sensors->temperature_3 = 4096;
+	// sensors->temperature_4 = 4096;
+	// sensors->temperature_5 = 4096;
+	// sensors->temperature_6 = 4096;
+	// sensors->temperature_7 = 4096;
+	// sensors->temperature_8 = 4096;
+	// sensors->temperature_9 = 4096;
+	// sensors->temperature_10 = 4096;
+	// sensors->microphone = 1;
+	// sensors->organ_current = 255;
+	// sensors->q7_current = 255;
+	// sensors->t5v_current = 255;
+	// sensors->t3_3v_current = 255;
+	// sensors->motor_current = 65535;
+	// sensors->carousel_state = 119;
+	// sensors->lid_state = 53;
+	// sensors->organ_1 = 1023;
+	// sensors->organ_2 = 1023;
+	// sensors->organ_3 = 1023;
+	// sensors->organ_4 = 1023;
+	// sensors->organ_5 = 1023;
+	// sensors->organ_6 = 1023;
+	// sensors->timestamp = 42;
+}
+
 int main(void)
 {
 	init_curses(&curses_env);
@@ -1038,7 +1106,7 @@ int main(void)
 	// PortMidiStream *stream;
 	Pt_Start(1, &process_midi, 0);
 	int midi_count = Pm_CountDevices();
-	//printf("Device number : %d\n", midi_count);
+	// printf("Device number : %d\n", midi_count);
 
 	// durée d'une partition 40 000 000us
 	t_music_data music_data = {0};
@@ -1056,7 +1124,7 @@ int main(void)
 			snprintf(printf_hack, 64, "id = %d, name : %s\n", i, device_info->name);
 			write_value(&curses_env, printf_hack);
 
-			//printf("id = %d, name : %s\n", i, device_info->name);
+			// printf("id = %d, name : %s\n", i, device_info->name);
 		}
 	}
 
@@ -1069,6 +1137,8 @@ int main(void)
 			// //printf("%.2f ", get_voltage_value(i));
 			get_sensors_data(&sensorsData);
 		}
+		override_sensors_data(&sensorsData);
+
 		// //printf("\n");
 		midi_write_multiple_euclidean(&music_data, &sensorsData);
 		// sleep(1);
