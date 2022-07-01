@@ -115,6 +115,7 @@ void show_euclidean_circle(t_ncurses *nstruct, int8_t circle, t_euclidean *eucli
 	snprintf(c_val, 64, "mess chance : %02d/100",euclidean->mess_chance);
 	waddstr(nstruct->bottom_right, c_val);
 
+	snprintf(c_val, 64, " ");
 
 
 	for (uint8_t steps = 0; steps < euclidean->euclidean_steps_length; steps++)
@@ -123,12 +124,17 @@ void show_euclidean_circle(t_ncurses *nstruct, int8_t circle, t_euclidean *eucli
 		if (euclidean->euclidean_steps[steps] == -1)
 		{
 			wmove(nstruct->bottom_right, 5 + circle * 4, 1 + steps);
-			waddstr(nstruct->bottom_right, "O");
+			waddstr(nstruct->bottom_right, "_");
 		}
 		else
 		{
 			wmove(nstruct->bottom_right, 5 + circle * 4, 1 + steps);
 			waddstr(nstruct->bottom_right, "#");
+			int i = 0;
+ 			int16_t note = euclidean->mode_beg_note + ((euclidean->euclidean_steps[steps] & 0xFF00) >> 8) * 12 + g_midi_mode[steps].mode_sequence[((euclidean->euclidean_steps[steps] & 0xFF) + 2 * i) % 7] + 12 * (((euclidean->euclidean_steps[steps] & 0xFF) + 2 * i) / 7);
+			char *tmp = strdup(c_val);
+			snprintf(c_val, 64, "%s, %d", tmp, note);//g_notes_definitions[note - A0].name);
+			free(tmp);
 		}
 
 		// if (steps % euclidean->step_gap == 0)
@@ -144,6 +150,10 @@ void show_euclidean_circle(t_ncurses *nstruct, int8_t circle, t_euclidean *eucli
 		// 	euclidean->euclidean_steps[steps] = -1;
 		// }
 	}
+
+	mvwhline(nstruct->bottom_right, 7 + circle * 4, 1, ' ', COLS / 2);
+	waddstr(nstruct->bottom_right, c_val);
+
 
 	wrefresh(nstruct->bottom_right);
 }
