@@ -104,6 +104,19 @@ void write_speed(t_ncurses *nstruct, int32_t speed)
 void show_euclidean_circle(t_ncurses *nstruct, int8_t circle, t_euclidean *euclidean)
 {
 	mvwhline(nstruct->bottom_right, 5 + circle * 4, 1, ' ', COLS / 2);
+	mvwhline(nstruct->bottom_right, 4 + circle * 4, 1, ' ', COLS / 2);
+
+	wmove(nstruct->bottom_right, 4 + circle * 4, 1 + euclidean->current_step);
+	waddstr(nstruct->bottom_right, "|");
+
+	mvwhline(nstruct->bottom_right, 6 + circle * 4, 1, ' ', COLS / 2);
+	wmove(nstruct->bottom_right, 6 + circle * 4, 1);
+	char c_val[64];
+	snprintf(c_val, 64, "mess chance : %02d/100",euclidean->mess_chance);
+	waddstr(nstruct->bottom_right, c_val);
+
+
+
 	for (uint8_t steps = 0; steps < euclidean->euclidean_steps_length; steps++)
 	{
 

@@ -886,10 +886,10 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 		}
 	}
 
-	show_euclidean_circle(&curses_env, 0, &euclidean_datas[0]);
-	show_euclidean_circle(&curses_env, 1, &euclidean_datas[1]);
-	show_euclidean_circle(&curses_env, 2, &euclidean_datas[2]);
-	show_euclidean_circle(&curses_env, 3, &euclidean_datas[3]);
+	// show_euclidean_circle(&curses_env, 0, &euclidean_datas[0]);
+	// show_euclidean_circle(&curses_env, 1, &euclidean_datas[1]);
+	// show_euclidean_circle(&curses_env, 2, &euclidean_datas[2]);
+	// show_euclidean_circle(&curses_env, 3, &euclidean_datas[3]);
 
 
 
@@ -901,6 +901,11 @@ void midi_write_multiple_euclidean(t_music_data *music_data, t_sensors *sensors_
 	for (uint8_t current_quarter = 0; current_quarter < 4; current_quarter++)
 	{
 		uint16_t current_div_duration;
+		show_euclidean_circle(&curses_env, 0, &euclidean_datas[0]);
+		show_euclidean_circle(&curses_env, 1, &euclidean_datas[1]);
+		show_euclidean_circle(&curses_env, 2, &euclidean_datas[2]);
+		show_euclidean_circle(&curses_env, 3, &euclidean_datas[3]);
+
 		// For each euclidean circle, create corresponding chord
 		for (uint8_t current_euclidean_data = 0; current_euclidean_data < EUCLIDEAN_DATAS_LENGTH; current_euclidean_data++)
 		{
@@ -1058,15 +1063,15 @@ void test_all_notes(PortMidiStream *stream)
 
 void		override_sensors_data(t_sensors *sensors)
 {
-	sensors->photodiode_2 = 3976;
-	sensors->photodiode_3 = 3976;
-	sensors->photodiode_4 = 3976;
-	sensors->photodiode_5 = 3976;
-	sensors->photodiode_6 = 3976;
-	sensors->temperature_1 = 4049;
-	sensors->temperature_2 = 3051;
-	sensors->vin_current = 22216;
-	sensors->spectro_current = 31915;
+	// sensors->photodiode_2 = 3976;
+	// sensors->photodiode_3 = 3976;
+	// sensors->photodiode_4 = 3976;
+	// sensors->photodiode_5 = 3976;
+	// sensors->photodiode_6 = 3976;
+	// sensors->temperature_1 = 4049;
+	// sensors->temperature_2 = 3051;
+	// sensors->vin_current = 22216;
+	// sensors->spectro_current = 31915;
 
 	// sensors->photodiode_1 = 4096;
 	// sensors->temperature_3 = 4096;
